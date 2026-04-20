@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib
 {
-    public class Ingredients
+    public class Ingredients : Wares
     {
-       
+
+        public Ingredients() : base() { }
+        
+
+
+        public override double GetCost()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string GetName()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
