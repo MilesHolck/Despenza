@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib
 {
-    public class Product 
+    public class Product : Wares
     {
         public int CreatedByUserId { get; set; }
         public User CreatedByUser { get; set; }
@@ -16,6 +16,14 @@ namespace DespenzaLib
             
         }
 
+        public override string GetName()
+        {
+            return IngredientsName;
+        }
 
+        public override double GetCost()
+        {
+            return KiloPrice;
+        }
     }
 }
