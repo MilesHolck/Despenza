@@ -8,22 +8,22 @@ namespace DespenzaLib
 {
     public class Product : Wares
     {
-        public int CreatedByUserId { get; set; }
-        public User CreatedByUser { get; set; }
+        public int RecipeId { get; set; }
+        public Recipe Recipe { get; set; }
+
+        public decimal SalePrice { get; set; }
+
 
         public Product()
         {
-            
+
         }
 
-        public override string GetName()
-        {
-            return IngredientsName;
-        }
 
-        public override double GetCost()
+
+        public override decimal GetCost()
         {
-            return KiloPrice;
+            return Recipe.Lines.Sum(l => l.Quantity * l.Ware.GetCost());
         }
     }
 }

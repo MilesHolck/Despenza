@@ -8,19 +8,19 @@ namespace DespenzaLib
 {
     public abstract class Wares
     {
-        public string IngredientsName { get; set; } 
+       public int Id { get; set; }
+
+        public string Name { get; set; }
+
         public decimal KiloPrice { get; set; }
-        public double Quantity { get; set; }
-        public DateOnly ExpirationDate { get; set; }
-        public double Unit { get; set; }
-        public string Allergen { get; set; }
+
 
 
         public Wares() { }
 
-        public abstract string GetName();
+  
 
-        public abstract double GetCost(); 
+        public abstract decimal GetCost(); 
         
 
     }

@@ -8,28 +8,24 @@ namespace DespenzaLib
 {
     public class SemiProduct : Wares
     {
-        public int CreatedByUserId { get; set; }
-        public User CreatedByUser { get; set; }
+        public int RecipeId { get; set; }
+        public Recipe Recipe { get; set; }
+
 
         public SemiProduct()
         {
             
         }
 
-        public override string GetName()
+        public override decimal GetCost()
         {
-            return IngredientsName; 
+            return Recipe.Lines.Sum(l => l.Quantity * l.Ware.GetCost());
         }
 
-        public override double GetCost()
-        {
-            return KiloPrice; 
+            //public double AddIngredientPricesTogether()
+            //{
+
+            //}
+
         }
-
-        //public double AddIngredientPricesTogether()
-        //{
-
-        //}
-
-    }
 }
