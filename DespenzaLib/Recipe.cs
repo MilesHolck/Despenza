@@ -6,25 +6,16 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib
 {
-    public class WareCombination : Wares
+    public class Recipe 
     {
         public List<Wares> Components { get; set; } = new List<Wares>();
 
-        protected WareCombination() { }
+        protected Recipe() { }
 
         public void Add (Wares item)
         {
             this.Components.Add(item);
         }
 
-        public override double GetCost()
-        {
-            return KiloPrice; 
-        }
-
-        public override string GetName()
-        {
-            return IngredientsName; 
-        }
     }
 }
