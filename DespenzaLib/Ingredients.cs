@@ -9,6 +9,7 @@ namespace DespenzaLib
     public class Ingredients : Wares
     {
 
+        public decimal GramPrisResultat => KiloPrice / 1000m;
         public Ingredients() : base() { }
         
 
