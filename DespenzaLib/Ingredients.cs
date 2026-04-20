@@ -8,9 +8,6 @@ namespace DespenzaLib
 {
     public class Ingredients
     {
-        public string Name { get; set; }
-        public double KiloPrice { get; set; }
-
-
+       
     }
 }
