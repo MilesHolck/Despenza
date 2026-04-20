@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib
 {
-    public class User
+    public abstract class User
     {
         private int _userId;
 
