@@ -9,7 +9,7 @@ namespace DespenzaLib
     public abstract class Wares
     {
         public string IngredientsName { get; set; } 
-        public double KiloPrice { get; set; }
+        public decimal KiloPrice { get; set; }
         public double Quantity { get; set; }
         public DateOnly ExpirationDate { get; set; }
         public double Unit { get; set; }
