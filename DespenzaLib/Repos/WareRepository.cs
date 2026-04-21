@@ -22,7 +22,7 @@ namespace DespenzaLib.Repos
         {
             foreach (var ingredient in Ingredients)
             {
-                Console.WriteLine(ingredient.IngredientsName);
+                Console.WriteLine(ingredient.Name);
             }
         }
 
@@ -33,7 +33,7 @@ namespace DespenzaLib.Repos
 
         public void UpdateIngredient(Ingredients ingredient, string newName)
         {
-            ingredient.IngredientsName = newName;
+            ingredient.Name = newName;
         }
 
         public void AddSemiProduct(SemiProduct semiProduct)
