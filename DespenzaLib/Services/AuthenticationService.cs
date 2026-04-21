@@ -49,7 +49,9 @@ namespace DespenzaLib.Services
 
         public User? Login(string email, string password)
         {
-            User loggedInUser = _users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            email = email?.Trim(); 
+
+            User loggedInUser = _users.FirstOrDefault(u => string.Equals(u.Email, email, StringComparison.OrdinalIgnoreCase) && u.Password == password);
             return loggedInUser;
         }
 
