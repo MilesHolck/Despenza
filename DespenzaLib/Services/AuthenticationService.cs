@@ -11,26 +11,30 @@ namespace DespenzaLib.Services
         private readonly List<User> _users;
 
         public AuthenticationService()
-        { 
-        _users = new List<User>();
-
-            new Admin
+        {
+            _users = new List<User>()
             {
-                UserId = 1,
-                Username = "Camilla",
-                Password = "1234",
-                Role = "Admin"
-            };
+                new Admin
+                {
+                    UserId = 1,
+                    Username = "Camilla",
+                    Email = "Camilla@Despenza.dk",
+                    Password = "1234",
+                    Role = "Admin"
+                },
 
-            new Baker
-            {
-                UserId = 2,
-                Username = "Ida",
-                Password = "1111",
-                Role = "User"
+                new Baker
+                {
+                    UserId = 2,
+                    Username = "Ida",
+                    Email = "Ida@Despenza.dk",
+                    Password = "1111",
+                    Role = "User"
+                }
             };
-
         }
+
+           
         
 
         public bool IsAdmin(User user)
@@ -43,10 +47,12 @@ namespace DespenzaLib.Services
             return false;
         }
 
-        public User? Login(string username, string password)
+        public User? Login(string email, string password)
         {
-            User loggedInUser = _users.FirstOrDefault(u => u.Username == username && u.Password == password);
+            User loggedInUser = _users.FirstOrDefault(u => u.Email == email && u.Password == password);
             return loggedInUser;
         }
+
+
     }
 }
