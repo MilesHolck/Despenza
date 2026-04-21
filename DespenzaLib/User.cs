@@ -8,7 +8,7 @@ namespace DespenzaLib
 {
     public abstract class User
     {
-        private int _userId;
+        public int UserId { get; set; }
 
         public string Name { get; set; }
         public string Address { get; set; }
@@ -16,6 +16,7 @@ namespace DespenzaLib
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; } = string.Empty;
 
         public User()
         {

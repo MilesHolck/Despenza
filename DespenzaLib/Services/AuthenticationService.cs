@@ -8,16 +8,45 @@ namespace DespenzaLib.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private List<User> _users => throw new NotImplementedException();
+        private readonly List<User> _users;
+
+        public AuthenticationService()
+        { 
+        _users = new List<User>();
+
+            new Admin
+            {
+                UserId = 1,
+                Username = "Camilla",
+                Password = "1234",
+                Role = "Admin"
+            };
+
+            new Baker
+            {
+                UserId = 2,
+                Username = "Ida",
+                Password = "1111",
+                Role = "User"
+            };
+
+        }
+        
 
         public bool IsAdmin(User user)
         {
-            throw new NotImplementedException();
+            if (user.Role == "Admin") 
+            { 
+                return true;
+                
+            }
+            return false;
         }
 
         public User? Login(string username, string password)
         {
-            throw new NotImplementedException();
+            User loggedInUser = _users.FirstOrDefault(u => u.Username == username && u.Password == password);
+            return loggedInUser;
         }
     }
 }
