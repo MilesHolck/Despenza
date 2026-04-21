@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib
 {
-    public class Recipe 
+    public class RecipeLine
     {
-
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        public int WareId { get; set; }
+
+        public Wares Ware { get; set; }
+
+        public decimal Quantity { get; set; }
 
 
-        public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
-
-        protected Recipe() { }
-
-        
 
     }
 }

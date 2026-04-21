@@ -8,18 +8,17 @@ namespace DespenzaLib
 {
     public class Ingredients : Wares
     {
-
-        public decimal GramPriceResult => KiloPrice / 1000m;
+        public string Unit {  get; set; }
+        public decimal PricePerGram => KiloPrice / 1000m;
+        
+        
         public Ingredients() : base() { }
 
-        public override double GetCost()
+        public override decimal GetCost()
         {
-            throw new NotImplementedException();
+            return KiloPrice; 
         }
 
-        public override string GetName()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
