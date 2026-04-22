@@ -12,10 +12,9 @@ namespace DespenzaLib
         public int Id { get; set; }
         public string Name { get; set; }
 
-
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
 
-        protected Recipe() { }
+        public Recipe() { }
 
         
 
