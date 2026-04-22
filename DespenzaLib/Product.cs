@@ -23,7 +23,7 @@ namespace DespenzaLib
 
         public override decimal GetCost()
         {
-            return Recipe.Lines.Sum(l => l.Quantity * l.Ware.GetCost());
+            return Recipe?.Lines?.Sum(l => l.Quantity * l.Ware.GetCost()) ?? 0;
         }
     }
 }
