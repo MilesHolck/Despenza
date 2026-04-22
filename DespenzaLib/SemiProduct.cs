@@ -19,7 +19,9 @@ namespace DespenzaLib
 
         public override decimal GetCost()
         {
-            return Recipe.Lines.Sum(l => l.Quantity * l.Ware.GetCost());
+            //Alle ? er for at prog ikke crasher hvis recipe er null. 
+
+            return Recipe?.Lines?.Sum(l => l.Quantity * l.Ware.GetCost()) ?? 0;
         }
 
             //public double AddIngredientPricesTogether()

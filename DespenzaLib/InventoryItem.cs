@@ -15,7 +15,7 @@ namespace DespenzaLib
 
         public Wares Ware { get; set; }
 
-        public double QuantityInStock { get; set; }
+        public decimal QuantityInStock { get; set; }
 
         public DateOnly ExpirationDate { get; set; }
 

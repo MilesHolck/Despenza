@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib.Repos
 {
-    public class UserRepo : IUserRepo
+    public class UserRepo : IRepository<User>
     {
-        public List<User> Users { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<User> Collection { get; set; }
 
-        public void AddUser(User user)
+        public void Add(User user)
         {
-            Users.Add(user);
+            Collection.Add(user);
         }
 
-        public void DeleteUser(User user)
+        public void Delete(User user)
         {
-            Users.Remove(user);
+            Collection.Remove(user);
         }
 
-        public User GetUserById(int id)
+        public User GetById(int id)
         {
-            return Users.FirstOrDefault(u => u.UserId == id);
+            return Collection.FirstOrDefault(u => u.UserId == id);
         }
 
-        public List<User> GetUsers()
+        public List<User> GetAll()
         {
-            return Users;
+            return Collection;
         }
 
-        public User UpdateUser(User user)
+        public User Update(User user)
         {
-            return Users.FirstOrDefault(u => u.UserId == user.UserId);
+            return Collection.FirstOrDefault(u => u.UserId == user.UserId);
         }
     }
 }
