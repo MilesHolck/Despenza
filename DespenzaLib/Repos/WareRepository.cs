@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib.Repos
 {
-    public class WareRepository
+    public class WareRepository 
     {
         public List<Ingredients> Ingredients;
         public List<SemiProduct> SemiProducts;
