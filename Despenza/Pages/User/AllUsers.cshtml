@@ -1,0 +1,19 @@
+﻿@page
+@model Despenza.Pages.User.AllUsersModel
+@{
+}
+
+
+<div class="container px-4 text-center">
+@foreach (var user in Model.Users)
+{
+    <div class="row gx-5">
+        <div class="col">
+            <p>@user.Name</p>
+            <a asp-page="./Edit" asp-route-name="@user.Name">edit</a>
+                <a asp-page="./Delete" asp-route-name="@user.Name">Delete</a>
+        </div>
+    </div>
+}
+</div>
+
