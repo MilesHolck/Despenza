@@ -30,11 +30,25 @@
                     </ul>
 
                     <ul class="nav-item"> 
-                        <li class="navbar-nav">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <span>Logget ind som: @User.Identity.Name</span>
+
+                            <form method="post" asp-page="/Authentication/Logout" style="display:inline;">
+                                <button type="submit" class="btn btn-link">Log ud</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a asp-page="/Authentication/LogIn">Log ind</a>
+                        }   
+                        @* <li class="navbar-nav">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Authentication/LogIn">Log In Here</a>
-                        </li>
+                        </li> *@
 
                     </ul>
+
+
 
                 </div>
             </div>
