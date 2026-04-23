@@ -1,4 +1,4 @@
-using DespenzaLib;
+using DespenzaLib.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
