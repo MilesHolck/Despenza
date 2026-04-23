@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DespenzaLib.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DespenzaLib.Data
 {
