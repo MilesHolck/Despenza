@@ -1,6 +1,7 @@
 using DespenzaLib.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -65,6 +66,10 @@ namespace Despenza.Pages.Authentication
             if (user.Role == "Admin")
             {
                 return RedirectToPage("/Admin/CreateUser");
+            }
+            if (user.Role == "User") 
+            {
+                return RedirectToPage("/Index"); 
             }
 
             return RedirectToPage("/Authentication/AccessDenied");
