@@ -1,4 +1,4 @@
-﻿using DespenzaLib;
+﻿using DespenzaLib.Models;
 
 namespace Despenza
 {
