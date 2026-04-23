@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DespenzaLib
+namespace DespenzaLib.Models
 {
-    public class Admin : User
+    public class Apprentice : User
     {
-        public Admin() 
+        public Apprentice() 
         { 
         
         } 

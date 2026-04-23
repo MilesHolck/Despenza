@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DespenzaLib
+namespace DespenzaLib.Services
 {
-    public class Apprentice : User
+    internal class InventoryService
     {
-        public Apprentice() 
-        { 
-        
-        } 
     }
 }
