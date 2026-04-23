@@ -11,12 +11,16 @@ namespace DespenzaLib.Data
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<SemiProduct> semiProducts { get; set; }
+        public DbSet<Ingredients> Ingredients { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
-        }
-
+        }      
+       
 
 
     }
