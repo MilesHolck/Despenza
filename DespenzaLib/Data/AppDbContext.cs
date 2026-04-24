@@ -9,7 +9,6 @@ namespace DespenzaLib.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Apprentice> Apprentices { get; set; }
         public DbSet<Baker> Bakers { get; set; }
-
         public DbSet<Product> Products { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<SemiProduct> SemiProducts { get; set; }
