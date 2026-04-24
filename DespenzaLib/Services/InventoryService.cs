@@ -50,5 +50,29 @@ namespace DespenzaLib.Services
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Ingredients?> GetIngredientByIdAsync(int id)
+        {
+            return await _context.Ingredients
+                .FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task UpdateIngredientAsync(Ingredients ingredient)
+        {
+            _context.Ingredients.Update(ingredient);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteIngredientAsync(int id)
+        {
+            var ingredient = await _context.Ingredients
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            if (ingredient != null)
+            {
+                _context.Ingredients.Remove(ingredient);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

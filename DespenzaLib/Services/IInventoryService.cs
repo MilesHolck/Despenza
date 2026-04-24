@@ -11,6 +11,9 @@ namespace DespenzaLib.Services
     {
         Task<List<Ingredients>> GetAllIngredientsAsync();
         Task CreateIngredientAsync(Ingredients ingredient);
+        Task<Ingredients?> GetIngredientByIdAsync(int id);
+        Task UpdateIngredientAsync(Ingredients ingredient);
+        Task DeleteIngredientAsync(int id);
 
         Task<List<SemiProduct>> GetAllSemiProductsAsync();
         Task CreateSemiProductAsync(SemiProduct semiProduct);
