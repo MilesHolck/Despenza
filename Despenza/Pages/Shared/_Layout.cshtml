@@ -34,12 +34,29 @@
                     </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" <a asp-page="/Admin/CreateIngredient">Create Ingredient</a>
+                            <a class="nav-link text-dark" asp-page="/Admin/CreateIngredient">Create Ingredient</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" <a asp-page="/Admin/AllIngredients">See all Ingredients here VAMONOS</a>
-                            </li>
+                            <a class="nav-link text-dark" asp-page="/Admin/AllIngredients">See all Ingredients here VAMONOS</a>
+                        </li>
 
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark"
+                                       href="#"
+                                       id="navbarDropdown"
+                                       role="button"
+                                       data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                    Products
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Create Ingredient</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">All Ingredients</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-page="/Admin/CreateUser">Create User</a></li>
+                                </ul>
+                            </li>
                     
 
                     </ul>
