@@ -49,7 +49,7 @@ namespace Despenza.Pages.Admin
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./UserList");
+            return Page();
         }
     }
 }
