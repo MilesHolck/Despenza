@@ -1,0 +1,18 @@
+﻿@page 
+@model Despenza.Pages.Admin.DeleteIngredientModel
+
+<h1>Slet Ingredient</h1>
+
+@if (Model.Ingredient != null)
+{
+    <p>Er du sikker på, at du vil slette denne ingredient?</p>
+
+    <p><strong>@Model.Ingredient.Name</strong></p>
+    <p>KiloPris: @Model.Ingredient.KiloPrice</p>
+    <p>Unit: @Model.Ingredient.Unit</p>
+
+    <form method="post">
+        <button type="submit">Ja, slet</button>
+        <a asp-page="/Admin/AllIngredients">Annuller</a>
+    </form>
+}

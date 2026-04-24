@@ -47,6 +47,10 @@ body {
         background: rgba(0, 0, 0, 0.25);
     }
 
+main {
+    color: white;
+}
+
 .form-floating > .form-control-plaintext::placeholder,
 .form-floating > .form-control::placeholder {
     color: var(--bs-secondary-color);
@@ -57,3 +61,34 @@ body {
 .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+.inventory-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    color: white;
+}
+
+.table-card {
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+    .table-card table {
+        color: #222;
+    }
+
+    .table-card th {
+        background: rgba(255, 255, 255, 0.9);
+        font-weight: 700;
+    }
+
+    .table-card td,
+    .table-card th {
+        padding: 16px;
+        border-color: rgba(0, 0, 0, 0.35);
+    }
+
+    .table-card .btn {
+        margin-right: 6px;
+    }
