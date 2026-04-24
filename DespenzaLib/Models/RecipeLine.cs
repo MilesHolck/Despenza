@@ -10,6 +10,9 @@ namespace DespenzaLib.Models
     {
         public int Id { get; set; }
 
+        public int RecipeId { get; set; }
+        public Recipe Recipe { get; set; }
+
         public int WareId { get; set; }
 
         public Wares Ware { get; set; }

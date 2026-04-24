@@ -18,7 +18,7 @@ namespace DespenzaLib.Services
                 new Admin
                 {
                     UserId = 1,
-                    Username = "Camilla",
+                    Name = "Camilla",
                     Email = "Camilla@Despenza.dk",
                     Password = "1234",
                     Role = "Admin"
@@ -27,7 +27,7 @@ namespace DespenzaLib.Services
                 new Baker
                 {
                     UserId = 2,
-                    Username = "Ida",
+                    Name = "Ida",
                     Email = "Ida@Despenza.dk",
                     Password = "1111",
                     Role = "User"
