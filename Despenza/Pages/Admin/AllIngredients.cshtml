@@ -1,0 +1,28 @@
+﻿@page
+@model Despenza.Pages.Admin.AllIngredientsModel
+
+<h1>Alle Ingredients</h1>
+
+<a asp-page="/Admin/CreateIngredient">Opret ny ingredient</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Navn</th>
+            <th>KiloPris</th>
+            <th>Unit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ingredient in Model.IngredientsList)
+        {
+            <tr>
+                <td>@ingredient.Id</td>
+                <td>@ingredient.Name</td>
+                <td>@ingredient.KiloPrice</td>
+                <td>@ingredient.Unit</td>
+            </tr>
+        }
+    </tbody>
+</table>

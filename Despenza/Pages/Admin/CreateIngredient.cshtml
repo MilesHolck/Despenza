@@ -1,0 +1,25 @@
+﻿@page
+@model Despenza.Pages.Admin.CreateIngredientModel
+
+<h1>Opret Ingredient</h1>
+
+<form method="post">
+
+    <div>
+        <label asp-for="Ingredient.Name"></label>
+        <input asp-for="Ingredient.Name" />
+    </div>
+
+    <div>
+        <label asp-for="Ingredient.KiloPrice"></label>
+        <input asp-for="Ingredient.KiloPrice" />
+    </div>
+
+    <div>
+        <label asp-for="Ingredient.Unit"></label>
+        <input asp-for="Ingredient.Unit" />
+    </div>
+
+    <button type="submit">Opret</button>
+
+</form>
