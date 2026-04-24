@@ -1,5 +1,24 @@
 ﻿@page
-@model Despenza.Pages.Admin.CreateUserModel
-@{
-    ViewData["Title"] = "Create User";
-} 
+@model CreateUserModel
+
+<form method="post">
+    <div class="form-group">
+        <label>Vælg Rolle:</label>
+        <select asp-for="SelectedUserType" class="form-control">
+            <option value="Baker">Bager</option>
+            <option value="Apprentice">Lærling</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Navn:</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Password:</label>
+        <input asp-for="Password" type="password" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Opret Bruger</button>
+</form>

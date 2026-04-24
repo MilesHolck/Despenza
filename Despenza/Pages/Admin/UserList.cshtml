@@ -1,0 +1,36 @@
+﻿@page
+@model UserListModel
+
+<h1>Medlemmer</h1>
+
+<p>
+    <a asp-page="CreateUser">Opret ny bruger</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Navn</th>
+            <th>Handlinger</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>
+                    @* Her viser vi om det er en Baker eller Apprentice *@
+                    @user.GetType().Name
+                </td>
+                <td>@user.Name</td>
+                <td>
+                    @* UserId skal nok rettes efter et push fra Ida *@
+                    <a asp-page="./Edit" asp-route-id="@user.UserId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@user.UserId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@user.UserId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

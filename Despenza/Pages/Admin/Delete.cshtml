@@ -1,0 +1,11 @@
+﻿@page
+@model Despenza.Pages.Admin.DeleteModel
+
+<h3>Er du sikker på, at du vil slette @Model.UserName?</h3>
+
+<form method="post">
+    <input type="hidden" asp-for="UserId" />
+
+    <button type="submit" class="btn btn-danger">Slet permanent</button>
+    <a asp-page="./UserList" class="btn btn-secondary">Annuller</a>
+</form>
