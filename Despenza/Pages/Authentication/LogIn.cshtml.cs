@@ -65,7 +65,7 @@ namespace Despenza.Pages.Authentication
 
             if (user.Role == "Admin")
             {
-                return RedirectToPage("/Admin/CreateUser");
+                return RedirectToPage("/Index");
             }
             if (user.Role == "User") 
             {

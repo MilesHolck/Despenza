@@ -1,0 +1,23 @@
+﻿@page
+@model EditModel
+
+<h1>Rediger Bruger</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="UserToEdit.UserId" />
+
+    <div class="form-group">
+        <label>Navn</label>
+        <input asp-for="UserToEdit.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        <input asp-for="UserToEdit.Password" class="form-control" />
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Gem ændringer</button>
+        <a asp-page="./UserList" class="btn btn-secondary">Tilbage</a>
+    </div>
+</form>
