@@ -6,73 +6,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using DespenzaLib.Repos;
 
 namespace DespenzaLib.Services
 {
     public class InventoryService : IInventoryService
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<InventoryItem> _inventoryItemRepository;
+        private readonly IRepository<SemiProduct> _semiProductRepository;
+        private readonly IRepository<Product> _productRepository;
 
-        public InventoryService(AppDbContext context)
+        public InventoryService(IRepository<InventoryItem> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository)
         {
-            _context = context;
+            _inventoryItemRepository = ingredientRepository;
+            _semiProductRepository = semiProductRepository;
+            _productRepository = productRepository;
         }
 
-        public async Task<List<Ingredients>> GetAllIngredientsAsync()
+        public async Task<List<InventoryItem>> GetAllInventoryItemsAsync()
         {
-            return await _context.Ingredients.ToListAsync();
+            return await _inventoryItemRepository.GetAllAsync(); 
         }
 
-        public async Task CreateIngredientAsync(Ingredients ingredient)
+        public async Task CreateInventoryItemsAsync(InventoryItem ingredient)
         {
-            _context.Ingredients.Add(ingredient);
-            await _context.SaveChangesAsync();
+            await _inventoryItemRepository.AddAsync(ingredient);
         }
 
         public async Task<List<SemiProduct>> GetAllSemiProductsAsync()
         {
-            return await _context.SemiProducts.ToListAsync();
+            return await _semiProductRepository.GetAllAsync();
         }
 
         public async Task CreateSemiProductAsync(SemiProduct semiProduct)
         {
-            _context.SemiProducts.Add(semiProduct);
-            await _context.SaveChangesAsync();
+            await _semiProductRepository.AddAsync(semiProduct);
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _productRepository.GetAllAsync();
         }
 
         public async Task CreateProductAsync(Product product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            await _productRepository.AddAsync(product);
         }
 
-        public async Task<Ingredients?> GetIngredientByIdAsync(int id)
+        public async Task<InventoryItem?> GetInventoryItemsByIdAsync(int id)
         {
-            return await _context.Ingredients
-                .FirstOrDefaultAsync(i => i.Id == id);
+            return await _inventoryItemRepository.GetByIdAsync(id);
         }
 
-        public async Task UpdateIngredientAsync(Ingredients ingredient)
+        public async Task UpdateInventoryItemsAsync(InventoryItem ingredient)
         {
-            _context.Ingredients.Update(ingredient);
-            await _context.SaveChangesAsync();
+            await _inventoryItemRepository.UpdateAsync(ingredient);
         }
 
-        public async Task DeleteIngredientAsync(int id)
+        public async Task DeleteInventoryItemsAsync(int id)
         {
-            var ingredient = await _context.Ingredients
-                .FirstOrDefaultAsync(i => i.Id == id);
-
-            if (ingredient != null)
-            {
-                _context.Ingredients.Remove(ingredient);
-                await _context.SaveChangesAsync();
-            }
+            await _inventoryItemRepository.DeleteAsync(id);
         }
     }
 }

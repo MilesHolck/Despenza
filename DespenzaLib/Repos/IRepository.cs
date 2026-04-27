@@ -6,19 +6,12 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib.Repos
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : class
     {
-       
-        public void Add(T item);
-
-        public List<T> GetAll();
-
-        public T Update(T item); 
-
-        public void Delete(T item);
-
-        public T GetById(int id);
-       
-
+        Task AddAsync(T item);
+        Task<List<T>> GetAllAsync();
+        Task<T?> GetByIdAsync(int id);
+        Task UpdateAsync(T item);
+        Task DeleteAsync(int id); //Eller Task DeleteAsync(T item);
     }
 }

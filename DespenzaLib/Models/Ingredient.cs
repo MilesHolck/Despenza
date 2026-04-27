@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DespenzaLib.Models
 {
-    public class Ingredients : Wares
+    public class Ingredient : Wares
     {
         public string Unit {  get; set; }
         public decimal PricePerGram => KiloPrice / 1000m;
         
         
-        public Ingredients() : base() { }
+        public Ingredient() : base() { }
 
         public override decimal GetCost()
         {

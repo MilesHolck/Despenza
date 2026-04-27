@@ -17,23 +17,23 @@
             </thead>
 
             <tbody>
-                @foreach (var ingredient in Model.IngredientsList)
+                @foreach (var inventoryItem in Model.IngredientsList)
                 {
                     <tr>
-                        <td>@ingredient.Id</td>
-                        <td>@ingredient.Name</td>
-                        <td>@ingredient.KiloPrice.ToString("N2")</td>
-                        <td>@ingredient.Unit</td>
+                        <td>@inventoryItem.Id</td>
+                        <td>@inventoryItem.WareId</td>
+                        @* <td>@inventoryItem.KiloPrice.ToString("N2")</td>
+                        <td>@inventoryItem.Unit</td> *@
                         <td>
                             <a class="btn btn-dark btn-sm"
                                    asp-page="/Admin/EditIngredient"
-                                   asp-route-id="@ingredient.Id">
+                                   asp-route-id="@inventoryItem.Id">
                                 Edit
                             </a>
 
                             <a class="btn btn-danger btn-sm"
                                    asp-page="/Admin/DeleteIngredient"
-                                   asp-route-id="@ingredient.Id">
+                                   asp-route-id="@inventoryItem.Id">
                                 Delete
                             </a>
                         </td>

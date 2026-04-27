@@ -21,23 +21,26 @@ namespace DespenzaLib.Services
 
         }
 
-        public bool CanProduce(int RecipeId)
+        public async Task<bool> CanProduceAsync(int recipeId)
         {
-            var recipe = _recipeRepo.GetById(RecipeId);
-            if (recipe == null) return false; 
+            var recipe = await _recipeRepo.GetByIdAsync(recipeId);
 
-            foreach(var line in recipe.Lines)
+            if (recipe == null)
+                return false;
+
+            var inventory = await _inventoryRepo.GetAllAsync();
+
+            foreach (var line in recipe.Lines)
             {
-                var stock = _inventoryRepo.GetAll().FirstOrDefault(i => i.WareId == line.WareId);
-                
+                var stock = inventory.FirstOrDefault(i => i.WareId == line.WareId);
+
                 if (stock == null || stock.QuantityInStock < line.Quantity)
-                { 
-                        return false;
+                {
+                    return false;
                 }
-
-
             }
-            return true; 
+
+            return true;
         }
     }
 }
