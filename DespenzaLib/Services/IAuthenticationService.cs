@@ -9,7 +9,8 @@ namespace DespenzaLib.Services
 {
     public interface IAuthenticationService
     {
-        User? Login(string username, string password);
+        User? LogIn(string email, string password);
+
         bool IsAdmin(User user);
     }
 }
