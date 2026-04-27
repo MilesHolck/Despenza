@@ -32,8 +32,9 @@ namespace Despenza.Pages.Authentication
                 return Page();
             }
 
-            var user = _authenticationService.Login(Email, Password);
+            var user = _authenticationService.LogIn(Email, Password);
 
+            // Rettet: Nu er der kun én if-statement, og parenteserne passer
             if (user == null)
             {
                 Message = "Forkert email eller password.";
@@ -41,12 +42,12 @@ namespace Despenza.Pages.Authentication
             }
 
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+        new Claim(ClaimTypes.Name, user.Name),
+        new Claim(ClaimTypes.Email, user.Email),
+        new Claim(ClaimTypes.Role, user.Role)
+    };
 
             var claimsIdentity = new ClaimsIdentity(
                 claims,
@@ -63,24 +64,23 @@ namespace Despenza.Pages.Authentication
                     ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20)
                 });
 
+            
             if (user.Role == "Admin")
+            {
+                return RedirectToPage("/Index"); // Ret evt. til en specifik admin-side senere
+            }
+            if (user.Role == "User")
             {
                 return RedirectToPage("/Index");
             }
-            if (user.Role == "User") 
-            {
-                return RedirectToPage("/Index"); 
-            }
 
-            return RedirectToPage("/Authentication/AccessDenied");
 
-            Message = "Invalid username or password";
-            return Page();
+            return RedirectToPage("/Index");
         }
-
-        
     }
+
 }
+
         //public IActionResult OnPost()
         //{
         //    AuthenticationService system = new AuthenticationService();
