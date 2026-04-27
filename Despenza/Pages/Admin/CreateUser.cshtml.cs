@@ -39,28 +39,29 @@ namespace Despenza.Pages.Admin
 
             User newUser;
 
-            // I din OnPostAsync i CreateUser.cshtml.cs
-            if (SelectedUserType == "Baker")
+            // Tilføj dette tjek i toppen:
+            if (SelectedUserType == "Admin")
             {
-                newUser = new Baker();
-                newUser.Role = "Baker";
-            }
-            else if (SelectedUserType == "Adpprentice") // Hvis du også kan oprette admins her
-            {
-                newUser = new Apprentice();
+                newUser = new DespenzaLib.Models.Admin();
                 newUser.Role = "Admin";
             }
-
-
-            if (SelectedUserType == "Baker") // make this a switch case - more readable and maintainable 
+            else if (SelectedUserType == "Baker")
             {
                 newUser = new Baker();
+                newUser.Role = "User"; 
+            }
+            else if (SelectedUserType == "Apprentice") 
+            {
+                newUser = new Apprentice();
+                newUser.Role = "User";
             }
             else
             {
-                newUser = new Apprentice();
+                
+                newUser = new Baker();
             }
 
+            
             newUser.Name = Name;
             newUser.Email = Email;
             newUser.Password = Password;

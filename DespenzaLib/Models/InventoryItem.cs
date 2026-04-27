@@ -9,6 +9,7 @@ namespace DespenzaLib.Models
     public class InventoryItem
     {
 
+     
         public int Id { get; set; }
 
         public int WareId { get; set; }
@@ -18,6 +19,11 @@ namespace DespenzaLib.Models
         public decimal QuantityInStock { get; set; }
 
         public DateOnly ExpirationDate { get; set; }
+
+        public InventoryItem()
+        {
+            
+        }
 
 
     }
