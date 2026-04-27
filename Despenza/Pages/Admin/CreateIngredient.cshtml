@@ -6,18 +6,18 @@
 <form method="post">
 
     <div>
-        <label asp-for="Ingredient.Name"></label>
-        <input asp-for="Ingredient.Name" />
+        <label asp-for="InventoryItem.Ware.Name"></label>
+        <input asp-for="InventoryItem.Ware.Name" />
     </div>
 
     <div>
-        <label asp-for="Ingredient.KiloPrice"></label>
-        <input asp-for="Ingredient.KiloPrice" />
+        <label asp-for="InventoryItem.Ware.KiloPrice"></label>
+        <input asp-for="InventoryItem.Ware.KiloPrice" />
     </div>
 
     <div>
-        <label asp-for="Ingredient.Unit"></label>
-        <input asp-for="Ingredient.Unit" />
+        <label asp-for="InventoryItem.QuantityInStock"></label>
+        <input asp-for="InventoryItem.QuantityInStock" />
     </div>
 
     <button type="submit">Opret</button>

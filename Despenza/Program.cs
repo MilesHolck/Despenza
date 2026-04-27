@@ -1,5 +1,6 @@
 using DespenzaLib.Data;
 using DespenzaLib.Services;
+using DespenzaLib.Repos;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,8 +18,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 36)));
 });
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IInventoryService, InventoryService>(); 
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+
 
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -9,7 +9,7 @@ namespace Despenza.Pages.Admin
     {
         private readonly IInventoryService _inventoryService;
 
-        public List<Ingredients> IngredientsList { get; set; } = new();
+        public List<InventoryItem> IngredientsList { get; set; } = new();
 
         public AllIngredientsModel(IInventoryService inventoryService)
         {
@@ -18,7 +18,7 @@ namespace Despenza.Pages.Admin
 
         public async Task OnGetAsync()
         {
-            IngredientsList = await _inventoryService.GetAllIngredientsAsync();
+            IngredientsList = await _inventoryService.GetAllInventoryItemsAsync();
         }
     }
 }

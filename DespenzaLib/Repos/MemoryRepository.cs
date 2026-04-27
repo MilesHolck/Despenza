@@ -10,39 +10,38 @@ namespace DespenzaLib.Repos
     {
 
         protected readonly List<T> _items = new List<T>(); 
-        public void Add(T item)
+        public Task AddAsync(T item)
         {
-            _items.Add(item); 
-        }
-
-        public void Delete(T item)
-        {
-            _items.Remove(item);
-            
-        }
-
-        public List<T> GetAll()
-        {
-            return _items; 
-        }
-
-        public T GetById(int id)
-        {
-            return _items.FirstOrDefault(x =>
-           (int)x.GetType().GetProperty("Id").GetValue(x) == id);
-        }
-
-        public T Update(T item)
-        {
-            var id = (int)item.GetType().GetProperty("Id").GetValue(item);
-
-            var existing = GetById(id);
-            if (existing == null) return null;
-
-            _items.Remove(existing);
             _items.Add(item);
+            return Task.CompletedTask;
+        }
 
-            return item;
+        public Task<List<T>> GetAllAsync()
+        {
+            return Task.FromResult(_items);
+        }
+
+        public Task<T?> GetByIdAsync(int id)
+        {
+            var property = typeof(T).GetProperty("Id");
+
+            if (property == null)
+                return Task.FromResult<T?>(null);
+
+            var item = _items.FirstOrDefault(x =>
+                (int)(property.GetValue(x) ?? 0) == id);
+
+            return Task.FromResult(item);
+        }
+
+        public Task UpdateAsync(T item)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteAsync(int id)
+        {
+            return Task.CompletedTask;
         }
     }
 }

@@ -1,15 +1,17 @@
 ﻿@page 
 @model Despenza.Pages.Admin.DeleteIngredientModel
 
-<h1>Slet Ingredient</h1>
+<h1>Slet Ingrediens</h1>
 
-@if (Model.Ingredient != null)
+@if (Model.InventoryItem != null)
 {
     <p>Er du sikker på, at du vil slette denne ingredient?</p>
 
-    <p><strong>@Model.Ingredient.Name</strong></p>
-    <p>KiloPris: @Model.Ingredient.KiloPrice</p>
-    <p>Unit: @Model.Ingredient.Unit</p>
+    <p><strong>@Model.InventoryItem.Id</strong></p>
+    <p>KiloPris: @Model.InventoryItem.Ware.Name</p>
+    <p>Unit: @Model.InventoryItem.WareId</p>
+    <p>Expiration Date: @Model.InventoryItem.ExpirationDate</p>
+    <p>Quantity in stock: @Model.InventoryItem.QuantityInStock</p>
 
     <form method="post">
         <button type="submit">Ja, slet</button>

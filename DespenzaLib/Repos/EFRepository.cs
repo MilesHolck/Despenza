@@ -14,39 +14,42 @@ namespace DespenzaLib.Repos
         private readonly AppDbContext _context; 
         private readonly DbSet<T> _dbSet; 
 
-        public EFRepository(AppDbContext context)
+        public EFRepository(AppDbContext context)   
         {
             _context = context;
             _dbSet = context.Set<T>(); 
         }
 
-        public void Add(T item)
+        public async Task AddAsync(T item)
         {
-            _dbSet.Add(item);
-            _context.SaveChanges(); 
+            await _dbSet.AddAsync(item);
+            await _context.SaveChangesAsync(); 
         }
 
-        public void Delete(T item)
+        public async Task<List<T>> GetAllAsync()
         {
-            _dbSet.Remove(item);
-            _context.SaveChanges(); 
+            return await _dbSet.ToListAsync();
         }
 
-        public List<T> GetAll()
+        public async Task<T?> GetByIdAsync(int id)
         {
-            return _dbSet.ToList(); 
+            return await _dbSet.FindAsync(id);
         }
 
-        public T GetById(int id)
-        {
-            return _dbSet.Find(id); 
-        }
-
-        public T Update(T item)
+        public async Task UpdateAsync(T item)
         {
             _dbSet.Update(item);
-            _context.SaveChanges();
-            return item; 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var item = await _dbSet.FindAsync(id);
+            if (item != null)
+            {
+                _dbSet.Remove(item);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

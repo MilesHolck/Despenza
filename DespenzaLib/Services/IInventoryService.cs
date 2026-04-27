@@ -9,11 +9,11 @@ namespace DespenzaLib.Services
 {
     public interface IInventoryService
     {
-        Task<List<Ingredients>> GetAllIngredientsAsync();
-        Task CreateIngredientAsync(Ingredients ingredient);
-        Task<Ingredients?> GetIngredientByIdAsync(int id);
-        Task UpdateIngredientAsync(Ingredients ingredient);
-        Task DeleteIngredientAsync(int id);
+        Task<List<InventoryItem>> GetAllInventoryItemsAsync();
+        Task CreateInventoryItemsAsync(InventoryItem ingredient);
+        Task<InventoryItem?> GetInventoryItemsByIdAsync(int id);
+        Task UpdateInventoryItemsAsync(InventoryItem ingredient);
+        Task DeleteInventoryItemsAsync(int id);
 
         Task<List<SemiProduct>> GetAllSemiProductsAsync();
         Task CreateSemiProductAsync(SemiProduct semiProduct);
