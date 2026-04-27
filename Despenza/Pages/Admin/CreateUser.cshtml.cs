@@ -16,7 +16,7 @@ namespace Despenza.Pages.Admin
         }
 
         [BindProperty]
-        public string SelectedUserType { get; set; }
+        public string SelectedUserType { get; set; } //make this an enum 
 
         [BindProperty]
         public string Name { get; set; }
@@ -26,14 +26,14 @@ namespace Despenza.Pages.Admin
 
         public void OnGet() { }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync() 
         {
-            if (!ModelState.IsValid) return Page();
+            if (!ModelState.IsValid) return Page(); 
 
             User newUser;
 
 
-            if (SelectedUserType == "Baker")
+            if (SelectedUserType == "Baker") // make this a switch case - more readable and maintainable 
             {
                 newUser = new Baker();
             }

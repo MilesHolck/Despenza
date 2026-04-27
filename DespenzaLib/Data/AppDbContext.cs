@@ -7,7 +7,7 @@ namespace DespenzaLib.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; } // User er abstract så bliver den nogensinde gemt i et table? 
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Apprentice> Apprentices { get; set; }
         public DbSet<Baker> Bakers { get; set; }
