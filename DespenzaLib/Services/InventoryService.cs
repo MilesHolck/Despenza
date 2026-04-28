@@ -13,12 +13,14 @@ namespace DespenzaLib.Services
     public class InventoryService : IInventoryService
     {
         private readonly IRepository<InventoryItem> _inventoryItemRepository;
+        private readonly IRepository<Ingredient> _ingredientRepository;
         private readonly IRepository<SemiProduct> _semiProductRepository;
         private readonly IRepository<Product> _productRepository;
 
-        public InventoryService(IRepository<InventoryItem> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository)
+        public InventoryService(IRepository<InventoryItem> inventoryItemRepository, IRepository<Ingredient> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository)
         {
-            _inventoryItemRepository = ingredientRepository;
+            _inventoryItemRepository = inventoryItemRepository;
+            _ingredientRepository = ingredientRepository;
             _semiProductRepository = semiProductRepository;
             _productRepository = productRepository;
         }
@@ -28,9 +30,9 @@ namespace DespenzaLib.Services
             return await _inventoryItemRepository.GetAllAsync(); 
         }
 
-        public async Task CreateInventoryItemsAsync(InventoryItem ingredient)
+        public async Task CreateInventoryItemsAsync(InventoryItem item)
         {
-            await _inventoryItemRepository.AddAsync(ingredient);
+            await _inventoryItemRepository.AddAsync(item);
         }
 
         public async Task<List<SemiProduct>> GetAllSemiProductsAsync()
@@ -66,6 +68,15 @@ namespace DespenzaLib.Services
         public async Task DeleteInventoryItemsAsync(int id)
         {
             await _inventoryItemRepository.DeleteAsync(id);
+        }
+        public async Task <List<Ingredient>> GetAllIngredientsAsync()
+        {
+            return await _ingredientRepository.GetAllAsync();
+        }
+
+        public async Task CreateIngredientAsync(Ingredient ingredient)
+        {
+            await _ingredientRepository.AddAsync(ingredient);
         }
     }
 }

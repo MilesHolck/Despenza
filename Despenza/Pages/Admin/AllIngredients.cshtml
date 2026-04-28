@@ -11,29 +11,30 @@
                     <th>Id</th>
                     <th>Navn</th>
                     <th>KiloPris</th>
-                    <th>Unit</th>
+                    <th>Units</th>
                     <th>Actions</th>
                 </tr>
             </thead>
 
             <tbody>
-                @foreach (var inventoryItem in Model.IngredientsList)
+                @foreach (var ingredient in Model.IngredientsList)
                 {
                     <tr>
-                        <td>@inventoryItem.Id</td>
-                        <td>@inventoryItem.WareId</td>
-                        @* <td>@inventoryItem.KiloPrice.ToString("N2")</td>
-                        <td>@inventoryItem.Unit</td> *@
+                        <td>@ingredient.Id</td>
+                        @* <td>@ingredient.WareId</td> *@
+                        <td>@ingredient.Name</td>
+                        <td>@ingredient.KiloPrice.ToString("F2")</td>
+                        <td>@ingredient.Unit</td>
                         <td>
                             <a class="btn btn-dark btn-sm"
                                    asp-page="/Admin/EditIngredient"
-                                   asp-route-id="@inventoryItem.Id">
+                                   asp-route-id="@ingredient.Id">
                                 Edit
                             </a>
 
                             <a class="btn btn-danger btn-sm"
                                    asp-page="/Admin/DeleteIngredient"
-                                   asp-route-id="@inventoryItem.Id">
+                                   asp-route-id="@ingredient.Id">
                                 Delete
                             </a>
                         </td>

@@ -7,31 +7,48 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Despenza.Pages.Admin
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class CreateIngredientModel : PageModel
     {
-        private readonly IInventoryService _inventoryService;
+        private readonly IInventoryService _inventoryService;            
 
         [BindProperty]
-        public InventoryItem InventoryItem { get; set; } = new();
+        public Ingredient Ingredient { get; set; } = new();     
+        public List<Ingredient> Ingredients { get; set; }
+
+
 
         public CreateIngredientModel(IInventoryService inventoryService)
         {
             _inventoryService = inventoryService;
         }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
+            Ingredients = await _inventoryService.GetAllIngredientsAsync();
         }
+
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
-                return Page();
 
-            await _inventoryService.CreateInventoryItemsAsync(InventoryItem);
+            {
+                Ingredients = await _inventoryService.GetAllIngredientsAsync();
+                return Page();
+            }
+            await _inventoryService.CreateIngredientAsync(Ingredient);
 
             return RedirectToPage("/Admin/AllIngredients");
+
         }
+            //var inventoryItem = new InventoryItem
+            //{
+            //    Ware = Ingredient,
+            //    QuantityInStock = QuantityInStock
+            //};
+
+           
+        
     }
 }
