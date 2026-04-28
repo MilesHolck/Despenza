@@ -1,7 +1,9 @@
 ﻿@page
-@model Despenza.Pages.Admin.CreateIngredientModel
+@model Despenza.Pages.Inventory.CreateInventoryItemModel
+@{
+}
 
-<h1>Opret Ingredient</h1>
+<h1>Opret Lagervare</h1>
 
 <form method="post">
 
@@ -18,7 +20,12 @@
     <div>
         <label asp-for="Ingredient.Unit"></label>
         <input asp-for="Ingredient.Unit" />
-    </div>    
+    </div>
+
+    <div>
+        <label asp-for="QuantityInStock"></label>
+        <input asp-for="QuantityInStock" />
+    </div>
 
     <button type="submit">Opret</button>
 
