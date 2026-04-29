@@ -14,6 +14,8 @@ namespace DespenzaLib.Models
 
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
 
+        public decimal OutputQuantity { get; set; } // i gram
+
         public Recipe() { }
 
         

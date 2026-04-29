@@ -14,6 +14,7 @@ namespace DespenzaLib.Models
         public Recipe Recipe { get; set; }
         public User User { get; set; }
 
+
         public SemiProduct()
         {
             
@@ -21,9 +22,14 @@ namespace DespenzaLib.Models
 
         public override decimal GetCost()
         {
-            //Alle ? er for at prog ikke crasher hvis recipe er null. 
+            if (Recipe?.Lines == null || Recipe.OutputQuantity == 0)
+            {
+                return 0;
+            }
 
-            return Recipe?.Lines?.Sum(l => l.Quantity * l.Ware.GetCost()) ?? 0;
+            var totalCost = Recipe.Lines.Sum(l => l.Quantity * l.Ware.GetCost());
+
+            return totalCost / Recipe.OutputQuantity; 
         }
 
             //public double AddIngredientPricesTogether()

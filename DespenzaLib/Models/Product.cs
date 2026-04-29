@@ -25,7 +25,16 @@ namespace DespenzaLib.Models
 
         public override decimal GetCost()
         {
-            return Recipe?.Lines?.Sum(l => l.Quantity * l.Ware.GetCost()) ?? 0;
-        }
+        if (Recipe.Lines == null || Recipe.OutputQuantity == 0)
+            {
+                return 0; 
+            }
+
+            var totalCost = Recipe.Lines.Sum(l => l.Quantity * l.Ware.GetCost());
+
+            return totalCost / Recipe.OutputQuantity; 
+                    
+                    }
     }
 }
+
