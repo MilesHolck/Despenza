@@ -5,7 +5,10 @@
 
 @if (Model.Ingredient != null)
 {
-    <p>Er du sikker på, at du vil slette denne ingredient?</p>
+    <div class="bg-danger p-3 rounded d-inline-block">
+        <p>⚠️Er du sikker på, at du vil slette denne ingredient?</p> 
+    </div>
+    
 
     <p><strong>Varenummer: @Model.Ingredient.Id</strong></p>
     <p>Name: @Model.Ingredient.Name</p>

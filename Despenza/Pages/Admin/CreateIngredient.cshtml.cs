@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Despenza.Pages.Admin
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class CreateIngredientModel : PageModel
     {
         private readonly IInventoryService _inventoryService;            
