@@ -10,7 +10,7 @@ namespace Despenza.Pages.Admin
     {
         private readonly IInventoryService _inventoryService;
 
-        public InventoryItem? InventoryItem { get; set; }
+        public Ingredient Ingredient { get; set; }
 
         public DeleteIngredientModel(IInventoryService inventoryService)
         {
@@ -19,9 +19,9 @@ namespace Despenza.Pages.Admin
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            InventoryItem = await _inventoryService.GetInventoryItemsByIdAsync(id);
+            Ingredient = await _inventoryService.GetIngredientByIdAsync(id);
 
-            if (InventoryItem == null)
+            if (Ingredient == null)
                 return NotFound();
 
             return Page();
@@ -29,7 +29,7 @@ namespace Despenza.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            await _inventoryService.DeleteInventoryItemsAsync(id);
+            await _inventoryService.DeleteIngredientAsync(id);
 
             return RedirectToPage("/Admin/AllIngredients");
         }

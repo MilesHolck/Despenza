@@ -13,7 +13,7 @@ namespace Despenza.Pages.Admin
         private readonly IInventoryService _inventoryService;
 
         [BindProperty]
-        public InventoryItem InventoryItem { get; set; } = new();
+        public Ingredient Ingredient { get; set; } = new();
 
         public EditIngredientModel(IInventoryService inventoryService)
         {
@@ -22,12 +22,12 @@ namespace Despenza.Pages.Admin
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var inventoryItem = await _inventoryService.GetInventoryItemsByIdAsync(id);
+            var ingredient = await _inventoryService.GetIngredientByIdAsync(id);
 
-            if (inventoryItem == null)
+            if (ingredient == null)
                 return NotFound();
 
-            this.InventoryItem = inventoryItem;
+            this.Ingredient = ingredient;
             return Page();
         }
 
@@ -36,7 +36,7 @@ namespace Despenza.Pages.Admin
             if (!ModelState.IsValid)
                 return Page();
 
-            await _inventoryService.UpdateInventoryItemsAsync(InventoryItem);
+            await _inventoryService.UpdateIngredientAsync(Ingredient); 
 
             return RedirectToPage("/Admin/AllIngredients");
         }

@@ -3,15 +3,14 @@
 
 <h1>Slet Ingrediens</h1>
 
-@if (Model.InventoryItem != null)
+@if (Model.Ingredient != null)
 {
     <p>Er du sikker på, at du vil slette denne ingredient?</p>
 
-    <p><strong>@Model.InventoryItem.Id</strong></p>
-    <p>KiloPris: @Model.InventoryItem.Ware.Name</p>
-    <p>Unit: @Model.InventoryItem.WareId</p>
-    <p>Expiration Date: @Model.InventoryItem.ExpirationDate</p>
-    <p>Quantity in stock: @Model.InventoryItem.QuantityInStock</p>
+    <p><strong>Varenummer: @Model.Ingredient.Id</strong></p>
+    <p>Name: @Model.Ingredient.Name</p>
+    <p>KiloPris: @Model.Ingredient.KiloPrice.ToString("F2")</p>
+    <p>Unit: @Model.Ingredient.Unit</p>
 
     <form method="post">
         <button type="submit">Ja, slet</button>
