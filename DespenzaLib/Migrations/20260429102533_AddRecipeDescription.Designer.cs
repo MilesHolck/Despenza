@@ -4,6 +4,7 @@ using DespenzaLib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DespenzaLib.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260429102533_AddRecipeDescription")]
+    partial class AddRecipeDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,6 +177,19 @@ namespace DespenzaLib.Migrations
                     b.HasBaseType("DespenzaLib.Models.User");
 
                     b.HasDiscriminator().HasValue("Admin");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Address = "",
+                            Email = "Admin@Despenza.dk",
+                            Id = 0,
+                            Name = "Admin",
+                            Password = "1234",
+                            Phone = 0,
+                            Role = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("DespenzaLib.Models.Apprentice", b =>
