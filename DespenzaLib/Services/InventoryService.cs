@@ -78,5 +78,20 @@ namespace DespenzaLib.Services
         {
             await _ingredientRepository.AddAsync(ingredient);
         }
+
+        public async Task<Ingredient> GetIngredientByIdAsync(int id)
+        {
+            return await _ingredientRepository.GetByIdAsync(id); 
+        }
+
+        public async Task UpdateIngredientAsync(Ingredient ingredient)
+        {
+            await _ingredientRepository.UpdateAsync(ingredient); 
+        }
+
+        public async Task DeleteIngredientAsync(int id)
+        {
+            await _ingredientRepository.DeleteAsync(id); 
+        }
     }
 }

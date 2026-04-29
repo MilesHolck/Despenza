@@ -4,21 +4,21 @@
 <h1>Rediger Ingredient</h1>
 
 <form method="post">
-    <input type="hidden" asp-for="InventoryItem.Id" />
+    <input type="hidden" asp-for="Ingredient.Id" />
 
     <div>
-        <label asp-for="InventoryItem.Ware.Name"></label>
-        <input asp-for="InventoryItem.Ware.Name" />
+        <label asp-for="Ingredient.Name"></label>
+        <input asp-for="Ingredient.Name" />
     </div>
 
     <div>
-        <label asp-for="InventoryItem.Ware.KiloPrice"></label>
-        <input asp-for="InventoryItem.Ware.KiloPrice" />
+        <label asp-for="Ingredient.KiloPrice"></label>
+        <input asp-for="Ingredient.KiloPrice" />
     </div>
 
     <div>
-        <label asp-for="InventoryItem.QuantityInStock"></label>
-        <input asp-for="InventoryItem.QuantityInStock" />
+        <label asp-for="Ingredient.Unit"></label>
+        <input asp-for="Ingredient.Unit" />
     </div>
 
     <button type="submit">Gem ændringer</button>
