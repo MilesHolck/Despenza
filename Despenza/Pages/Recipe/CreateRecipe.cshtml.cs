@@ -20,7 +20,7 @@ namespace Despenza.Pages
 
         public async Task OnGetAsync()
         {
-            NewRecipe.Lines.Add(new RecipeLine()); // Start med én linje
+            NewRecipe.Lines.Add(new RecipeLine()); 
             await LoadWaresAsync();
         }
 
@@ -33,10 +33,10 @@ namespace Despenza.Pages
 
         public async Task<IActionResult> OnPostSaveAsync()
         {
-            // Fjern de linjer hvor der ikke er valgt en vare (WareId == 0)
+            
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
 
-            // MIDLERTIDIGT UDKOMMENTERET FOR AT UNDGÅ AT DEN FEJLER I STILHED
+            // MIDLERTIDIGT UDKOMMENTERET FOR AT UNDGÅ AT DEN FEJLER
             /* if (!ModelState.IsValid)
             {
                 await LoadWaresAsync();
@@ -44,11 +44,11 @@ namespace Despenza.Pages
             }
             */
 
-            // Tilføj opskriften til databasen og gem
+            
             _context.Recipes.Add(NewRecipe);
             await _context.SaveChangesAsync();
 
-            // Hop direkte over til din liste-side, når den er gemt
+            
             return RedirectToPage("RecipeList");
         }
 
