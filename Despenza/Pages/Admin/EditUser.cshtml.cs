@@ -1,11 +1,13 @@
 using DespenzaLib.Data;
 using DespenzaLib.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Despenza.Pages.Admin
 {
+    [Authorize(Roles = "Admin")] 
     public class EditModel : PageModel
     {
         private readonly AppDbContext _context;
