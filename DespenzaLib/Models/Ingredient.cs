@@ -9,14 +9,13 @@ namespace DespenzaLib.Models
     public class Ingredient : Wares
     {
         public string Unit {  get; set; }
-        public decimal PricePerGram => KiloPrice / 1000m;
         
         
         public Ingredient() : base() { }
 
         public override decimal GetCost()
         {
-            return KiloPrice; 
+            return KiloPrice / 1000m; 
         }
 
        
