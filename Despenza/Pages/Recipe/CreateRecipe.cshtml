@@ -1,0 +1,35 @@
+﻿@page
+@model CreateRecipeModel
+
+<div class="container mt-4">
+    <h3>Opret ny opskrift</h3>
+    <form method="post" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label asp-for="NewRecipe.Name" class="form-label">Navn på opskrift</label>
+            <input asp-for="NewRecipe.Name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="NewRecipe.Description" class="form-label">Beskrivelse</label>
+            <textarea asp-for="NewRecipe.Description" class="form-control" rows="2"></textarea>
+        </div>
+
+        <h5>Ingredienser</h5>
+        @for (int i = 0; i < Model.NewRecipe.Lines.Count; i++)
+        {
+            <div class="row g-2 mb-2">
+                <div class="col-8">
+                    <select asp-for="NewRecipe.Lines[i].WareId" asp-items="Model.WareOptions" class="form-select">
+                        <option value="0">-- Vælg vare --</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <input asp-for="NewRecipe.Lines[i].Quantity" class="form-control" placeholder="Mængde" step="0.1" />
+                </div>
+            </div>
+        }
+        <button type="submit" asp-page-handler="AddLine" class="btn btn-outline-secondary btn-sm" formnovalidate>+ Tilføj vare</button>
+
+        <hr />
+        <button type="submit" asp-page-handler="Save" class="btn btn-success w-100">Gem Opskrift</button>
+    </form>
+</div>
