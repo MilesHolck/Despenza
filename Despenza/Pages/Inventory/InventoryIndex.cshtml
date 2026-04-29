@@ -1,0 +1,71 @@
+﻿@page
+@model Despenza.Pages.Inventory.InventoryIndexModel
+
+<h1>Lageroversigt</h1>
+
+<h2>Ingredienser</h2>
+<Div class="CoolTable">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Kilopris</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ingredient in Model.Ingredients)
+            {
+                <tr>
+                    <td>@ingredient.Name</td>
+                    <td>@ingredient.KiloPrice.ToString("F2")</td>
+                    <td>@ingredient.Unit</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</Div>
+<h2>Halvfabrikater</h2>
+<Div class="CoolTable">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Kilopris</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var semiProduct in Model.SemiProducts)
+            {
+                <tr>
+                    <td>@semiProduct.Name</td>
+                    <td>@semiProduct.KiloPrice.ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</Div>
+    
+<h2>Produkter</h2>
+<Div class="CoolTable">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Kilopris</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.KiloPrice.ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</Div> 
+    
+    
+
