@@ -1,20 +1,27 @@
+using DespenzaLib.Data;
+using DespenzaLib.Models;
+using DespenzaLib.Repos;
+using DespenzaLib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DespenzaLib.Models;
-using DespenzaLib.Data;
 
 namespace Despenza.Pages
 {
     public class CreateRecipeModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<Recipe> _recipeRepo;
+        private readonly IRepository<Wares> _wareRepo;
 
-        public CreateRecipeModel(AppDbContext context) => _context = context;
+        public CreateRecipeModel(IRepository<Recipe> recipeRepo, IRepository<Wares> wareRepo)
+        {
+            _recipeRepo = recipeRepo;
+            _wareRepo = wareRepo;
+        }
 
         [BindProperty]
-        public DespenzaLib.Models.Recipe NewRecipe { get; set; } = new();
+        public Recipe NewRecipe { get; set; } = new();
 
         public SelectList WareOptions { get; set; }
 
@@ -44,17 +51,17 @@ namespace Despenza.Pages
             }
             */
 
-            
-            _context.Recipes.Add(NewRecipe);
-            await _context.SaveChangesAsync();
+            await _recipeRepo.AddAsync(NewRecipe); 
 
             
             return RedirectToPage("RecipeList");
         }
-
         private async Task LoadWaresAsync()
         {
-            var wares = await _context.Wares.ToListAsync();
+            // Vi henter alle varer fra databasen
+            var wares = await _wareRepo.GetAllAsync();
+
+            // Og bygger dropdown-menuen ud fra dem
             WareOptions = new SelectList(wares, "Id", "Name");
         }
     }

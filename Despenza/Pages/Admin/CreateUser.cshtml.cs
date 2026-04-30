@@ -1,5 +1,7 @@
 using DespenzaLib.Data;
 using DespenzaLib.Models;
+using DespenzaLib.Repos;
+using DespenzaLib.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,15 +12,15 @@ namespace Despenza.Pages.Admin
     [Authorize(Roles = "Admin")]
     public class CreateUserModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<User> _userRepo; 
 
-        public CreateUserModel(AppDbContext context)
+        public CreateUserModel(IRepository<User> userRepo)
         {
-            _context = context;
+            _userRepo = userRepo;   
         }
 
         [BindProperty]
-        public string SelectedUserType { get; set; } //make this an enum 
+        public string SelectedUserType { get; set; } //make this an enum?
 
         [BindProperty]
         public string Email { get; set; } 
@@ -67,8 +69,7 @@ namespace Despenza.Pages.Admin
             newUser.Password = Password;
 
 
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
+            _userRepo.AddAsync(newUser);
 
             return Page();
         }

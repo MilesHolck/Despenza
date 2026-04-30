@@ -8,6 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Pages\Production\**" />
+	  <Content Remove="Pages\Production\**" />
+	  <EmbeddedResource Remove="Pages\Production\**" />
+	  <None Remove="Pages\Production\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.15">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,7 +31,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Pages\Production\" />
 	  <Folder Include="Pages\User\" />
 	</ItemGroup>
 

@@ -43,5 +43,11 @@ namespace DespenzaLib.Repos
         {
             return Task.CompletedTask;
         }
+
+        public IQueryable<T> GetQueryable()
+        {
+            // .AsQueryable() "snyder" C# til at behandle listen som en query
+            return _items.AsQueryable();
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace DespenzaLib.Repos
     {
         Task AddAsync(T item);
         Task<List<T>> GetAllAsync();
+        IQueryable<T> GetQueryable();
         Task<T?> GetByIdAsync(int id);
         Task UpdateAsync(T item);
         Task DeleteAsync(int id); //Eller Task DeleteAsync(T item);

@@ -4,6 +4,7 @@ using DespenzaLib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DespenzaLib.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260430075520_AddOutputQuantity")]
+    partial class AddOutputQuantity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,45 +175,6 @@ namespace DespenzaLib.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("DespenzaLib.Models.WasteRegistration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("LossInCost")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("RegisteredAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("WareId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WareType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WareId");
-
-                    b.ToTable("WasteRegistrations");
-                });
-
             modelBuilder.Entity("DespenzaLib.Models.Admin", b =>
                 {
                     b.HasBaseType("DespenzaLib.Models.User");
@@ -312,17 +276,6 @@ namespace DespenzaLib.Migrations
                         .IsRequired();
 
                     b.Navigation("Recipe");
-
-                    b.Navigation("Ware");
-                });
-
-            modelBuilder.Entity("DespenzaLib.Models.WasteRegistration", b =>
-                {
-                    b.HasOne("DespenzaLib.Models.Wares", "Ware")
-                        .WithMany()
-                        .HasForeignKey("WareId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Ware");
                 });
