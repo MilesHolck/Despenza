@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Despenza.Pages.Recipe
+namespace Despenza.Pages.RecipeSites
 {
-    public class RecipeDraftModel : PageModel
+    public class DoneRecipeModel : PageModel
     {
         public void OnGet()
         {
