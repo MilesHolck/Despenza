@@ -18,141 +18,136 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                 
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>   
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
-                                       href="#"
-                                       id="navbarDropdown"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                    Create stuff
-                                </a>
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                    </li>
 
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Create Ingredient</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">All Ingredients</a></li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li><a class="dropdown-item" asp-page="/Admin/CreateUser">Create User</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Inventory/CreateInventoryItem">Create InventoryItem</a></li>
-                                </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Create stuff
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Create Ingredient</a></li>
+                            <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">All Ingredients</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" asp-page="/Admin/CreateUser">Create User</a></li>
+                            <li><a class="dropdown-item" asp-page="/Inventory/CreateInventoryItem">Create InventoryItem</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Lager
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">Se ingredienser på lager</a></li>
+                            <li><a class="dropdown-item" asp-page="/Inventory/RegisterWaste">Registrer spild</a></li>
+                            <li><a class="dropdown-item" asp-page="/Inventory/WasteOverview">Se hvad der er gået tabt</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Opskrifter
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-page="/RecipeSites/CreateRecipe">Opret opskrift</a></li>
+                            <li><a class="dropdown-item" asp-page="/RecipeSites/RecipeList">Liste af Opskrifter</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" asp-page="/RecipeSites/RecipeDraft">Kladder</a></li>
+                            <li><a class="dropdown-item" asp-page="/RecipeSites/DoneRecipe">Færdige opskrifter</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Produkter
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Create Ingredient</a></li>
+                            <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">All Ingredients</a></li>
+                            <li><a class="dropdown-item" asp-page="/Inventory/InventoryIndex">Se hele varelageret</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" asp-page="/Admin/CreateUser">Create User</a></li>
+                            <li><a class="dropdown-item" asp-page="/Inventory/CreateInventoryItem">Create InventoryItem</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Adminitration
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin/UserList">Alle Brugere</a>
                             </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
-                                       href="#"
-                                       id="navbarDropdown"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                    Lager
-                                </a>
-
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">Se ingredienser på lager</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Inventory/RegisterWaste">Registrer spild</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Inventory/WasteOverview">Se hvad der er gået tabt</a></li>
-                                </ul>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
                             </li>
+                        </ul>
+                    </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
-                                       href="#"
-                                       id="navbarDropdown"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                    Opskrifter
-                                </a>
 
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Create Ingredient</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">All Ingredients</a></li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li><a class="dropdown-item" asp-page="/RecipeSites/CreateRecipe">Opret opskrift</a></li>
-                                    <li><a class="dropdown-item" asp-page="/RecipeSites/RecipeList">Liste af Opskrifter</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Recipe/CreateRecipe">Opret opskrift</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Recipe/RecipeList">Liste af Opskrifter</a></li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li><a class="dropdown-item" asp-page="/Recipe/RecipeDraft">Klader</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Recipe/DoneRecipe">Færdige opskrifter</a></li>
-                                </ul>
-                            </li>
+                </ul>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
-                                       href="#"
-                                       id="navbarDropdown"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                    Produkter
-                                </a>
+                <ul class="nav-item">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <span>Logget ind som: @User.Identity.Name</span>
 
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Create Ingredient</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">All Ingredients</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Inventory/InventoryIndex">Se hele varelageret</a></li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li><a class="dropdown-item" asp-page="/Admin/CreateUser">Create User</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Inventory/CreateInventoryItem">Create InventoryItem</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark"
-                                       href="#"
-                                       id="navbarDropdown"
-                                       role="button"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                    Adminitration
-                                </a>
-
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Admin/UserList">Alle Brugere</a>
-                                   </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
-                                    </li>
-                                </ul>
-                            </li>
-                    
-
-                    </ul>
-
-                    <ul class="nav-item"> 
-                        @if (User.Identity != null && User.Identity.IsAuthenticated)
-                        {
-                            <span>Logget ind som: @User.Identity.Name</span>
-
-                            <form method="post" asp-page="/Authentication/Logout" style="display:inline;">
-                                <button type="submit" class="btn btn-link">Log ud</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <a asp-page="/Authentication/LogIn">Log ind</a>
-                        }   
-                        @* <li class="navbar-nav">
+                        <form method="post" asp-page="/Authentication/Logout" style="display:inline;">
+                            <button type="submit" class="btn btn-link">Log ud</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-page="/Authentication/LogIn">Log ind</a>
+                    }
+                    @* <li class="navbar-nav">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Authentication/LogIn">Log In Here</a>
                         </li> *@
 
-                    </ul>
+                </ul>
 
 
 
             </div>
-            
+
         </nav>
     </header>
     <div class="container flex-grow-1">
@@ -166,7 +161,7 @@
             &copy; 2026 - Despenza - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-    
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
