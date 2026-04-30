@@ -12,6 +12,7 @@ namespace DespenzaLib.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
+        public int Antal { get; set; } 
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
 
         public decimal OutputQuantity { get; set; } // i gram
