@@ -1,0 +1,32 @@
+﻿@page
+@model Despenza.Pages.Inventory.RegisterWasteModel
+
+<h1>Registrer spild</h1>
+<div class="CoolTable">
+    <form method="post">
+        <div>
+            <label asp-for="WareType">Varetype</label>
+            <select asp-for="WareType" asp-items="Model.WareTypeOptions" onchange="this.form.submit()"></select>
+        </div>
+
+        <div>
+            <label asp-for="WareId">Vare</label>
+            <select asp-for="WareId" asp-items="Model.WareOptions"></select>
+        </div>
+
+        <div>
+            <label asp-for="Reason">Årsag</label>
+            <select asp-for="Reason" asp-items="Model.ReasonOptions"></select>
+        </div>
+
+        <div>
+            <label asp-for="Quantity">Mængde</label>
+            <input asp-for="Quantity" type="number" step="0.01" min="0" />
+            <small>
+                Ingredienser registreres i gram. Halvfabrikater og produkter registreres i stk.
+            </small>
+        </div>
+
+        <button type="submit">Registrer spild</button>
+    </form>
+</div>

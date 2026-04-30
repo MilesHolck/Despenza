@@ -17,6 +17,7 @@ namespace DespenzaLib.Data
         public DbSet<SemiProduct> SemiProducts { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
+        public DbSet<WasteRegistration> WasteRegistrations { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
