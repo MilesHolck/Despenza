@@ -13,8 +13,10 @@ namespace Despenza.Pages.Admin
         private readonly IInventoryService _inventoryService;            
 
         [BindProperty]
-        public Ingredient Ingredient { get; set; } = new();     
-        public List<Ingredient> Ingredients { get; set; }
+        public Ingredient Ingredient { get; set; } = new();
+        [BindProperty]
+        public decimal QuantityInStock { get; set; }
+        public List<Ingredient> Ingredients { get; set; }      
 
 
 
@@ -32,23 +34,18 @@ namespace Despenza.Pages.Admin
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
-
-            {
-                Ingredients = await _inventoryService.GetAllIngredientsAsync();
                 return Page();
-            }
-            await _inventoryService.CreateIngredientAsync(Ingredient);
+
+            var inventoryItem = new InventoryItem
+            {
+                Ware = Ingredient,
+                QuantityInStock = QuantityInStock,
+                ExpirationDate = DateOnly.FromDateTime(DateTime.Today.AddMonths(6))
+            };
+
+            await _inventoryService.CreateInventoryItemsAsync(inventoryItem);
 
             return RedirectToPage("/Admin/AllIngredients");
-
         }
-            //var inventoryItem = new InventoryItem
-            //{
-            //    Ware = Ingredient,
-            //    QuantityInStock = QuantityInStock
-            //};
-
-           
-        
     }
 }

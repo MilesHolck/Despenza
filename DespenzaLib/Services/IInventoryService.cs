@@ -32,6 +32,11 @@ namespace DespenzaLib.Services
 
         //PRODUCTS
         Task<List<Product>> GetAllProductsAsync();
-        Task CreateProductAsync(Product product); 
+        Task CreateProductAsync(Product product);
+
+        //Waste
+        Task RegisterWasteAsync(int wareId, string wareType, decimal quantity, string reason);
+        Task<List<WasteRegistration>> GetAllWasteRegistrationsAsync();
+        Task<List<InventoryItem>> GetInventoryItemsWithWareAsync();
     }
 }

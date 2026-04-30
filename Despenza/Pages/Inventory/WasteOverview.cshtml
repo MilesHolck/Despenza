@@ -1,0 +1,32 @@
+﻿@page
+@model Despenza.Pages.Inventory.WasteOverviewModel
+
+<h1>Spild oversigt</h1>
+
+<div class="CoolTable">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Dato</th>
+                <th>Vare</th>
+                <th>Type</th>
+                <th>Mængde</th>
+                <th>Årsag</th>
+                <th>Tab i udgifter</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var waste in Model.WasteRegistrations)
+            {
+                <tr>
+                    <td>@waste.RegisteredAt.ToString("dd-MM-yyyy HH:mm")</td>
+                    <td>@waste.Ware.Name</td>
+                    <td>@waste.WareType</td>
+                    <td>@waste.Quantity.ToString("F2") @waste.Unit</td>
+                    <td>@waste.Reason</td>
+                    <td>@waste.LossInCost.ToString("F2") kr.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
