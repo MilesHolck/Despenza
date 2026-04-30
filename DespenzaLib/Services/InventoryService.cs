@@ -16,13 +16,17 @@ namespace DespenzaLib.Services
         private readonly IRepository<Ingredient> _ingredientRepository;
         private readonly IRepository<SemiProduct> _semiProductRepository;
         private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<WasteRegistration> _wasteRepository;
+        private readonly AppDbContext _context;
 
-        public InventoryService(IRepository<InventoryItem> inventoryItemRepository, IRepository<Ingredient> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository)
+        public InventoryService(IRepository<InventoryItem> inventoryItemRepository, IRepository<Ingredient> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository, IRepository<WasteRegistration> wasteRepository, AppDbContext context)
         {
             _inventoryItemRepository = inventoryItemRepository;
             _ingredientRepository = ingredientRepository;
             _semiProductRepository = semiProductRepository;
             _productRepository = productRepository;
+            _wasteRepository = wasteRepository;
+            _context = context;
         }
 
         public async Task<List<InventoryItem>> GetAllInventoryItemsAsync()
@@ -92,6 +96,74 @@ namespace DespenzaLib.Services
         public async Task DeleteIngredientAsync(int id)
         {
             await _ingredientRepository.DeleteAsync(id); 
+        }
+
+        public async Task RegisterWasteAsync(int wareId, string wareType, decimal quantity, string reason)
+        {
+            var inventoryItems = await _inventoryItemRepository.GetAllAsync();
+
+            var inventoryItem = inventoryItems
+                .FirstOrDefault(i => i.WareId == wareId);
+
+            if (inventoryItem == null)
+            {
+                throw new Exception("Varen findes ikke på lager.");
+            }
+
+            if (inventoryItem.QuantityInStock < quantity)
+            {
+                throw new Exception("Der er ikke nok på lager til at registrere denne mængde som spild.");
+            }
+
+            inventoryItem.QuantityInStock -= quantity;
+
+            decimal lossInCost = 0;
+
+            if (inventoryItem.Ware is Ingredient ingredient)
+            {
+                lossInCost = ingredient.PricePerGram * quantity;
+            }
+            else
+            {
+                lossInCost = inventoryItem.Ware.GetCost() * quantity;
+            }
+
+            var wasteRegistration = new WasteRegistration
+            {
+                WareId = wareId,
+                Ware = inventoryItem.Ware,
+                WareType = wareType,
+                Quantity = quantity,
+                Unit = wareType == "Ingredient" ? "gram" : "stk",
+                Reason = reason,
+                LossInCost = lossInCost,
+                RegisteredAt = DateTime.Now
+            };
+
+            await _inventoryItemRepository.UpdateAsync(inventoryItem);
+            await _wasteRepository.AddAsync(wasteRegistration);
+        }
+
+        public async Task<List<WasteRegistration>> GetAllWasteRegistrationsAsync()
+        {
+            return await _context.WasteRegistrations
+                .Include(w => w.Ware)
+                .OrderByDescending(w => w.RegisteredAt)
+                .ToListAsync();
+        }
+
+        public async Task<List<InventoryItem>> GetAllInventoryItemsWithWareAsync()
+        {
+            return await _context.InventoryItems
+                .Include(i => i.Ware)
+                .ToListAsync();
+        }
+
+        public async Task<List<InventoryItem>> GetInventoryItemsWithWareAsync()
+        {
+            return await _context.InventoryItems
+                .Include(i => i.Ware)
+                .ToListAsync();
         }
     }
 }
