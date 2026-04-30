@@ -4,31 +4,32 @@
 <h1>Medlemmer</h1>
 
 <p>
-    <a asp-page="CreateUser" class="btn btn-primary mt-2">Opret ny bruger</a>
+    <a asp-page="CreateUser" class="btn btn-success mt-2">Opret ny bruger</a>
 </p>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Type</th>
-            <th>Navn</th>
-            <th>Handlinger</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.Users)
-        {
+<div class=" CoolTable">
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>
-                    @user.GetType().Name
-                </td>
-                <td>@user.Name</td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@user.UserId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@user.UserId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@user.UserId">Delete</a>
-                </td>
+                <th>Type</th>
+                <th>Navn</th>
+                <th>Handlinger</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @user.GetType().Name
+                    </td>
+                    <td>@user.Name</td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@user.UserId">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@user.UserId">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@user.UserId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
