@@ -9,10 +9,13 @@
             <input asp-for="NewRecipe.Name" class="form-control" />
         </div>
         <div class="mb-3">
+            <label asp-for="NewRecipe.Antal" class="form-label">Antal (fx. portioner eller stk.)</label>
+            <input asp-for="NewRecipe.Antal" type="number" class="form-control" min="1" />
+        </div>
+        <div class="mb-3">
             <label asp-for="NewRecipe.Description" class="form-label">Beskrivelse</label>
             <textarea asp-for="NewRecipe.Description" class="form-control" rows="2"></textarea>
         </div>
-
         <h5>Ingredienser</h5>
         @for (int i = 0; i < Model.NewRecipe.Lines.Count; i++)
         {
