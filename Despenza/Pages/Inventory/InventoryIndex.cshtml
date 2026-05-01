@@ -14,12 +14,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var ingredient in Model.Ingredients)
+            @foreach (var item in Model.InventoryItems.Where(i => i.Ware is DespenzaLib.Models.Ingredient))
             {
                 <tr>
-                    <td>@ingredient.Name</td>
-                    <td>@ingredient.KiloPrice.ToString("F2")</td>
-                    @* <td>@ingredient.QuantityInStock @ingredient.Unit</td> *@
+                    <td>@item.Ware.Name</td>
+                    <td>@item.Ware.KiloPrice.ToString("F2")</td>
+                    <td>@item.QuantityInStock.ToString("F2") gram</td>
                 </tr>
             }
         </tbody>

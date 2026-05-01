@@ -15,6 +15,7 @@ namespace Despenza.Pages.Inventory
         public List<Ingredient> Ingredients { get; set; } = new();    
         public List<SemiProduct> SemiProducts { get; set; } = new();
         public List<Product> Products { get; set; } = new();
+        public List<InventoryItem> InventoryItems { get; set; } = new();
 
         public InventoryIndexModel(IInventoryService inventoryService)
         {
@@ -25,6 +26,7 @@ namespace Despenza.Pages.Inventory
             Ingredients = await _inventoryService.GetAllIngredientsAsync();
             SemiProducts = await _inventoryService.GetAllSemiProductsAsync();
             Products = await _inventoryService.GetAllProductsAsync();
+            InventoryItems = await _inventoryService.GetInventoryItemsWithWareAsync();
         }
     }
 }
