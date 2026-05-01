@@ -46,12 +46,18 @@ namespace Despenza.Pages.Inventory
 
             if (Quantity <= 0)
             {
-                ModelState.AddModelError("", "Det kan du ikke.Mængden skal være større end 0.");
+                ModelState.AddModelError("", "Dude... Du kan ikke registrere 0 eller minus.");
                 return Page();
             }
-
-            await _inventoryService.RegisterWasteAsync(WareId, WareType, Quantity, Reason);
-
+            try
+            {
+                await _inventoryService.RegisterWasteAsync(WareId, WareType, Quantity, Reason);
+            }
+            catch (Exception ex) 
+            { 
+            ModelState.AddModelError("", ex.Message);
+                return Page();
+            }
             return RedirectToPage("/Inventory/WasteOverview");
         }
 

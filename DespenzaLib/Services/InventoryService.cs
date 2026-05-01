@@ -165,5 +165,39 @@ namespace DespenzaLib.Services
                 .Include(i => i.Ware)
                 .ToListAsync();
         }
+
+        public async Task ReceiveIngredientAsync(int ingredientId, decimal amountInGrams)
+        {
+            var ingredient = await _ingredientRepository.GetByIdAsync(ingredientId);
+
+            if (ingredient == null)
+            {
+                throw new Exception("Ingrediensen findes ikke.");
+            }
+
+            var inventoryItems = await GetInventoryItemsWithWareAsync();
+
+            var inventoryItem = inventoryItems
+                .FirstOrDefault(i => i.WareId == ingredientId);
+
+            if (inventoryItem == null)
+            {
+                inventoryItem = new InventoryItem
+                {
+                    WareId = ingredientId,
+                    Ware = ingredient,
+                    QuantityInStock = amountInGrams,
+                    ExpirationDate = DateOnly.FromDateTime(DateTime.Today.AddMonths(6))
+                };
+
+                await _inventoryItemRepository.AddAsync(inventoryItem);
+            }
+            else
+            {
+                inventoryItem.QuantityInStock += amountInGrams;
+
+                await _inventoryItemRepository.UpdateAsync(inventoryItem);
+            }
+        }
     }
 }

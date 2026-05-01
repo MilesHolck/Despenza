@@ -8,7 +8,7 @@ namespace DespenzaLib.Models
 {
     public class Ingredient : Wares
     {
-        public string Unit {  get; set; }
+        public string? Unit {  get; set; }
         public decimal PricePerGram => KiloPrice / 1000m;
 
 
