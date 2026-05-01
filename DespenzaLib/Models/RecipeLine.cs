@@ -19,6 +19,8 @@ namespace DespenzaLib.Models
 
         public decimal Quantity { get; set; }
 
+        public bool IsChecked { get; set; } = false;
+
 
 
     }

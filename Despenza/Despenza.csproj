@@ -9,9 +9,13 @@
 
 	<ItemGroup>
 	  <Compile Remove="Pages\Production\**" />
+	  <Compile Remove="Pages\User\**" />
 	  <Content Remove="Pages\Production\**" />
+	  <Content Remove="Pages\User\**" />
 	  <EmbeddedResource Remove="Pages\Production\**" />
+	  <EmbeddedResource Remove="Pages\User\**" />
 	  <None Remove="Pages\Production\**" />
+	  <None Remove="Pages\User\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,10 +32,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DespenzaLib\DespenzaLib.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Pages\User\" />
 	</ItemGroup>
 
 </Project>

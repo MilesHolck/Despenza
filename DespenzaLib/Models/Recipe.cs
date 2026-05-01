@@ -12,7 +12,10 @@ namespace DespenzaLib.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
-        public int Antal { get; set; } 
+        public decimal QuantityOfProduct { get; set; }
+        public decimal RecipeScale { get; set; }
+        public bool IsSavedCopy { get; set; } = false;
+        public DateTime DateSaved { get; set; } = DateTime.Now;
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
 
         public decimal OutputQuantity { get; set; } // hvor meget får vi ud af opskriften i gram
