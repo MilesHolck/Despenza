@@ -2,20 +2,22 @@
 using DespenzaLib.Data; // Henter din AppDbContext
 using System;
 using System.Linq;
+using DespenzaLib.Repos;
+using Microsoft.EntityFrameworkCore;
 
 namespace DespenzaLib.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
 
-        private readonly AppDbContext _context;
+        private readonly IRepository<User> _userRepository;
 
         // private readonly List<User> _users;
 
         // 2. Vi injicerer Databasen via constructoren
-        public AuthenticationService(AppDbContext context) //skift AppDB... ud med repo for at bruge repo :D 
+        public AuthenticationService(IRepository<User> userRepository) //skift mellem MemoryRepo og EFRepo i Program.cs
         {
-            _context = context; //skift AppDB... ud med repo for at bruge repo :D 
+            _userRepository = userRepository;
 
             /* --- GAMMEL LISTE ---
             _users = new List<User>()
@@ -49,18 +51,15 @@ namespace DespenzaLib.Services
             return false;
         }
 
-        public User? LogIn(string email, string password)
+        public async Task<User?> LogInAsync(string email, string password)
         {
-            email = email?.Trim();
+            email = email?.Trim().ToLower();
 
-            // Vi bruger bare .ToLower() for at være 100% sikre på at 
-            // store/små bogstaver ikke driller, og et helt normalt == tegn.
-            // Dette kan Entity Framework nemt oversætte til SQL!
-            User loggedInUser = _context.Users.FirstOrDefault(u =>
-                u.Email.ToLower() == email.ToLower() &&
+            var users = await _userRepository.GetAllAsync();
+
+            return users.FirstOrDefault(u =>
+                u.Email.ToLower() == email &&
                 u.Password == password);
-
-            return loggedInUser;
         }
 
     }

@@ -17,7 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         connectionString,
         new MySqlServerVersion(new Version(8, 0, 36)));
 });
-
+//builder.Services.AddScoped(typeof(IRepository<>), typeof(MemoryRepository<>));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
