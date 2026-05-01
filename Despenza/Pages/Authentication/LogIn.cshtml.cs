@@ -32,7 +32,7 @@ namespace Despenza.Pages.Authentication
                 return Page();
             }
 
-            var user = _authenticationService.LogIn(Email, Password);
+            var user = await _authenticationService.LogInAsync(Email, Password);
 
             // Rettet: Nu er der kun én if-statement, og parenteserne passer
             if (user == null)
