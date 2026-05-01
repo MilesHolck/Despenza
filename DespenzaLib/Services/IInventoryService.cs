@@ -23,7 +23,8 @@ namespace DespenzaLib.Services
         Task<Ingredient> GetIngredientByIdAsync(int id);
         Task<List<Ingredient>> GetAllIngredientsAsync();
         Task UpdateIngredientAsync(Ingredient ingredient);
-        Task DeleteIngredientAsync(int id); 
+        Task DeleteIngredientAsync(int id);
+        Task ReceiveIngredientAsync(int ingredientId, decimal amountInGrams);
 
         //SEMIPRODUCTS
         Task<List<SemiProduct>> GetAllSemiProductsAsync();

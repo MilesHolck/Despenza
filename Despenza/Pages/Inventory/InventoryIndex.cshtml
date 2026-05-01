@@ -10,7 +10,7 @@
             <tr>
                 <th>Navn</th>
                 <th>Kilopris</th>
-                <th>Unit</th>
+                <th>Mængde</th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
                 <tr>
                     <td>@ingredient.Name</td>
                     <td>@ingredient.KiloPrice.ToString("F2")</td>
-                    <td>@ingredient.Unit</td>
+                    @* <td>@ingredient.QuantityInStock @ingredient.Unit</td> *@
                 </tr>
             }
         </tbody>

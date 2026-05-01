@@ -11,6 +11,7 @@
                     <th>Id</th>
                     <th>Navn</th>
                     <th>KiloPris</th>
+                    <th>Pris per gram</th>
                     <th>Units</th>
                     <th>Actions</th>
                 </tr>
@@ -24,6 +25,7 @@
                         @* <td>@ingredient.WareId</td> *@
                         <td>@ingredient.Name</td>
                         <td>@ingredient.KiloPrice.ToString("F2")</td>
+                        <td>@ingredient.PricePerGram.ToString("F2")</td>
                         <td>@ingredient.Unit</td>
                         <td>
                             <a class="btn btn-dark btn-sm"

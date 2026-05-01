@@ -4,6 +4,15 @@
 <h1>Registrer spild</h1>
 <div class="CoolForm">
     <form method="post">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <div>@error.ErrorMessage</div>
+                }
+            </div>
+        }
         <div>
             <label asp-for="WareType">Varetype</label>
             <select asp-for="WareType" asp-items="Model.WareTypeOptions" onchange="this.form.submit()"></select>
@@ -27,6 +36,6 @@
             </small>
         </div>
 
-        <button type="button" class=" btn btn-success">Registrer spild</button>
+        <button type="submit" class=" btn btn-success">Registrer spild</button>
     </form>
 </div>
