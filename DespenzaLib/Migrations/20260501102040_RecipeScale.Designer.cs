@@ -4,6 +4,7 @@ using DespenzaLib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DespenzaLib.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260501102040_RecipeScale")]
+    partial class RecipeScale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,8 +73,8 @@ namespace DespenzaLib.Migrations
                     b.Property<decimal>("OutputQuantity")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<double>("QuantityOfProduct")
-                        .HasColumnType("double");
+                    b.Property<int>("QuantityOfProduct")
+                        .HasColumnType("int");
 
                     b.Property<double>("RecipeScale")
                         .HasColumnType("double");
@@ -88,9 +91,6 @@ namespace DespenzaLib.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(65,30)");

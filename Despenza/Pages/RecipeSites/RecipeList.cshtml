@@ -1,76 +1,116 @@
 ﻿@page
 @model Despenza.Pages.RecipeListModel
 
+
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Mine Opskrifter</h2>
         <a asp-page="/Recipe/CreateRecipe" class="btn btn-primary">Ny opskrift</a>
     </div>
-
     <div class="accordion" id="recipeAccordion">
         @if (Model.Recipes != null && Model.Recipes.Any())
         {
             @foreach (var recipe in Model.Recipes)
             {
+
                 <div class="accordion-item shadow-sm mb-2">
-                    <h2 class="accordion-header" id="heading-@recipe.Id">
+                    <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
                             <span class="fw-bold me-auto">@recipe.Name</span>
-                            <span class="badge bg-secondary me-3">Oprettet af: Admin</span>
+
+                            <span class="badge bg-secondary me-5 pe-5">Oprettet af: Admin</span>
                         </button>
+
+
+                        <div class="position-absolute top-50 end-0 translate-middle-y me-5 pe-3" style="z-index: 4;">
+                            <a asp-page="/RecipeSites/EditRecipe" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm me-1">Ret</a>
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@recipe.Id" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Er du sikker på, at du vil slette opskriften?');">Slet</button>
+                            </form>
+                        </div>
                     </h2>
 
-                    <div id="collapse-@recipe.Id" class="accordion-collapse collapse" data-bs-parent="#recipeAccordion">
+                    <div id="collapse-@recipe.Id" class="accordion-collapse collapse @(ViewData["ActiveRecipeId"]?.ToString() == recipe.Id.ToString() ? "show" : "")" data-bs-parent="#RecipeAccordion">
                         <div class="accordion-body">
+                            <form method="get" class="d-flex align-items-center mb-3 bg-light p-2 rounded">
+                                <input type="hidden" name="scaleRecipeId" value="@recipe.Id" />
 
-                            <div class="row">
+                                <label class="me-2 small fw-bold mb-0">Skaler opskrift:</label>
+                                <select name="scale" class="form-select form-select-sm me-2" style="width: auto;">
+                                    <option value="0.5" selected="@(recipe.RecipeScale == 0.5m)">0,5x</option>
+                                    <option value="1" selected="@(recipe.RecipeScale == 1.0m)">1x (Standard)</option>
+                                    <option value="1.5" selected="@(recipe.RecipeScale == 1.5m)">1,5x</option>
+                                    <option value="2" selected="@(recipe.RecipeScale == 2.0m)">2x</option>
+                                    <option value="3" selected="@(recipe.RecipeScale == 3.0m)">3x</option>
+                                </select>
 
-                                <div class="col-md-5 border-end">
-                                    <h6>Ingredienser</h6>
-                                    @if (recipe.Lines != null && recipe.Lines.Any())
-                                    {
-                                        <ul class="list-group list-group-flush mb-3">
-                                            @foreach (var line in recipe.Lines)
-                                            {
-                                                <li class="list-group-item d-flex align-items-center px-0">
-                                                    <input class="form-check-input me-3" type="checkbox" id="check-@line.Id">
-                                                    <label class="form-check-label" for="check-@line.Id">
-                                                        <strong>@line.Quantity.ToString("G")</strong> x @(line.Ware?.Name ?? "Ukendt vare")
-                                                    </label>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                    else
-                                    {
-                                        <p class="text-muted small"><em>Ingen ingredienser.</em></p>
-                                    }
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Opdater tal</button>
+                            </form>
+                            <form method="post" asp-page-handler="SaveCopy" asp-route-id="@recipe.Id">
+                                <input type="hidden" name="scale" value="@recipe.RecipeScale" />
+
+                                <div class="row">
+                                    <div class="col-md-5 border-end">
+                                        <h6>Ingredienser</h6>
+                                        @if (recipe.Lines != null && recipe.Lines.Any())
+                                        {
+                                            <ul class="list-group list-group-flush mb-3">
+                                                @foreach (var line in recipe.Lines)
+                                                {
+                                                    <li class="list-group-item d-flex align-items-center px-0">
+                                                        <input class="form-check-input me-3" type="checkbox" id="check-@line.Id" name="checkedLines" value="@line.Id">
+                                                        <label class="form-check-label" for="check-@line.Id">
+                                                            <strong>@line.Quantity.ToString("0.##")</strong> x @(line.Ware?.Name ?? "Ukendt vare")
+                                                        </label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted small"><em>Ingen ingredienser.</em></p>
+                                        }
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <h6>Fremgangsmåde</h6>
+                                        <p class="text-muted" style="white-space: pre-wrap;">@recipe.Description</p>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-7">
-                                    <h6>Fremgangsmåde</h6>
-                                    <p class="text-muted" style="white-space: pre-wrap;">@recipe.Description</p>
-                                </div>
+                                <hr />
 
-                            </div>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar3"></i> Oprettet: @DateTime.Now.ToString("dd. MMM yyyy")
+                                    </small>
 
-                            <hr />
+                                    <div class="btn-group">
 
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar3"></i> Oprettet: @DateTime.Now.ToString("dd. MMM yyyy")
-                                </small>
+                                        <div class="btn-group">
+                                            <!-- Ingen form her! Den ydre form sørger for det hele -->
+                                            <button type="submit" class="btn btn-outline-success btn-sm">Gem</button>
 
-                                <div class="btn-group">
-                                    <button class="btn btn-outline-success btn-sm">Gem</button>
-                                    <button class="btn btn-outline-secondary btn-sm">Gem som kladde</button>
-                                    <button class="btn btn-outline-danger btn-sm">Slet</button>
-                                </div>
-                            </div>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm">Gem som kladde</button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm">Slet</button>
+                                        </div>
+                                    </div>
+
+                            </form>
 
                         </div>
+
+                        <hr />
+
+                        <div>
+                        </div>
                     </div>
+
                 </div>
+
+
+
+
             }
         }
         else
