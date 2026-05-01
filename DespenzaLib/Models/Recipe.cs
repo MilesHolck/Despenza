@@ -14,7 +14,7 @@ namespace DespenzaLib.Models
         public string? Description { get; set; }
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
 
-        public decimal OutputQuantity { get; set; } // i gram
+        public decimal OutputQuantity { get; set; } // hvor meget får vi ud af opskriften i gram
 
         public Recipe() { }
 
