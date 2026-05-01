@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DespenzaLib.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,18 @@ namespace DespenzaLib.Repos
     public class MemoryRepository<T> : IRepository<T> where T : class
     {
 
-        protected readonly List<T> _items = new List<T>(); 
+        protected readonly List<T> _items; 
+
+        public MemoryRepository(InMemoryDb db)
+        {
+            if (!db.Sets.ContainsKey(typeof(T)))
+            {
+                db.Sets[typeof(T)] = new List<T>();
+            }
+
+            _items = (List<T>)db.Sets[typeof(T)]; 
+        }
+
         public Task AddAsync(T item)
         {
             _items.Add(item);
