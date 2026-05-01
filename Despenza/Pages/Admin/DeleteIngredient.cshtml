@@ -2,21 +2,22 @@
 @model Despenza.Pages.Admin.DeleteIngredientModel
 
 <h1>Slet Ingrediens</h1>
-
-@if (Model.Ingredient != null)
-{
-    <div class="bg-danger p-3 rounded d-inline-block">
-        <p>⚠️Er du sikker på, at du vil slette denne ingredient?</p> 
-    </div>
+<div class="CoolForm">
+    @if (Model.Ingredient != null)
+    {
+        <div class="bg-danger p-3 rounded d-inline-block">
+            <p>⚠️Er du sikker på, at du vil slette denne ingredient?</p>
+        </div>
     
 
-    <p><strong>Varenummer: @Model.Ingredient.Id</strong></p>
-    <p>Name: @Model.Ingredient.Name</p>
-    <p>KiloPris: @Model.Ingredient.KiloPrice.ToString("F2")</p>
-    <p>Unit: @Model.Ingredient.Unit</p>
+        <p><strong>Varenummer: @Model.Ingredient.Id</strong></p>
+        <p>Name: @Model.Ingredient.Name</p>
+        <p>KiloPris: @Model.Ingredient.KiloPrice.ToString("F2")</p>
+        <p>Unit: @Model.Ingredient.Unit</p>
 
-    <form method="post">
-        <button type="submit">Ja, slet</button>
-        <a asp-page="/Admin/AllIngredients">Annuller</a>
-    </form>
-}
+        <form method="post">
+            <button type="submit" class=" btn btn-outline-danger">Ja, slet</button>
+            <a asp-page="/Admin/AllIngredients">Annuller</a>
+        </form>
+    }
+</div>
