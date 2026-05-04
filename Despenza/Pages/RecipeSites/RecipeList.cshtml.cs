@@ -5,6 +5,7 @@ using DespenzaLib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Despenza.Pages
 {
@@ -23,10 +24,10 @@ namespace Despenza.Pages
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, string scale = "1")
         {
             Recipes = await _recipeRepo.GetQueryable()
-        .Include(r => r.Lines)
-        .ThenInclude(l => l.Ware)
-        .Where(r => r.IsSavedCopy == false)
-        .ToListAsync();
+            .Include(r => r.Lines)
+            .ThenInclude(l => l.Ware)
+            .Where(r => r.IsSavedCopy == false)
+            .ToListAsync();
 
 
             string normalizedScale = scale.Replace(",", ".");
@@ -62,11 +63,9 @@ namespace Despenza.Pages
 
         public async Task<IActionResult> OnPostSaveCopyAsync(int id, string scale = "1", List<int> checkedLines = null)
         {
-
             string normalizedScale = scale.Replace(",", ".");
             decimal parsedScale = 1.0m;
             decimal.TryParse(normalizedScale, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out parsedScale);
-
 
             var originalRecipe = await _recipeRepo.GetQueryable()
                 .AsNoTracking()
@@ -74,7 +73,6 @@ namespace Despenza.Pages
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             if (originalRecipe == null) return NotFound();
-
 
             var newSavedRecipe = new Recipe
             {
@@ -86,6 +84,12 @@ namespace Despenza.Pages
                 QuantityOfProduct = originalRecipe.QuantityOfProduct * parsedScale
             };
 
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (int.TryParse(userIdString, out int userId))
+            {
+                newSavedRecipe.UserId = userId;
+            }
+           
             if (originalRecipe.Lines != null && originalRecipe.Lines.Any())
             {
                 newSavedRecipe.Lines = new List<RecipeLine>();
@@ -102,7 +106,6 @@ namespace Despenza.Pages
             }
 
             await _recipeRepo.AddAsync(newSavedRecipe);
-
 
             return RedirectToPage("DoneRecipe");
         }

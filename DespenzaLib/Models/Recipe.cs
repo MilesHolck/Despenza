@@ -8,7 +8,6 @@ namespace DespenzaLib.Models
 {
     public class Recipe
     {
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
@@ -17,9 +16,9 @@ namespace DespenzaLib.Models
         public bool IsSavedCopy { get; set; } = false;
         public DateTime DateSaved { get; set; } = DateTime.Now;
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
-
-        public decimal OutputQuantity { get; set; } 
-
+        public int? UserId { get; set; }
+        public User? User { get; set; }
+        public decimal OutputQuantity { get; set; }
         public Recipe() { }
 
 

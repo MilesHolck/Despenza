@@ -12,16 +12,11 @@
         {
             @foreach (var recipe in Model.Recipes)
             {
-
-                <div class="accordion-item shadow-sm mb-2">
+                <div class="accordion-item shadow-sm border rounded">
                     <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
                             <span class="fw-bold me-auto">@recipe.Name</span>
-
-                            <span class="badge bg-secondary me-5 pe-5">Oprettet af: Admin</span>
                         </button>
-
-
                         <div class="position-absolute top-50 end-0 translate-middle-y me-5 pe-3" style="z-index: 4;">
                             <a asp-page="/RecipeSites/EditRecipe" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm me-1">Ret</a>
                             <form method="post" asp-page-handler="Delete" asp-route-id="@recipe.Id" class="d-inline">
@@ -29,12 +24,10 @@
                             </form>
                         </div>
                     </h2>
-
                     <div id="collapse-@recipe.Id" class="accordion-collapse collapse @(ViewData["ActiveRecipeId"]?.ToString() == recipe.Id.ToString() ? "show" : "")" data-bs-parent="#RecipeAccordion">
                         <div class="accordion-body">
                             <form method="get" class="d-flex align-items-center mb-3 bg-light p-2 rounded">
                                 <input type="hidden" name="scaleRecipeId" value="@recipe.Id" />
-
                                 <label class="me-2 small fw-bold mb-0">Skaler opskrift:</label>
                                 <select name="scale" class="form-select form-select-sm me-2" style="width: auto;">
                                     <option value="0.5" selected="@(recipe.RecipeScale == 0.5m)">0,5x</option>
@@ -43,7 +36,6 @@
                                     <option value="2" selected="@(recipe.RecipeScale == 2.0m)">2x</option>
                                     <option value="3" selected="@(recipe.RecipeScale == 3.0m)">3x</option>
                                 </select>
-
                                 <button type="submit" class="btn btn-outline-primary btn-sm">Opdater tal</button>
                             </form>
                             <form method="post" asp-page-handler="SaveCopy" asp-route-id="@recipe.Id">
@@ -71,45 +63,30 @@
                                             <p class="text-muted small"><em>Ingen ingredienser.</em></p>
                                         }
                                     </div>
-
                                     <div class="col-md-7">
                                         <h6>Fremgangsmåde</h6>
                                         <p class="text-muted" style="white-space: pre-wrap;">@recipe.Description</p>
                                     </div>
                                 </div>
-
                                 <hr />
-
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <small class="text-muted">
                                         <i class="bi bi-calendar3"></i> Oprettet: @DateTime.Now.ToString("dd. MMM yyyy")
                                     </small>
-
                                     <div class="btn-group">
-
                                         <div class="btn-group">
                                             <button type="submit" class="btn btn-outline-success btn-sm">Gem</button>
-
                                             <button type="button" class="btn btn-outline-secondary btn-sm">Gem som kladde</button>
                                             <button type="button" class="btn btn-outline-danger btn-sm">Slet</button>
                                         </div>
                                     </div>
-
                             </form>
-
                         </div>
-
                         <hr />
-
                         <div>
                         </div>
                     </div>
-
                 </div>
-
-
-
-
             }
         }
         else
