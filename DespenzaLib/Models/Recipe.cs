@@ -18,7 +18,7 @@ namespace DespenzaLib.Models
         public DateTime DateSaved { get; set; } = DateTime.Now;
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();
 
-        public decimal OutputQuantity { get; set; } // hvor meget får vi ud af opskriften i gram
+        public decimal OutputQuantity { get; set; } 
 
         public Recipe() { }
 

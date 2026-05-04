@@ -74,7 +74,7 @@ namespace Despenza.Pages
         
         public async Task<IActionResult> OnPostSaveAsync()
         {
-            // Fjerner tomme ingredienser
+            
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
 
            

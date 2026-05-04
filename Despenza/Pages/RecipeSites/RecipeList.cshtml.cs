@@ -20,23 +20,21 @@ namespace Despenza.Pages
         }
 
 
-        // Vi ændrer 'decimal scale' til 'string scale'
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, string scale = "1")
         {
-            // Hent opskrifterne
             Recipes = await _recipeRepo.GetQueryable()
-                .Include(r => r.Lines)
-                .ThenInclude(l => l.Ware)
-                .Where(r => r.IsSavedCopy == false)
-                .ToListAsync();
+        .Include(r => r.Lines)
+        .ThenInclude(l => l.Ware)
+        .Where(r => r.IsSavedCopy == false)
+        .ToListAsync();
 
-            // Vi sørger for at alt læses rigtigt uanset komma eller punktum
+
             string normalizedScale = scale.Replace(",", ".");
 
-            // Forsøg at omdanne det til en præcis decimal
+
             if (scaleRecipeId.HasValue && decimal.TryParse(normalizedScale, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal parsedScale))
             {
-                // Hvis tallet ikke er 1, så skal vi i gang med matematikken
+
                 if (parsedScale != 1.0m)
                 {
                     var recipeToScale = Recipes.FirstOrDefault(r => r.Id == scaleRecipeId.Value);
@@ -51,7 +49,7 @@ namespace Despenza.Pages
                             line.Quantity = line.Quantity * parsedScale;
                         }
 
-                        // VIGTIGT: Dette gemmer ID'et, så menuen holdes åben!
+
                         ViewData["ActiveRecipeId"] = scaleRecipeId.Value;
                     }
                 }
@@ -61,15 +59,15 @@ namespace Despenza.Pages
         }
 
 
-        // 1. Vi ændrer parameteren til 'string scale'
+
         public async Task<IActionResult> OnPostSaveCopyAsync(int id, string scale = "1", List<int> checkedLines = null)
         {
-            // 2. Vi laver vores lille oversætter-trick igen
+
             string normalizedScale = scale.Replace(",", ".");
             decimal parsedScale = 1.0m;
             decimal.TryParse(normalizedScale, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out parsedScale);
 
-            // Henter originalen
+
             var originalRecipe = await _recipeRepo.GetQueryable()
                 .AsNoTracking()
                 .Include(r => r.Lines)
@@ -77,7 +75,7 @@ namespace Despenza.Pages
 
             if (originalRecipe == null) return NotFound();
 
-            // Bygger din dokumentations-kopi (nu med parsedScale!)
+
             var newSavedRecipe = new Recipe
             {
                 Name = originalRecipe.Name,
@@ -98,7 +96,6 @@ namespace Despenza.Pages
                     {
                         Quantity = line.Quantity * parsedScale,
                         WareId = line.WareId,
-                        // Tjekker om den blev krydset af!
                         IsChecked = checkedLines != null && checkedLines.Contains(line.Id)
                     });
                 }
@@ -106,18 +103,18 @@ namespace Despenza.Pages
 
             await _recipeRepo.AddAsync(newSavedRecipe);
 
-            // VIGTIGT: Tjek at denne filsti passer med hvad din "DoneRecipe" fil hedder!
+
             return RedirectToPage("DoneRecipe");
         }
 
-        
+
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            
+
             await _recipeRepo.DeleteAsync(id);
 
-            
+
             return RedirectToPage();
         }
 
