@@ -59,6 +59,55 @@ namespace Despenza.Pages
             return Page();
         }
 
+        public async Task<IActionResult> OnPostSaveDraftAsync(int id, string scale = "1", List<int> checkedLines = null)
+        {
+            string normalizedScale = scale.Replace(",", ".");
+            decimal parsedScale = 1.0m;
+            decimal.TryParse(normalizedScale, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out parsedScale);
+
+            var originalRecipe = await _recipeRepo.GetQueryable()
+                .AsNoTracking()
+                .Include(r => r.Lines)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (originalRecipe == null) return NotFound();
+
+            var newDraftRecipe = new Recipe
+            {
+                Name = originalRecipe.Name,
+                Description = originalRecipe.Description,
+                IsSavedCopy = false,
+                IsDraft = true,
+                DateSaved = DateTime.Now,
+                RecipeScale = parsedScale,
+                QuantityOfProduct = originalRecipe.QuantityOfProduct * parsedScale
+            };
+
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (int.TryParse(userIdString, out int userId))
+            {
+                newDraftRecipe.UserId = userId;
+            }
+
+            if (originalRecipe.Lines != null && originalRecipe.Lines.Any())
+            {
+                newDraftRecipe.Lines = new List<RecipeLine>();
+                foreach (var line in originalRecipe.Lines)
+                {
+                    newDraftRecipe.Lines.Add(new RecipeLine
+                    {
+                        Quantity = line.Quantity * parsedScale,
+                        WareId = line.WareId,
+                        IsChecked = checkedLines != null && checkedLines.Contains(line.Id)
+                    });
+                }
+            }
+
+            await _recipeRepo.AddAsync(newDraftRecipe);
+
+
+            return RedirectToPage("/RecipeSites/RecipeDraft");
+        }
 
 
         public async Task<IActionResult> OnPostSaveCopyAsync(int id, string scale = "1", List<int> checkedLines = null)
@@ -89,7 +138,7 @@ namespace Despenza.Pages
             {
                 newSavedRecipe.UserId = userId;
             }
-           
+
             if (originalRecipe.Lines != null && originalRecipe.Lines.Any())
             {
                 newSavedRecipe.Lines = new List<RecipeLine>();

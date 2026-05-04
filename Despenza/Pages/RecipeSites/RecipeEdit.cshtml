@@ -1,0 +1,32 @@
+﻿@page "{id:int}"
+@model Despenza.Pages.RecipeSites.EditRecipeModel
+@{
+    ViewData["Title"] = "Rediger Opskrift";
+}
+
+<div class="container mt-4">
+    <h3>Rediger opskrift</h3>
+
+    <form method="post" class="card p-4 shadow-sm">
+        
+        <input type="hidden" asp-for="RecipeToEdit.Id" />
+
+        <div class="mb-3">
+            <label asp-for="RecipeToEdit.Name" class="form-label">Navn på opskrift</label>
+            <input asp-for="RecipeToEdit.Name" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="RecipeToEdit.Description" class="form-label">Beskrivelse</label>
+            <textarea asp-for="RecipeToEdit.Description" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="RecipeToEdit.QuantityOfProduct" class="form-label">Antal portioner/stk.</label>
+            <input asp-for="RecipeToEdit.QuantityOfProduct" class="form-control" type="number" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Gem Ændringer</button>
+        <a class="btn btn-secondary" href="javascript:history.back()">Annuller</a>
+    </form>
+</div>
