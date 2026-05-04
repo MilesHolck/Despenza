@@ -19,12 +19,13 @@ namespace Despenza.Pages.RecipeSites
 
         public async Task OnGetAsync()
         {
-            // Her henter vi KUN de opskrifter, der er markeret som gemte kopier
+
             DoneRecipes = await _recipeRepo.GetQueryable()
-                .Include(r => r.Lines)
-                    .ThenInclude(l => l.Ware)
-                .Where(r => r.IsSavedCopy == true) // KUN færdige opskrifter her!
-                .ToListAsync();
+            .Include(r => r.Lines)
+            .ThenInclude(l => l.Ware)
+            .Include(r => r.User)
+            .Where(r => r.IsSavedCopy == true)
+            .ToListAsync();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
