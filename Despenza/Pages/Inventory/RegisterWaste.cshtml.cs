@@ -40,24 +40,32 @@ namespace Despenza.Pages.Inventory
             await LoadDropdownsAsync();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string action)
         {
             await LoadDropdownsAsync();
+
+            if (action != "registerWaste")
+            {
+                ModelState.Clear();
+                return Page();
+            }
 
             if (Quantity <= 0)
             {
                 ModelState.AddModelError("", "Dude... Du kan ikke registrere 0 eller minus.");
                 return Page();
             }
+
             try
             {
                 await _inventoryService.RegisterWasteAsync(WareId, WareType, Quantity, Reason);
             }
-            catch (Exception ex) 
-            { 
-            ModelState.AddModelError("", ex.Message);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
                 return Page();
             }
+
             return RedirectToPage("/Inventory/WasteOverview");
         }
 

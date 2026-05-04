@@ -77,6 +77,21 @@ namespace DespenzaLib.Services
 
 
         }
-        
+        public async Task<List<Recipe>> SearchRecipesByNameAsync(string searchText)
+        {
+            searchText = searchText?.Trim() ?? string.Empty;
+
+            var recipes = await _recipeRepo.GetAllAsync();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                return recipes;
+            }
+
+            return recipes
+                .Where(r => r.Name != null &&
+                            r.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
     }
 }
