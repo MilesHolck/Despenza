@@ -15,7 +15,7 @@
         }
         <div>
             <label asp-for="WareType">Varetype</label>
-            <select asp-for="WareType" asp-items="Model.WareTypeOptions" onchange="this.form.submit()"></select>
+            <select asp-for="WareType" asp-items="Model.WareTypeOptions" onchange="this.form.submit()"></select> 
         </div>
 
         <div>
@@ -35,7 +35,13 @@
                 Ingredienser registreres i gram. Halvfabrikater og produkter registreres i stk.
             </small>
         </div>
+        @* <button type="submit" name="action" value="changeType" class="CoolButton">
+            Opdater varetype
+        </button> *@
 
-        <button type="submit" class=" btn btn-success">Registrer spild</button>
+        <button type="submit" name="action" value="registerWaste" class="CoolButton">
+            Registrer spild
+        </button>
+        @* <button type="submit" class=" btn btn-success">Registrer spild</button> *@
     </form>
 </div>
