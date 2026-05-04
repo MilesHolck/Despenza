@@ -50,7 +50,7 @@
                                 </select>
                                 <button type="submit" class="btn btn-outline-primary btn-sm">Opdater tal</button>
                             </form>
-                            <form method="post" asp-page-handler="SaveCopy" asp-route-id="@recipe.Id">
+                            <form method="post">
                                 <input type="hidden" name="scale" value="@recipe.RecipeScale" />
 
                                 <div class="row">
@@ -86,10 +86,16 @@
                                         <i class="bi bi-calendar3"></i> Oprettet: @DateTime.Now.ToString("dd. MMM yyyy")
                                     </small>
                                     <div class="btn-group">
-                                        <div class="btn-group">
-                                            <button type="submit" class="btn btn-outline-success btn-sm">Gem</button>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm">Gem som kladde</button>
-                                            <button type="button" class="btn btn-outline-danger btn-sm">Slet</button>
+                                        <div class="d-flex justify-content-end gap-2 mt-3">
+
+                                            <button type="submit" asp-page-handler="SaveCopy" asp-route-id="@recipe.Id" class="btn btn-success btn-sm">
+                                                Færdiggør opskrift
+                                            </button>
+
+                                            <button type="submit" asp-page-handler="SaveDraft" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm">
+                                                Gem som kladde
+                                            </button>
+
                                         </div>
                                     </div>
                             </form>
