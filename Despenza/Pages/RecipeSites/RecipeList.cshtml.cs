@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Despenza.Pages
 {
     public class RecipeListModel : PageModel
     {
+        [BindProperty(SupportsGet = true)]
+        public string? SearchText { get; set; }
         private readonly IRepository<Recipe> _recipeRepo;
 
         public List<Recipe> Recipes { get; set; } = new();
@@ -23,11 +26,19 @@ namespace Despenza.Pages
 
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, string scale = "1")
         {
-            Recipes = await _recipeRepo.GetQueryable()
-            .Include(r => r.Lines)
-            .ThenInclude(l => l.Ware)
-            .Where(r => r.IsSavedCopy == false)
-            .ToListAsync();
+            var query = _recipeRepo.GetQueryable()
+                .Include(r => r.Lines)
+                .ThenInclude(l => l.Ware)
+                .Where(r => r.IsSavedCopy == false);           
+
+            SearchText = SearchText?.Trim();
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                query = query.Where(r => r.Name.Contains(SearchText));
+            }
+
+            Recipes = await query.ToListAsync();
+            //.ToListAsync();
 
 
             string normalizedScale = scale.Replace(",", ".");
