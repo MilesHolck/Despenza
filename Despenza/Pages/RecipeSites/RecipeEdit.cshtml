@@ -1,32 +1,77 @@
 ﻿@page "{id:int}"
-@model Despenza.Pages.RecipeSites.EditRecipeModel
+@model Despenza.Pages.RecipeSites.RecipeEditModel
 @{
-    ViewData["Title"] = "Rediger Opskrift";
+    ViewData["Title"] = "Rediger opskrift";
 }
 
+
 <div class="container mt-4">
-    <h3>Rediger opskrift</h3>
+    <div class="card p-4 shadow-sm">
+        <h3 class="mb-4">Rediger opskrift</h3>
 
-    <form method="post" class="card p-4 shadow-sm">
-        
-        <input type="hidden" asp-for="RecipeToEdit.Id" />
+        <form method="post">
+            
+            <input type="hidden" asp-for="RecipeToEdit.Id" />
+            <input type="hidden" asp-for="RecipeToEdit.IsSavedCopy" />
+            <input type="hidden" asp-for="RecipeToEdit.IsDraft" />
 
-        <div class="mb-3">
-            <label asp-for="RecipeToEdit.Name" class="form-label">Navn på opskrift</label>
-            <input asp-for="RecipeToEdit.Name" class="form-control" />
-        </div>
+            <div class="mb-3">
+                <label asp-for="RecipeToEdit.Name" class="form-label">Navn på opskrift</label>
+                <input asp-for="RecipeToEdit.Name" class="form-control" />
+            </div>
 
-        <div class="mb-3">
-            <label asp-for="RecipeToEdit.Description" class="form-label">Beskrivelse</label>
-            <textarea asp-for="RecipeToEdit.Description" class="form-control" rows="3"></textarea>
-        </div>
+            <div class="mb-3">
+                <input asp-for="RecipeToEdit.QuantityOfProduct" asp-format="{0:0.##}" class="form-control" type="number" step="any" />
+            </div>
 
-        <div class="mb-3">
-            <label asp-for="RecipeToEdit.QuantityOfProduct" class="form-label">Antal portioner/stk.</label>
-            <input asp-for="RecipeToEdit.QuantityOfProduct" class="form-control" type="number" />
-        </div>
+            <div class="mb-3">
+                <label asp-for="RecipeToEdit.Description" class="form-label">Beskrivelse</label>
+                <textarea asp-for="RecipeToEdit.Description" class="form-control" rows="3"></textarea>
+            </div>
+            <h5 class="mt-4">Ingredienser</h5>
+            @if (Model.RecipeToEdit.Lines != null)
+            {
+                for (int i = 0; i < Model.RecipeToEdit.Lines.Count; i++)
+                {
+                    <div class="row g-2 mb-2 align-items-center">
+                        <div class="col-md-7">
+                            <select asp-for="RecipeToEdit.Lines[i].WareId" asp-items="Model.WareOptions" class="form-select">
+                                <option value="0">-- Vælg vare --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input asp-for="RecipeToEdit.Lines[i].Quantity" asp-format="{0:0.##}" class="form-control" placeholder="Mængde" step="any" type="number" />
+                        </div>
+                        <div class="col-md-2">
 
-        <button type="submit" class="btn btn-success">Gem Ændringer</button>
-        <a class="btn btn-secondary" href="javascript:history.back()">Annuller</a>
-    </form>
+                            <button type="submit" asp-page-handler="RemoveLine" asp-route-index="@i" class="btn btn-outline-danger w-100" formnovalidate>
+                                Slet
+                            </button>
+                        </div>
+                    </div>
+                }
+            }
+            <button type="submit" asp-page-handler="AddLine" class="btn btn-outline-secondary btn-sm mb-4" formnovalidate>
+                + Tilføj vare
+            </button>
+
+            <hr />
+            <div class="d-flex justify-content-between">
+                @{
+
+                    string returnUrl = "/RecipeSites/RecipeList";
+                    if (Model.RecipeToEdit.IsDraft)
+                    {
+                        returnUrl = "/RecipeSites/RecipeDraft";
+                    }
+                    else if (Model.RecipeToEdit.IsSavedCopy)
+                    {
+                        returnUrl = "/RecipeSites/DoneRecipe";
+                    }
+                }
+                <a href="@returnUrl" class="btn btn-secondary">Annuller</a>
+                <button type="submit" class="btn btn-success">Gem Ændringer</button>
+            </div>
+        </form>
+    </div>
 </div>

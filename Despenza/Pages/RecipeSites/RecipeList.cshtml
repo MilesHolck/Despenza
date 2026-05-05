@@ -30,7 +30,7 @@
                             <span class="fw-bold me-auto">@recipe.Name</span>
                         </button>
                         <div class="position-absolute top-50 end-0 translate-middle-y me-5 pe-3" style="z-index: 4;">
-                            <a asp-page="/RecipeSites/EditRecipe" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm me-1">Ret</a>
+                            <a asp-page="/RecipeSites/RecipeEdit" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm me-1">Ret</a>
                             <form method="post" asp-page-handler="Delete" asp-route-id="@recipe.Id" class="d-inline">
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Er du sikker på, at du vil slette opskriften?');">Slet</button>
                             </form>

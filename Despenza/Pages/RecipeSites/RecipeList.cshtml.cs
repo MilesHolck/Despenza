@@ -38,8 +38,7 @@ namespace Despenza.Pages
             }
 
             Recipes = await query.ToListAsync();
-            //.ToListAsync();
-
+            
 
             string normalizedScale = scale.Replace(",", ".");
 
