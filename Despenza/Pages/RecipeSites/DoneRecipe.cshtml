@@ -6,14 +6,14 @@
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Færdige Opskrifter</h2>
+        <h2 class="RecipeTitleBox">Færdige Opskrifter</h2>
     </div>
-    <div class="accordion" id="doneRecipeAccordion">
+    <div class="accordion RecipeAccordion" id="doneRecipeAccordion">
         @if (Model.DoneRecipes != null && Model.DoneRecipes.Any())
         {
             foreach (var recipe in Model.DoneRecipes)
             {
-                <div class="accordion-item shadow-sm mb-2">
+                <div class="accordion-item">
                     <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
                             <span class="fw-bold me-auto">

@@ -98,47 +98,6 @@ main {
     .table-card .btn {
         margin-right: 6px;
     }
-/*.CoolTable {
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.71)), url("/Images/BackgroundField.jpg");
-    background-size: cover;
-    background-position: center;
-    margin-bottom: 2rem;*/
-    /*backdrop-filter: blur(6px);*/
-/*}
-
-    .CoolTable table {
-        width: 100%;
-        margin-bottom: 0;
-        border-collapse: separate;
-        border-spacing: 0;
-    }
-
-    .CoolTable th {
-        background-color: rgba(255, 255, 255, 0.75);
-        color: #111;
-        font-weight: 700;
-        padding: 1rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    }
-
-    .CoolTable td {
-        background-color: rgba(255, 255, 255, 0.55);
-        color: #111;
-        padding: 1rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    }
-
-    .CoolTable tr:last-child td {
-        border-bottom: none;
-    }
-
-    .CoolTable tbody tr:hover td {
-        background-color: rgba(255, 255, 255, 0.85);
-    }*/
 
 .CoolTable {
     border-radius: 22px;
@@ -228,4 +187,61 @@ main {
 
     .CoolButton:hover {
         background-color: #6fad35;
+    }
+
+.RecipeTitleBox {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid rgba(73, 105, 66, 0.95);
+    border-radius: 18px;
+    background-color: rgba(246, 248, 237, 0.85);
+    color: #496942;
+    font-weight: 800;
+    box-shadow: 0 6px 18px rgba(20, 45, 25, 0.25);
+}
+
+.RecipeAccordion {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+}
+
+    .RecipeAccordion .accordion-item {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .RecipeAccordion .accordion-header {
+        margin-bottom: 0 !important;
+    }
+
+    .RecipeAccordion .accordion-button {
+        border-radius: 18px !important;
+        border: 1px solid rgba(210, 225, 190, 0.9) !important;
+        background: rgba(246, 248, 237, 0.95) !important;
+        color: #1f2b1c !important;
+        font-weight: 700;
+        box-shadow: 0 6px 18px rgba(20, 45, 25, 0.25);
+    }
+
+        .RecipeAccordion .accordion-button:not(.collapsed) {
+            border-radius: 18px 18px 0 0 !important;
+        }
+
+    .RecipeAccordion .accordion-collapse {
+        margin-top: 0 !important;
+        border-radius: 0 0 18px 18px !important;
+        overflow: hidden;
+    }
+
+    .RecipeAccordion .accordion-body {
+        background: linear-gradient(rgba(246, 248, 237, 0.84), rgba(246, 248, 237, 0.84)), url("/images/BackgroundField.jpg") !important;
+        background-size: cover !important;
+        background-position: center !important;
+        color: #1f2b1c !important;
+        border: 1px solid rgba(210, 225, 190, 0.9);
+        border-top: none;
+        padding: 1.5rem;
     }
