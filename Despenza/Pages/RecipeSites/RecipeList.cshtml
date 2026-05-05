@@ -4,7 +4,7 @@
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Mine Opskrifter</h2>
+        <h2 class="RecipeTitleBox">Mine Opskrifter</h2>
         @* <a asp-page="/Recipe/CreateRecipe" class="btn btn-primary">Ny opskrift</a> *@
         <a class="btn btn-dark mt-3"
                asp-page="/RecipeSites/CreateRecipe">
@@ -19,12 +19,12 @@
             <button type="submit" class="CoolButton">Søg</button>
         </form>
     </div>
-    <div class="accordion" id="recipeAccordion">
+    <div class="accordion RecipeAccordion" id="recipeAccordion">
         @if (Model.Recipes != null && Model.Recipes.Any())
         {
             @foreach (var recipe in Model.Recipes)
             {
-                <div class="accordion-item shadow-sm border rounded">
+                <div class="accordion-item">
                     <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
                             <span class="fw-bold me-auto">@recipe.Name</span>
@@ -36,7 +36,7 @@
                             </form>
                         </div>
                     </h2>
-                    <div id="collapse-@recipe.Id" class="accordion-collapse collapse @(ViewData["ActiveRecipeId"]?.ToString() == recipe.Id.ToString() ? "show" : "")" data-bs-parent="#RecipeAccordion">
+                    <div id="collapse-@recipe.Id" class="accordion-collapse collapse @(ViewData["ActiveRecipeId"]?.ToString() == recipe.Id.ToString() ? "show" : "")" data-bs-parent="#recipeAccordion">
                         <div class="accordion-body">
                             <form method="get" class="d-flex align-items-center mb-3 bg-light p-2 rounded">
                                 <input type="hidden" name="scaleRecipeId" value="@recipe.Id" />
@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                                 <hr />
-                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">
                                         <i class="bi bi-calendar3"></i> Oprettet: @DateTime.Now.ToString("dd. MMM yyyy")
                                     </small>

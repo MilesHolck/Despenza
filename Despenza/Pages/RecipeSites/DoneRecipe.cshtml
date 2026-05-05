@@ -6,9 +6,9 @@
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Færdige Opskrifter</h2>
+        <h2 class="RecipeTitleBox">Færdige Opskrifter</h2>
     </div>
-    <div class="accordion" id="doneRecipeAccordion">
+    <div class="accordion RecipeAccordion" id="doneRecipeAccordion">
         @if (Model.DoneRecipes != null && Model.DoneRecipes.Any())
         {
             foreach (var recipe in Model.DoneRecipes)
