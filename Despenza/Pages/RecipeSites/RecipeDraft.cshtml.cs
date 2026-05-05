@@ -18,23 +18,22 @@ namespace Despenza.Pages.RecipeSites
         {
             _recipeRepo = recipeRepo;
         }
-
         public List<Recipe> Recipes { get; set; } = new();
 
         public async Task OnGetAsync()
         {
-
             Recipes = await _recipeRepo.GetQueryable()
                 .Include(r => r.Lines)
-                    .ThenInclude(l => l.Ware)
+                .ThenInclude(l => l.Ware)
                 .Include(r => r.User)
                 .Where(r => r.IsDraft == true)
                 .ToListAsync();
         }
 
+
         public async Task<IActionResult> OnPostCompleteDraftAsync(int id, List<int> checkedLines = null)
         {
-           
+
             var draftRecipe = await _recipeRepo.GetQueryable()
                 .Include(r => r.Lines)
                 .FirstOrDefaultAsync(r => r.Id == id);
@@ -44,25 +43,25 @@ namespace Despenza.Pages.RecipeSites
                 return NotFound();
             }
 
-           
+
             draftRecipe.IsDraft = false;
             draftRecipe.IsSavedCopy = true;
             draftRecipe.DateSaved = DateTime.Now;
 
-            
+
             if (draftRecipe.Lines != null && draftRecipe.Lines.Any())
             {
                 foreach (var line in draftRecipe.Lines)
                 {
-                    
+
                     line.IsChecked = checkedLines != null && checkedLines.Contains(line.Id);
                 }
             }
 
-           
+
             await _recipeRepo.UpdateAsync(draftRecipe);
 
-          
+
             return RedirectToPage("/RecipeSites/DoneRecipe");
         }
 
