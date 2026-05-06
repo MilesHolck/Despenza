@@ -42,7 +42,7 @@
                                             @foreach (var line in recipe.Lines)
                                             {
                                                 <li class="list-group-item d-flex align-items-center px-0">
-                                                    <input class="form-check-input me-3" type="checkbox" id="check-@line.Id">
+                                                    @* <input class="form-check-input me-3" type="checkbox" id="check-@line.Id"> *@
                                                     <label class="form-check-label" for="check-@line.Id">
                                                         <strong>@line.Quantity.ToString("0.##")</strong> x @(line.Ware?.Name ?? "Ukendt vare")
                                                     </label>
