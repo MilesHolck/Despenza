@@ -43,7 +43,7 @@ namespace Despenza.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Find brugeren baseret på det skjulte ID fra formen
+            // Find brugeren baseret på det ID 
             var userToDelete = _userRepo.DeleteAsync(UserId);
 
             if (userToDelete != null)
