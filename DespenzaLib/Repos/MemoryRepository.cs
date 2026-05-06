@@ -10,7 +10,8 @@ namespace DespenzaLib.Repos
     public class MemoryRepository<T> : IRepository<T> where T : class
     {
 
-        protected readonly List<T> _items; 
+        protected readonly List<T> _items;
+        private int _currentId = 1; 
 
         public MemoryRepository(InMemoryDb db)
         {
@@ -24,13 +25,29 @@ namespace DespenzaLib.Repos
 
         public Task AddAsync(T item)
         {
+
+            var property = typeof(T).GetProperty("Id"); 
+
+            if (property != null)
+            {
+                var currentValue = (int)(property.GetValue(item) ?? 0);
+                
+                if(currentValue == 0)
+                {
+                    property.SetValue(item, _currentId);
+                        _currentId++; 
+                }
+                        
+
+                
+            }
             _items.Add(item);
             return Task.CompletedTask;
         }
 
         public Task<List<T>> GetAllAsync()
         {
-            return Task.FromResult(_items);
+            return Task.FromResult(_items.ToList());
         }
 
         public Task<T?> GetByIdAsync(int id)
@@ -48,12 +65,46 @@ namespace DespenzaLib.Repos
 
         public Task UpdateAsync(T item)
         {
-            return Task.CompletedTask;
+            var property = typeof(T).GetProperty("Id");
+            var id = (int)(property!.GetValue(item)!); 
+
+            for (int i = 0; i < _items.Count; i++)
+            {
+                var currentId = (int)(property.GetValue(_items[i])!); 
+
+                if (currentId == id)
+                {
+                    _items[i] = item;
+                    break;
+                }
+            }
+            return Task.CompletedTask; 
         }
 
         public Task DeleteAsync(int id)
         {
-            return Task.CompletedTask;
+            var property = typeof(T).GetProperty("Id");
+
+            T? itemToRemove = null; 
+
+            foreach(var item in _items)
+            {
+                var itemId = (int)(property.GetValue(item)!);
+                
+                if(itemId == id)
+                {
+                    itemToRemove = item;
+
+                    break; 
+                }
+            }
+
+            if (itemToRemove != null)
+            {
+                _items.Remove(itemToRemove); 
+            }
+
+            return Task.CompletedTask; 
         }
 
         public IQueryable<T> GetQueryable()

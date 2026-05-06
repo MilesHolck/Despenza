@@ -7,7 +7,7 @@
         public int WareId { get; set; }
         public Wares Ware { get; set; } = null!;
 
-        public string WareType { get; set; } = string.Empty;
+        public string WareType { get; set; }
 
         public decimal Quantity { get; set; }
 

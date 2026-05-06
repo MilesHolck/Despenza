@@ -17,16 +17,15 @@ namespace DespenzaLib.Services
         private readonly IRepository<SemiProduct> _semiProductRepository;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<WasteRegistration> _wasteRepository;
-        private readonly AppDbContext _context;
-
-        public InventoryService(IRepository<InventoryItem> inventoryItemRepository, IRepository<Ingredient> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository, IRepository<WasteRegistration> wasteRepository, AppDbContext context)
+       
+        public InventoryService(IRepository<InventoryItem> inventoryItemRepository, IRepository<Ingredient> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository, IRepository<WasteRegistration> wasteRepository)
         {
             _inventoryItemRepository = inventoryItemRepository;
             _ingredientRepository = ingredientRepository;
             _semiProductRepository = semiProductRepository;
             _productRepository = productRepository;
             _wasteRepository = wasteRepository;
-            _context = context;
+            
         }
 
         public async Task<List<InventoryItem>> GetAllInventoryItemsAsync()
@@ -146,24 +145,65 @@ namespace DespenzaLib.Services
 
         public async Task<List<WasteRegistration>> GetAllWasteRegistrationsAsync()
         {
-            return await _context.WasteRegistrations
-                .Include(w => w.Ware)
+            //return await _context.WasteRegistrations
+            //    .Include(w => w.Ware)
+            //    .OrderByDescending(w => w.RegisteredAt)
+            //    .ToListAsync();
+
+            //INCLUDE VIRKER KUN I EF PGA INHERITANCE. NEDENSTÅENDE KAN ERSTATTE OVENSTÅENDE METODE, MEN ER IKKE OPTIMALT: 
+
+            var wasteList = await _wasteRepository.GetAllAsync();
+
+            var ingredients = await _ingredientRepository.GetAllAsync();
+            var semiProducts = await _semiProductRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync(); 
+
+
+
+            foreach (var waste in wasteList)
+            {
+                waste.Ware = waste.WareType switch
+                {
+                    "Ingredient" => ingredients.FirstOrDefault(i => i.Id == waste.WareId),
+                    "SemiProduct" => semiProducts.FirstOrDefault(s => s.Id == waste.WareId),
+                    "Product" => products.FirstOrDefault(p => p.Id == waste.WareId),
+                    _ => null
+                }; 
+
+
+            }
+
+            return wasteList
                 .OrderByDescending(w => w.RegisteredAt)
-                .ToListAsync();
+                .ToList(); 
         }
 
-        public async Task<List<InventoryItem>> GetAllInventoryItemsWithWareAsync()
-        {
-            return await _context.InventoryItems
-                .Include(i => i.Ware)
-                .ToListAsync();
-        }
+        
 
         public async Task<List<InventoryItem>> GetInventoryItemsWithWareAsync()
         {
-            return await _context.InventoryItems
-                .Include(i => i.Ware)
-                .ToListAsync();
+            //return await _context.InventoryItems
+            //    .Include(i => i.Ware)
+            //    .ToListAsync();
+
+            var inventoryItems = await _inventoryItemRepository.GetAllAsync();
+
+            var ingredients = await _ingredientRepository.GetAllAsync();
+            var semiProducts = await _semiProductRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync(); 
+
+            foreach (var item in inventoryItems)
+            {
+                item.Ware = item.Ware switch
+                {
+                    Ingredient => ingredients.FirstOrDefault(i => i.Id == item.WareId),
+                    SemiProduct => semiProducts.FirstOrDefault(s => s.Id == item.WareId),
+                    Product => products.FirstOrDefault(p => p.Id == item.WareId),
+                    _ => item.Ware
+                }; 
+
+             }
+            return inventoryItems; 
         }
 
         public async Task ReceiveIngredientAsync(int ingredientId, decimal amountInGrams)
@@ -175,7 +215,7 @@ namespace DespenzaLib.Services
                 throw new Exception("Ingrediensen findes ikke.");
             }
 
-            var inventoryItems = await GetInventoryItemsWithWareAsync();
+            var inventoryItems = await _inventoryItemRepository.GetAllAsync();
 
             var inventoryItem = inventoryItems
                 .FirstOrDefault(i => i.WareId == ingredientId);
