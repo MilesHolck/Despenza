@@ -15,12 +15,15 @@ namespace Despenza.Pages
         [BindProperty(SupportsGet = true)]
         public string? SearchText { get; set; }
         private readonly IRepository<Recipe> _recipeRepo;
+        private readonly IInventoryService _inventoryService;
 
         public List<Recipe> Recipes { get; set; } = new();
+        public Dictionary<int, decimal> LineStockAmount { get; set; } = new();
 
-        public RecipeListModel(IRepository<Recipe> recipeRepo)
+        public RecipeListModel(IRepository<Recipe> recipeRepo, IInventoryService inventoryService)
         {
             _recipeRepo = recipeRepo;
+            _inventoryService = inventoryService;
         }
 
 
@@ -65,6 +68,24 @@ namespace Despenza.Pages
                     }
                 }
             }
+
+            var inventory = await _inventoryService.GetAllInventoryItemsAsync();
+
+            foreach (var recipe in Recipes)
+            {
+                if (recipe.Lines != null)
+                {
+                    foreach (var line in recipe.Lines)
+                    {
+                        var stockQuantity = inventory
+                            .Where(i => i.WareId == line.WareId)
+                            .Sum(i => i.QuantityInStock);
+
+                        LineStockAmount[line.Id] = stockQuantity;
+                    }
+                }
+            }
+
 
             return Page();
         }
@@ -112,6 +133,8 @@ namespace Despenza.Pages
                     });
                 }
             }
+
+          
 
             await _recipeRepo.AddAsync(newDraftRecipe);
 
