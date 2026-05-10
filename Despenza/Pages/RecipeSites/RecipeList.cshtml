@@ -18,6 +18,7 @@
         </form>
     </div>
     <div class="accordion RecipeAccordion" id="recipeAccordion">
+        <div asp-validation-summary="All" class="text-danger fw-bold mb-2"></div>
         
         @if (Model.Recipes != null && Model.Recipes.Any())
         {
