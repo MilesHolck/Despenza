@@ -8,9 +8,20 @@
             <label asp-for="NewRecipe.Name" class="form-label">Navn på opskrift</label>
             <input asp-for="NewRecipe.Name" class="form-control" />
         </div>
-        
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" asp-for="NewRecipe.IsSemiProduct" id="semiProductCheck" />
+            <label class="form-check-label fw-bold text-primary" for="semiProductCheck">
+                Halvfabrikat
+            </label>
+            <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" asp-for="NewRecipe.IsProduct" id="productCheck" />
+            <label class="form-check-label fw-bold text-success" for="productCheck">
+                Helfabrikat
+            </label>
+            </div>
+        </div>
         <div class="mb-3">
-            <label asp-for="NewRecipe.QuantityOfProduct" class="form-label">Antal (fx. portioner eller stk.)</label>
+            <label asp-for="NewRecipe.QuantityOfProduct" class="form-label">opskriftensmængden i gram</label>
             <input asp-for="NewRecipe.QuantityOfProduct" type="number" class="form-control" min="1" />
         </div>
         <div class="mb-3">

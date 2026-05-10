@@ -14,6 +14,8 @@ namespace DespenzaLib.Models
         public decimal QuantityOfProduct { get; set; }
         public decimal RecipeScale { get; set; }
         public bool IsSavedCopy { get; set; } = false;
+        public bool IsSemiProduct { get; set; }
+        public bool IsProduct { get; set; }
         public bool IsDraft { get; set; } = false;
         public DateTime DateSaved { get; set; } = DateTime.Now;
         public List<RecipeLine> Lines { get; set; } = new List<RecipeLine>();

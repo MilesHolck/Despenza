@@ -14,6 +14,8 @@ namespace DespenzaLib.Models
 
         public decimal KiloPrice { get; set; }
 
+        public int? UserId { get; set; }
+
 
 
         public Wares() { }
