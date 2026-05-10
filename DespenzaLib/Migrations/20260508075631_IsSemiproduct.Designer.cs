@@ -4,6 +4,7 @@ using DespenzaLib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DespenzaLib.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260508075631_IsSemiproduct")]
+    partial class IsSemiproduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,9 +64,6 @@ namespace DespenzaLib.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsDraft")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsProduct")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsSavedCopy")
@@ -192,9 +192,6 @@ namespace DespenzaLib.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Wares");
@@ -281,6 +278,9 @@ namespace DespenzaLib.Migrations
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasIndex("RecipeId");
 
                     b.HasIndex("UserId");
@@ -289,6 +289,9 @@ namespace DespenzaLib.Migrations
                         {
                             t.Property("RecipeId")
                                 .HasColumnName("Product_RecipeId");
+
+                            t.Property("UserId")
+                                .HasColumnName("Product_UserId");
                         });
 
                     b.HasDiscriminator().HasValue("Product");
@@ -299,6 +302,9 @@ namespace DespenzaLib.Migrations
                     b.HasBaseType("DespenzaLib.Models.Wares");
 
                     b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasIndex("RecipeId");
@@ -368,7 +374,9 @@ namespace DespenzaLib.Migrations
 
                     b.HasOne("DespenzaLib.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Recipe");
 
@@ -385,7 +393,9 @@ namespace DespenzaLib.Migrations
 
                     b.HasOne("DespenzaLib.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Recipe");
 

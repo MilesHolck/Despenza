@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Despenza.Pages
 {
@@ -16,11 +17,16 @@ namespace Despenza.Pages
         public List<Recipe> Recipes { get; set; }
         private readonly IRepository<Recipe> _recipeRepo;
         private readonly IRepository<Wares> _wareRepo;
+        private readonly IRepository<SemiProduct> _semiProductRepo;
+        private readonly IRepository<Product> _productRepo;
 
-        public CreateRecipeModel(IRepository<Recipe> recipeRepo, IRepository<Wares> wareRepo)
+        public CreateRecipeModel(IRepository<Recipe> recipeRepo, IRepository<Wares> wareRepo, IRepository<SemiProduct> semiProductRepo, IRepository<Product> productRepo)
         {
             _recipeRepo = recipeRepo;
             _wareRepo = wareRepo;
+            _semiProductRepo = semiProductRepo;
+            _productRepo = productRepo;
+
         }
 
         [BindProperty]
@@ -28,33 +34,33 @@ namespace Despenza.Pages
 
         public SelectList WareOptions { get; set; }
 
-       
+
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, decimal scale = 1.0m)
         {
-            
+
             Recipes = await _recipeRepo.GetQueryable()
                 .Include(r => r.Lines)
                 .ThenInclude(l => l.Ware)
                 .Where(r => r.IsSavedCopy == false)
                 .ToListAsync();
 
-            
+
             if (scaleRecipeId.HasValue && scale != 1.0m)
             {
                 var recipeToScale = Recipes.FirstOrDefault(r => r.Id == scaleRecipeId.Value);
 
                 if (recipeToScale != null)
                 {
-                   
+
                     recipeToScale.QuantityOfProduct = recipeToScale.QuantityOfProduct * scale;
-                    recipeToScale.RecipeScale = scale; 
+                    recipeToScale.RecipeScale = scale;
 
                     foreach (var line in recipeToScale.Lines)
                     {
                         line.Quantity = line.Quantity * scale;
                     }
 
-                   
+
                     ViewData["ActiveRecipeId"] = scaleRecipeId.Value;
                 }
             }
@@ -71,24 +77,58 @@ namespace Despenza.Pages
 
 
 
-        
+
         public async Task<IActionResult> OnPostSaveAsync()
         {
-            
+
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
 
-           
+
             NewRecipe.RecipeScale = 1.0m;
 
-            
+
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
 
-            
+
             await _recipeRepo.AddAsync(NewRecipe);
 
-            
+            var userIdString = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            int.TryParse(userIdString, out int currentUserId);
+
+            if (NewRecipe.IsProduct)
+            {
+                var newProduct = new Product
+                {
+                    Name = NewRecipe.Name,
+                    RecipeId = NewRecipe.Id,
+                    UserId = currentUserId
+                };
+                await _productRepo.AddAsync(newProduct);
+            }
+
+            if (NewRecipe.IsSemiProduct)
+
+            {
+                
+
+                var newSemiProduct = new SemiProduct
+                {
+
+                    Name = NewRecipe.Name,
+
+                    RecipeId = NewRecipe.Id,
+
+                    UserId = currentUserId
+                };
+
+
+                await _semiProductRepo.AddAsync(newSemiProduct);
+            }
+
             return RedirectToPage("RecipeList");
+
+
         }
 
 
@@ -98,7 +138,7 @@ namespace Despenza.Pages
         {
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
 
-            
+
             NewRecipe.RecipeScale = 1.0m;
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
@@ -109,7 +149,7 @@ namespace Despenza.Pages
         }
         private async Task LoadWaresAsync()
         {
-            
+
             var wares = await _wareRepo.GetAllAsync();
 
             WareOptions = new SelectList(wares, "Id", "Name");
