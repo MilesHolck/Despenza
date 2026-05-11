@@ -60,7 +60,6 @@ namespace Despenza.Pages
                         line.Quantity = line.Quantity * scale;
                     }
 
-
                     ViewData["ActiveRecipeId"] = scaleRecipeId.Value;
                 }
             }
@@ -76,17 +75,22 @@ namespace Despenza.Pages
         }
 
 
-
+        public IActionResult OnPostCalculateTotal()
+        {
+            
+            if (NewRecipe.Lines != null && NewRecipe.Lines.Count > 0)
+            {
+                decimal totalWeight = NewRecipe.Lines.Sum(l => l.Quantity);
+                NewRecipe.QuantityOfProduct = totalWeight;
+            }
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostSaveAsync()
         {
 
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
-
-
             NewRecipe.RecipeScale = 1.0m;
-
-
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
 
@@ -110,15 +114,12 @@ namespace Despenza.Pages
             if (NewRecipe.IsSemiProduct)
 
             {
-                
-
+   
                 var newSemiProduct = new SemiProduct
                 {
 
                     Name = NewRecipe.Name,
-
                     RecipeId = NewRecipe.Id,
-
                     UserId = currentUserId
                 };
 
@@ -127,18 +128,12 @@ namespace Despenza.Pages
             }
 
             return RedirectToPage("RecipeList");
-
-
         }
-
-
 
 
         public async Task<IActionResult> OnPostScaleSaveAsync()
         {
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
-
-
             NewRecipe.RecipeScale = 1.0m;
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;

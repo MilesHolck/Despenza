@@ -29,12 +29,12 @@ namespace Despenza.Pages.Admin
         {
             if (id == null) return NotFound();
 
-            // Find brugeren i databasen
+           
             var user = await _userRepo.GetByIdAsync(id); 
 
             if (user == null) return NotFound();
 
-            // Gem værdierne så de kan vises i HTML
+           
             UserId = user.UserId;
             UserName = user.Name;
 
@@ -43,7 +43,7 @@ namespace Despenza.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Find brugeren baseret på det ID 
+            
             var userToDelete = _userRepo.DeleteAsync(UserId);
 
             if (userToDelete != null)

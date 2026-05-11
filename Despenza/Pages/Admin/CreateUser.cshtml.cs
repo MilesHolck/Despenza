@@ -41,7 +41,7 @@ namespace Despenza.Pages.Admin
 
             User newUser;
 
-            // Tilføj dette tjek i toppen:
+            
             if (SelectedUserType == "Admin")
             {
                 newUser = new DespenzaLib.Models.Admin();
