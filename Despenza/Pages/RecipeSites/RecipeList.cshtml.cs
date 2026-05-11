@@ -40,9 +40,7 @@ namespace Despenza.Pages
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, string scale = "1")
         {
             var query = _recipeRepo.GetQueryable()
-            .Include(r => r.Lines)            
-            .ThenInclude(l => l.Ware)    
-            .Where(r => r.IsSavedCopy == false); 
+
                 .Include(r => r.Lines)
                 .ThenInclude(l => l.Ware)
                 .Include(r => r.RecipeAllergens)
