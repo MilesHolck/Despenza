@@ -32,6 +32,9 @@ namespace Despenza.Pages
         [BindProperty]
         public Recipe NewRecipe { get; set; } = new();
 
+        [BindProperty]
+        public List<Allergen> SelectedAllergens { get; set; } = new();
+        
         public SelectList WareOptions { get; set; }
 
 
@@ -94,6 +97,11 @@ namespace Despenza.Pages
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
 
+            foreach (var allergen in SelectedAllergens)
+            {
+                NewRecipe.RecipeAllergens.Add(new RecipeAllergen { Allergen = allergen }); 
+                    
+            }
 
             await _recipeRepo.AddAsync(NewRecipe);
 
