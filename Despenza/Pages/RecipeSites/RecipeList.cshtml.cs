@@ -40,6 +40,9 @@ namespace Despenza.Pages
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, string scale = "1")
         {
             var query = _recipeRepo.GetQueryable()
+            .Include(r => r.Lines)            
+            .ThenInclude(l => l.Ware)    
+            .Where(r => r.IsSavedCopy == false); 
                 .Include(r => r.Lines)
                 .ThenInclude(l => l.Ware)
                 .Include(r => r.RecipeAllergens)
@@ -59,6 +62,7 @@ namespace Despenza.Pages
             }
 
             Recipes = await query.ToListAsync();
+
 
 
             string normalizedScale = scale.Replace(",", ".");
@@ -181,7 +185,7 @@ namespace Despenza.Pages
                 var quantity = _inventoryRepo.GetQueryable().First(i => i.WareId == line.WareId).QuantityInStock;
                 if (quantity < line.Quantity)
                 {
-                    ModelState.AddModelError(string.Empty, $"Ikke nok på lager. Du har kun {quantity}, men skal bruge {line.Quantity}.");
+                    ModelState.AddModelError(string.Empty, $"Ikke nok pÃ¥ lager. Du har kun {quantity}, men skal bruge {line.Quantity}.");
                     return Page();
                 }
             }

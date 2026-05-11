@@ -78,14 +78,22 @@ namespace Despenza.Pages
         }
 
 
-        public IActionResult OnPostCalculateTotal()
+        public async Task<IActionResult> OnPostCalculateTotalAsync()
         {
             
+            ModelState.Clear();
+
+           
+            var wares = await _wareRepo.GetQueryable().ToListAsync();
+            WareOptions = new SelectList(wares, "Id", "Name");
+
+           
             if (NewRecipe.Lines != null && NewRecipe.Lines.Count > 0)
             {
                 decimal totalWeight = NewRecipe.Lines.Sum(l => l.Quantity);
                 NewRecipe.QuantityOfProduct = totalWeight;
             }
+
             return Page();
         }
 
@@ -97,6 +105,10 @@ namespace Despenza.Pages
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
 
+            
+            if (NewRecipe.Lines != null && NewRecipe.Lines.Count > 0)
+            {
+                NewRecipe.QuantityOfProduct = NewRecipe.Lines.Sum(l => l.Quantity);
             foreach (var allergen in SelectedAllergens)
             {
                 NewRecipe.RecipeAllergens.Add(new RecipeAllergen { Allergen = allergen }); 
@@ -105,9 +117,11 @@ namespace Despenza.Pages
 
             await _recipeRepo.AddAsync(NewRecipe);
 
+            
             var userIdString = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
             int.TryParse(userIdString, out int currentUserId);
 
+           
             if (NewRecipe.IsProduct)
             {
                 var newProduct = new Product
@@ -116,8 +130,11 @@ namespace Despenza.Pages
                     RecipeId = NewRecipe.Id,
                     UserId = currentUserId
                 };
+
                 await _productRepo.AddAsync(newProduct);
             }
+
+           
 
             if (NewRecipe.IsSemiProduct)
 
