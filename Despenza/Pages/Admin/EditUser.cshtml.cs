@@ -37,7 +37,7 @@ namespace Despenza.Pages.Admin
         {
             if (!ModelState.IsValid) return Page();
 
-            // Fortæller EF at dette objekt skal opdateres i databasen
+            
             await _userRepo.UpdateAsync(UserToEdit); 
 
             

@@ -14,10 +14,10 @@
                 Halvfabrikat
             </label>
             <div class="form-check mb-4">
-            <input class="form-check-input" type="checkbox" asp-for="NewRecipe.IsProduct" id="productCheck" />
-            <label class="form-check-label fw-bold text-success" for="productCheck">
-                Helfabrikat
-            </label>
+                <input class="form-check-input" type="checkbox" asp-for="NewRecipe.IsProduct" id="productCheck" />
+                <label class="form-check-label fw-bold text-success" for="productCheck">
+                    Helfabrikat
+                </label>
             </div>
         </div>
         <div class="mb-3">
@@ -38,12 +38,18 @@
                     </select>
                 </div>
                 <div class="col-4">
-                    <input asp-for="NewRecipe.Lines[i].Quantity" class="form-control" placeholder="Mængde" step="0.1" />
+                    <input asp-for="NewRecipe.Lines[i].Quantity" class="form-control quantity-input" placeholder="Mængde" step="0.1" type="number" oninput="calculateTotalWeight()" />
                 </div>
             </div>
         }
         <button type="submit" asp-page-handler="AddLine" class="btn btn-outline-secondary btn-sm" formnovalidate>+ Tilføj vare</button>
-
+        <button type="submit" asp-page-handler="CalculateTotal" class="btn btn-info mt-2 text-white">
+            Beregn mængde
+        </button>
+        <div class="alert alert-info mt-3 text-end">
+            <strong>Samlet vægt: </strong>
+            <span id="totalWeightDisplay" class="fs-5 text-primary">0</span> <strong>gram</strong>
+        </div>
         <hr />
         <button type="submit" asp-page-handler="Save" class="btn btn-success w-100">Gem Opskrift</button>
     </form>
