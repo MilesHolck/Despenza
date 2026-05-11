@@ -99,6 +99,11 @@ namespace Despenza.Pages
 
         public async Task<IActionResult> OnPostSaveAsync()
         {
+           
+            if (!User?.Identity?.IsAuthenticated ?? true)
+            {
+                return RedirectToPage("/Index");
+            }
 
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
             NewRecipe.RecipeScale = 1.0m;
@@ -115,11 +120,11 @@ namespace Despenza.Pages
 
                 }
 
+                var userIdString = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+                int.TryParse(userIdString, out int currentUserId); 
+
                 await _recipeRepo.AddAsync(NewRecipe);
 
-
-                var userIdString = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
-                int.TryParse(userIdString, out int currentUserId);
 
 
                 if (NewRecipe.IsProduct)
@@ -153,10 +158,11 @@ namespace Despenza.Pages
                 }
 
                 return RedirectToPage("RecipeList");
-            }
-            return Page(); 
-        }
+        
 
+            }
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostScaleSaveAsync()
         {
