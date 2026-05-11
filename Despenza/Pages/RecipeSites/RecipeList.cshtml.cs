@@ -46,6 +46,8 @@ namespace Despenza.Pages
                 .Include(r => r.RecipeAllergens)
                 .Where(r => r.IsSavedCopy == false);
 
+
+
             SearchText = SearchText?.Trim();
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
