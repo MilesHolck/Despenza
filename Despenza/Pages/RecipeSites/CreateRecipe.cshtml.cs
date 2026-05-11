@@ -105,54 +105,56 @@ namespace Despenza.Pages
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
 
-            
+
             if (NewRecipe.Lines != null && NewRecipe.Lines.Count > 0)
             {
                 NewRecipe.QuantityOfProduct = NewRecipe.Lines.Sum(l => l.Quantity);
-            foreach (var allergen in SelectedAllergens)
-            {
-                NewRecipe.RecipeAllergens.Add(new RecipeAllergen { Allergen = allergen }); 
-                    
-            }
-
-            await _recipeRepo.AddAsync(NewRecipe);
-
-            
-            var userIdString = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
-            int.TryParse(userIdString, out int currentUserId);
-
-           
-            if (NewRecipe.IsProduct)
-            {
-                var newProduct = new Product
+                foreach (var allergen in SelectedAllergens)
                 {
-                    Name = NewRecipe.Name,
-                    RecipeId = NewRecipe.Id,
-                    UserId = currentUserId
-                };
+                    NewRecipe.RecipeAllergens.Add(new RecipeAllergen { Allergen = allergen });
 
-                await _productRepo.AddAsync(newProduct);
-            }
+                }
 
-           
+                await _recipeRepo.AddAsync(NewRecipe);
 
-            if (NewRecipe.IsSemiProduct)
 
-            {
-   
-                var newSemiProduct = new SemiProduct
+                var userIdString = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+                int.TryParse(userIdString, out int currentUserId);
+
+
+                if (NewRecipe.IsProduct)
+                {
+                    var newProduct = new Product
+                    {
+                        Name = NewRecipe.Name,
+                        RecipeId = NewRecipe.Id,
+                        UserId = currentUserId
+                    };
+
+                    await _productRepo.AddAsync(newProduct);
+                }
+
+
+
+                if (NewRecipe.IsSemiProduct)
+
                 {
 
-                    Name = NewRecipe.Name,
-                    RecipeId = NewRecipe.Id,
-                    UserId = currentUserId
-                };
+                    var newSemiProduct = new SemiProduct
+                    {
+
+                        Name = NewRecipe.Name,
+                        RecipeId = NewRecipe.Id,
+                        UserId = currentUserId
+                    };
 
 
-                await _semiProductRepo.AddAsync(newSemiProduct);
+                    await _semiProductRepo.AddAsync(newSemiProduct);
+                }
+
+                return RedirectToPage("RecipeList");
             }
-
-            return RedirectToPage("RecipeList");
+            return Page(); 
         }
 
 
