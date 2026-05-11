@@ -13,6 +13,9 @@ namespace Despenza.Pages
     public class RecipeListModel : PageModel
     {
         [BindProperty(SupportsGet = true)]
+        public Allergen? ExcludedAllergen { get; set; }
+
+        [BindProperty(SupportsGet = true)]
         public string? SearchText { get; set; }
         private readonly IRepository<Recipe> _recipeRepo;
         private readonly IInventoryService _inventoryService;
@@ -39,12 +42,20 @@ namespace Despenza.Pages
             var query = _recipeRepo.GetQueryable()
                 .Include(r => r.Lines)
                 .ThenInclude(l => l.Ware)
+                .Include(r => r.RecipeAllergens)
                 .Where(r => r.IsSavedCopy == false);
 
             SearchText = SearchText?.Trim();
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
                 query = query.Where(r => r.Name.Contains(SearchText));
+            }
+
+            if (ExcludedAllergen.HasValue)
+            {
+                query = query.Where(r =>
+                !r.RecipeAllergens.Any(ra =>
+                ra.Allergen == ExcludedAllergen.Value)); 
             }
 
             Recipes = await query.ToListAsync();
