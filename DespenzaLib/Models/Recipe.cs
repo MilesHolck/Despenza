@@ -23,6 +23,10 @@ namespace DespenzaLib.Models
         public User? User { get; set; }
         public decimal OutputQuantity { get; set; }
         public decimal BaseYield { get; set; }
+        public List<RecipeAllergen> RecipeAllergens { get; set; } = new(); 
+
+
+
         public Recipe() { }
 
 

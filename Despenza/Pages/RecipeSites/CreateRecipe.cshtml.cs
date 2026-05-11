@@ -32,6 +32,9 @@ namespace Despenza.Pages
         [BindProperty]
         public Recipe NewRecipe { get; set; } = new();
 
+        [BindProperty]
+        public List<Allergen> SelectedAllergens { get; set; } = new();
+        
         public SelectList WareOptions { get; set; }
 
 
@@ -106,6 +109,10 @@ namespace Despenza.Pages
             if (NewRecipe.Lines != null && NewRecipe.Lines.Count > 0)
             {
                 NewRecipe.QuantityOfProduct = NewRecipe.Lines.Sum(l => l.Quantity);
+            foreach (var allergen in SelectedAllergens)
+            {
+                NewRecipe.RecipeAllergens.Add(new RecipeAllergen { Allergen = allergen }); 
+                    
             }
 
             await _recipeRepo.AddAsync(NewRecipe);

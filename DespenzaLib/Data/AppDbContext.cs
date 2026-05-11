@@ -18,6 +18,7 @@ namespace DespenzaLib.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<WasteRegistration> WasteRegistrations { get; set; }
+        public DbSet<RecipeAllergen> RecipeAllergen { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -48,6 +49,12 @@ namespace DespenzaLib.Data
             //    Role = "Admin"
             //});
 
+           
+
+            modelBuilder.Entity<RecipeAllergen>()
+                .HasOne(ra => ra.Recipe)
+                .WithMany(r => r.RecipeAllergens)
+                .HasForeignKey(ra => ra.RecipeId); 
 
         }
     }
