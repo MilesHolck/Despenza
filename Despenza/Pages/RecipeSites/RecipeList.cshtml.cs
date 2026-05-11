@@ -37,9 +37,9 @@ namespace Despenza.Pages
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, string scale = "1")
         {
             var query = _recipeRepo.GetQueryable()
-                .Include(r => r.Lines)
-                .ThenInclude(l => l.Ware)
-                .Where(r => r.IsSavedCopy == false);
+            .Include(r => r.Lines)            
+            .ThenInclude(l => l.Ware)    
+            .Where(r => r.IsSavedCopy == false); 
 
             SearchText = SearchText?.Trim();
             if (!string.IsNullOrWhiteSpace(SearchText))
@@ -48,6 +48,7 @@ namespace Despenza.Pages
             }
 
             Recipes = await query.ToListAsync();
+
 
 
             string normalizedScale = scale.Replace(",", ".");
