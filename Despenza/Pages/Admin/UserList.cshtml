@@ -1,8 +1,6 @@
 ﻿@page
 @model UserListModel
-
 <h1>Medlemmer</h1>
-
 <p>
     <a asp-page="CreateUser" class="btn btn-success mt-2">Opret ny bruger</a>
 </p>
@@ -24,12 +22,25 @@
                     </td>
                     <td>@user.Name</td>
                     <td>
+                        <a asp-page="./Edit"
+                               asp-route-id="@user.UserId"
+                               class="btn btn-warning btn-sm me-1">
+                            Edit
+                        </a>
+                        <a asp-page="./Delete"
+                               asp-route-id="@user.UserId"
+                               class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+                    </td>
+                    @* <td>
                         <a asp-page="./Edit" asp-route-id="@user.UserId">Edit</a> |
                         <a asp-page="./Details" asp-route-id="@user.UserId">Details</a> |
                         <a asp-page="./Delete" asp-route-id="@user.UserId">Delete</a>
-                    </td>
+                    </td> *@
                 </tr>
             }
         </tbody>
     </table>
 </div>
+

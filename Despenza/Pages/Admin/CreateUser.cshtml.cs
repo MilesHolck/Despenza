@@ -69,9 +69,9 @@ namespace Despenza.Pages.Admin
             newUser.Password = Password;
 
 
-            _userRepo.AddAsync(newUser);
+            await _userRepo.AddAsync(newUser);
 
-            return Page();
+            return RedirectToPage("Admin/UserList");
         }
     }
 }
