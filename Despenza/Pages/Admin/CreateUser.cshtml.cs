@@ -71,7 +71,7 @@ namespace Despenza.Pages.Admin
 
             await _userRepo.AddAsync(newUser);
 
-            return Page();
+            return RedirectToPage("Admin/UserList");
         }
     }
 }
