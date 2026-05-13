@@ -1,6 +1,8 @@
 ﻿@page
 @using DespenzaLib.Models
 @model Despenza.Pages.RecipeListModel
+@inject DespenzaLib.Services.ProductionService ProdService
+
 
 
 <div class="container mt-4">
@@ -8,43 +10,45 @@
         <h2 class="RecipeTitleBox">Mine Opskrifter</h2>
         @* <a asp-page="/Recipe/CreateRecipe" class="btn btn-primary">Ny opskrift</a> *@
         <a class="btn btn-dark mt-3"
-               asp-page="/RecipeSites/CreateRecipe">
+           asp-page="/RecipeSites/CreateRecipe">
             Create a new Ingredient
-        </a>        
+        </a>
         <form method="get" class="CoolForm">
             <div class="form-row">
                 <input type="text" name="SearchText" placeholder="Søg efter opskrift..." value="@Model.SearchText" />
-                </div>
-            
+            </div>
+
             <div class="form-row mt-2">
-                    <label>Fravælg allergen</label>
+                <label>Fravælg allergen</label>
 
-                    <select name="ExcludedAllergen" class="form-select">
-                        <option value="">-- ingen --</option>
+                <select name="ExcludedAllergen" class="form-select">
+                    <option value="">-- ingen --</option>
 
-                        @foreach (var allergen in Enum.GetValues<Allergen>())
-                        {
-                            <option value="@allergen">
-                                @allergen
-                            </option>
-                        }
+                    @foreach (var allergen in Enum.GetValues<Allergen>())
+                    {
+                        <option value="@allergen">
+                            @allergen
+                        </option>
+                    }
 
-                    </select>
-             </div>             
+                </select>
+            </div>
             <button type="submit" class="CoolButton">Søg</button>
         </form>
     </div>
     <div class="accordion RecipeAccordion" id="recipeAccordion">
         <div asp-validation-summary="All" class="text-danger fw-bold mb-2"></div>
-        
+
         @if (Model.Recipes != null && Model.Recipes.Any())
         {
             @foreach (var recipe in Model.Recipes)
             {
+
                 <div class="accordion-item mb-2 position-relative">
                     <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
                             <span class="fw-bold me-auto">@recipe.Name</span>
+                            <span class="">pris: @ProdService.CalculateRawMaterialCost(recipe).ToString("C2")</span>
                         </button>
                         <div class="position-absolute top-50 end-0 translate-middle-y d-flex align-items-center pe-5" style="z-index: 4;">
                             <a asp-page="/RecipeSites/RecipeEdit" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm me-2">Ret</a>
@@ -78,19 +82,19 @@
                                                 @foreach (var line in recipe.Lines)
                                                 {
                                                     <li class="list-group-item d-flex align-items-center px-0">
-                                                        @{                                                          
+                                                        @{
                                                             decimal currentStock = Model.LineStockAmount.ContainsKey(line.Id) ? Model.LineStockAmount[line.Id] : 0m;
                                                             bool hasStock = currentStock >= line.Quantity;
                                                         }
                                                         <input class="form-check-input me-3" type="checkbox" name="checkedLines" id="check-@line.Id" value="@line.Id" @(line.IsChecked ? "checked" : "")>
                                                         <label class="form-check-label @(hasStock ? "" : "text-danger fw-bold")" for="check-@line.Id">
                                                             <strong>@line.Quantity.ToString("0.##")</strong> x @(line.Ware?.Name ?? "Ukendt vare")
-                                                                @if (!hasStock)
-                                                                {
-                                                                    <span class="badge bg-danger ms-2">
-                                                                        @currentStock.ToString("0.##") på lager
-                                                                    </span>
-                                                                }                                                           
+                                                            @if (!hasStock)
+                                                            {
+                                                                <span class="badge bg-danger ms-2">
+                                                                    @currentStock.ToString("0.##") på lager
+                                                                </span>
+                                                            }
                                                         </label>
 
                                                     </li>
@@ -102,12 +106,12 @@
                                             <p class="text-muted small"><em>Ingen ingredienser.</em></p>
                                         }
                                     </div>
-                                    
-                                    </div>
-                                    <div class="col-md-7">
-                                        <h6>Fremgangsmåde</h6>
-                                        <p class="text-muted" style="white-space: pre-wrap;">@recipe.Description</p>
-                                    </div>
+
+                                </div>
+                                <div class="col-md-7">
+                                    <h6>Fremgangsmåde</h6>
+                                    <p class="text-muted" style="white-space: pre-wrap;">@recipe.Description</p>
+                                </div>
                                 <div class="mt-4 p-3 bg-light border rounded">
                                     <h6 class="text-muted mb-2">Opskriftens udbytte</h6>
                                     <div class="d-flex justify-content-between mb-1">
@@ -124,18 +128,31 @@
                                     <small class="text-muted">
                                         <i class="bi bi-calendar3"></i> Oprettet: @DateTime.Now.ToString("dd. MMM yyyy")
                                     </small>
-                                    <div class="btn-group">
-                                        <div class="d-flex justify-content-end gap-2 mt-3">
-
-                                            <button type="submit" asp-page-handler="SaveCopy" asp-route-id="@recipe.Id" class="btn btn-success btn-sm">
-                                                Færdiggør opskrift
-                                            </button>
-
-                                            <button type="submit" asp-page-handler="SaveDraft" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm">
-                                                Gem som kladde
-                                            </button>
-                                        </div>
+                                    <div class="d-flex justify-content-between text-secondary">
+                                        <span>Råvarepris (Fremstillingspris):</span>
+                                        <span>@ProdService.CalculateRawMaterialCost(recipe).ToString("C2")</span>
                                     </div>
+
+                                    @if (recipe.IsProduct)
+                                    {
+                                        <div class="d-flex justify-content-between fw-bold text-success mt-1 border-top pt-1">
+                                            <span>Vejledende Salgspris (inkl. moms):</span>
+                                            <span>@ProdService.CalculateSalesPrice(recipe).ToString("C2")</span>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="btn-group">
+                                    <div class="d-flex justify-content-end gap-2 mt-3">
+
+                                        <button type="submit" asp-page-handler="SaveCopy" asp-route-id="@recipe.Id" class="btn btn-success btn-sm">
+                                            Færdiggør opskrift
+                                        </button>
+
+                                        <button type="submit" asp-page-handler="SaveDraft" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm">
+                                            Gem som kladde
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <hr />
