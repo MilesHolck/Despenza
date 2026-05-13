@@ -49,34 +49,33 @@ namespace DespenzaLib.Services
         }
 
 
-        public async Task<decimal> CalculateSalesPriceAsync(int productId)
+        public decimal CalculateRawMaterialCost(Recipe recipe)
         {
-            var product = await _productRepo.GetByIdAsync(productId);
+            
+            if (recipe == null || recipe.Lines == null || !recipe.Lines.Any())
+                return 0;
 
-            if (product == null || product.Recipe == null)
-            {
-                return 0; 
-            }
+            
+            return recipe.Lines.Sum(l => l.Quantity * (l.Ware?.GetCost() ?? 0));
+        }
 
-            var recipe = product.Recipe;
+       
+        public decimal CalculateSalesPrice(Recipe recipe)
+        {
+            decimal totalCost = CalculateRawMaterialCost(recipe); 
 
-            decimal totalCost = 0; 
+            if (totalCost == 0)
+                return 0;
 
-            foreach (var line in recipe.Lines)
-            {
-                totalCost += line.Quantity * line.Ware.GetCost(); 
-            }
-
-            decimal dBidrag = 0.70m;
-            decimal VAT = 0.25m;
+            decimal dBidrag = 0.70m; 
+            decimal vat = 0.25m;     
 
             decimal priceExVat = totalCost / (1 - dBidrag);
-            decimal priceIncVat = priceExVat * (1 + VAT);
+            decimal priceIncVat = priceExVat * (1 + vat);
 
-            return priceIncVat; 
-
-
+            return priceIncVat;
         }
+
         public async Task<List<Recipe>> SearchRecipesByNameAsync(string searchText)
         {
             searchText = searchText?.Trim() ?? string.Empty;
