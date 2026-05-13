@@ -1,5 +1,6 @@
 ﻿@page
 @model Despenza.Pages.Inventory.InventoryIndexModel
+@inject DespenzaLib.Services.ProductionService ProdService
 
 <h1>Lageroversigt</h1>
 
@@ -39,7 +40,7 @@
             {
                 <tr>
                     <td>@semiProduct.Name</td>
-                    <td>@semiProduct.KiloPrice.ToString("F2")</td>
+                    <td> @ProdService.CalculateRawMaterialCost(semiProduct.Recipe).ToString("C2")</td>
                 </tr>
             }
         </tbody>
