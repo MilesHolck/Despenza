@@ -76,6 +76,19 @@
                                 <div class="row">
                                     <div class="col-md-5 border-end">
                                         <h6>Ingredienser</h6>
+
+                                        @foreach (var line in recipe.Lines)
+                                        {
+                                        <p>
+                                            ware: @line.Ware?.Name
+                                            cost: @line.Ware?.GetCost()
+                                            Quantity: @line.Quantity;
+                                            total: @(line.Quantity * (line.Ware?.GetCost()))
+                                        </p>    
+
+                                            
+                                        }
+
                                         @if (recipe.Lines != null && recipe.Lines.Any())
                                         {
                                             <ul class="list-group list-group-flush mb-3">
