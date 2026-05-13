@@ -4,6 +4,139 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Despenza</h1>
-</div>
+@if (!User.Identity?.IsAuthenticated ?? true)
+{
+    <section class="Coolfrontpage">
+        <div class="frontpage-carousel">
+
+            <div class="frontpage-slide active" style="background-image: url('/Images/Croissant.jpg');">
+                <div class="frontpage-overlay"></div>
+                <div class="frontpage-content">
+                    <p class="frontpage-kicker">Despenza</p>
+                    <h1>Få et klart overblik over dit lager</h1>
+                    <p>Administrér råvarer, produkter og spild ét samlet sted.</p>
+                </div>
+            </div>
+
+            <div class="frontpage-slide" style="background-image: url('/Images/LagerBackground.jpg');">
+                <div class="frontpage-overlay"></div>
+                <div class="frontpage-content">
+                    <p class="frontpage-kicker">Effektiv lagerstyring</p>
+                    <h1>Hold styr på alle dine ingredienser</h1>
+                    <p>Se beholdning, registrér ændringer og undgå unødvendigt spild.</p>
+                </div>
+            </div>
+
+            <div class="frontpage-slide" style="background-image: url('/Images/BackgroundField.jpg');">
+                <div class="frontpage-overlay"></div>
+                <div class="frontpage-content">
+                    <p class="frontpage-kicker">Overblik og kontrol</p>
+                    <h1>Arbejd smartere med produktion</h1>
+                    <p>Få adgang til de vigtigste funktioner, når du logger ind.</p>
+                </div>
+            </div>
+
+            <button class="frontpage-carousel-btn prev" type="button">&#10094;</button>
+            <button class="frontpage-carousel-btn next" type="button">&#10095;</button>
+
+            <div class="frontpage-dots">
+                <button class="frontpage-dot active" data-slide="0" type="button"></button>
+                <button class="frontpage-dot" data-slide="1" type="button"></button>
+                <button class="frontpage-dot" data-slide="2" type="button"></button>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="dashboard-section">
+        <div class="dashboard-header">
+            <p class="dashboard-kicker">Velkommen tilbage</p>
+            <h1>Vælg en funktion herunder for hurtigt at komme videre</h1>            
+        </div>
+
+        <div class="dashboard-card-grid">
+
+            <a asp-page="/RecipeSites/RecipeList" class="dashboard-card inventory-card">
+                @* <div class="dashboard-card-icon">🌾</div> *@
+                <h2>Vælg en opskrift du vil lave</h2>                
+            </a>
+
+            <a asp-page="/RecipeSites/RecipeDraft" class="dashboard-card recipe-card">
+                @* <div class="dashboard-card-icon">📦</div> *@
+                <h2>Vælg en opskrift du vil fortsætte med</h2>                
+            </a>
+
+            <a asp-page="/Inventory/InventoryIndex" class="dashboard-card waste-card">
+                @* <div class="dashboard-card-icon">♻️</div> *@
+                <h2>Se alt hvad der er på lager</h2>                
+            </a>
+
+        </div>
+    </section>
+}
+
+@section Scripts {
+    <script>
+        (() => {
+            const slides = document.querySelectorAll('.frontpage-slide');
+            const dots = document.querySelectorAll('.frontpage-dot');
+            const nextBtn = document.querySelector('.frontpage-carousel-btn.next');
+            const prevBtn = document.querySelector('.frontpage-carousel-btn.prev');
+
+            if (!slides.length) return;
+
+            let currentSlide = 0;
+            let timer;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                showSlide((currentSlide + 1) % slides.length);
+            }
+
+            function prevSlide() {
+                showSlide((currentSlide - 1 + slides.length) % slides.length);
+            }
+
+            function startCarousel() {
+                timer = setInterval(nextSlide, 7000);
+            }
+
+            function resetCarousel() {
+                clearInterval(timer);
+                startCarousel();
+            }
+
+            nextBtn?.addEventListener('click', () => {
+                nextSlide();
+                resetCarousel();
+            });
+
+            prevBtn?.addEventListener('click', () => {
+                prevSlide();
+                resetCarousel();
+            });
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    resetCarousel();
+                });
+            });
+
+            showSlide(0);
+            startCarousel();
+        })();
+    </script>
+}

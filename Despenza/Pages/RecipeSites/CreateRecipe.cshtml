@@ -2,9 +2,9 @@
 @using DespenzaLib.Models
 @model CreateRecipeModel
 
-<div class="container mt-4">
-    <h3>Opret ny opskrift</h3>
-    <form method="post" class="card p-4 shadow-sm">
+<div class="CoolForm recipe-create-form">
+    <h3>Udfyld nedenstående form for at oprette en ny opskrift</h3>
+    <form method="post" class="recipe-form-inner">
         <div class="mb-3">
             <label asp-for="NewRecipe.Name" class="form-label">Navn på opskrift</label>
             <input asp-for="NewRecipe.Name" class="form-control" />
