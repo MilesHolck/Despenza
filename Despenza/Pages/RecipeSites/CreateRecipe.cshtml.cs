@@ -41,13 +41,14 @@ namespace Despenza.Pages
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, decimal scale = 1.0m)
         {
 
+            //gemmer kopi 
             Recipes = await _recipeRepo.GetQueryable()
                 .Include(r => r.Lines)
                 .ThenInclude(l => l.Ware)
                 .Where(r => r.IsSavedCopy == false)
                 .ToListAsync();
 
-
+            //skalering 
             if (scaleRecipeId.HasValue && scale != 1.0m)
             {
                 var recipeToScale = Recipes.FirstOrDefault(r => r.Id == scaleRecipeId.Value);
@@ -70,6 +71,7 @@ namespace Despenza.Pages
             return Page();
         }
 
+        //tilføj ny ingrediens linje 
         public async Task<IActionResult> OnPostAddLineAsync()
         {
             await LoadWaresAsync();
@@ -77,7 +79,7 @@ namespace Despenza.Pages
             return Page();
         }
 
-
+        //lægger ingrediens mængden sammen 
         public async Task<IActionResult> OnPostCalculateTotalAsync()
         {
             
@@ -100,17 +102,18 @@ namespace Despenza.Pages
         public async Task<IActionResult> OnPostSaveAsync()
         {
            
+
             if (!User?.Identity?.IsAuthenticated ?? true)
             {
                 return RedirectToPage("/Index");
             }
-
+            
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
             NewRecipe.RecipeScale = 1.0m;
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
 
-
+            //allergener 
             if (NewRecipe.Lines != null && NewRecipe.Lines.Count > 0)
             {
                 NewRecipe.QuantityOfProduct = NewRecipe.Lines.Sum(l => l.Quantity);
@@ -126,7 +129,7 @@ namespace Despenza.Pages
                 await _recipeRepo.AddAsync(NewRecipe);
 
 
-
+                //gemmer i product men kun navn bliver vist og mangler at kunne finde pris 
                 if (NewRecipe.IsProduct)
                 {
                     var newProduct = new Product
@@ -140,7 +143,7 @@ namespace Despenza.Pages
                 }
 
 
-
+                //gemmer i SemiProduct men kun navn bliver vist og mangler at kunne finde pris 
                 if (NewRecipe.IsSemiProduct)
 
                 {
@@ -175,6 +178,7 @@ namespace Despenza.Pages
 
             return RedirectToPage("RecipeList");
         }
+
         private async Task LoadWaresAsync()
         {
 

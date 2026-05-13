@@ -1,8 +1,14 @@
 ﻿@page
+@using DespenzaLib.Migrations
+@using DespenzaLib.Models
 @model Despenza.Pages.Inventory.InventoryIndexModel
 @inject DespenzaLib.Services.ProductionService ProdService
 
 <h1>Lageroversigt</h1>
+
+
+
+
 
 <h2>Ingredienser</h2>
 <Div class="CoolTable">
@@ -27,6 +33,9 @@
     </table>
 </Div>
 <h2>Halvfabrikater</h2>
+
+
+
 <Div class="CoolTable">
     <table class="table mb-0">
         <thead>
@@ -41,6 +50,7 @@
                 <tr>
                     <td>@semiProduct.Name</td>
                     <td> @ProdService.CalculateRawMaterialCost(semiProduct.Recipe).ToString("C2")</td>
+                    
                 </tr>
             }
         </tbody>
@@ -53,15 +63,17 @@
         <thead>
             <tr>
                 <th>Navn</th>
-                <th>Kilopris</th>
+                <th>Salgspris</th>
             </tr>
+
         </thead>
         <tbody>
             @foreach (var product in Model.Products)
             {
                 <tr>
                     <td>@product.Name</td>
-                    <td>@product.KiloPrice.ToString("F2")</td>
+                    <td>@ProdService.CalculateSalesPrice(product.Recipe).ToString("C2")</td>
+                   
                 </tr>
             }
         </tbody>

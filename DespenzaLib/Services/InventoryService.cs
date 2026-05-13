@@ -17,15 +17,16 @@ namespace DespenzaLib.Services
         private readonly IRepository<SemiProduct> _semiProductRepository;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<WasteRegistration> _wasteRepository;
+        private readonly IRepository<Recipe> _recipeRepository;
        
-        public InventoryService(IRepository<InventoryItem> inventoryItemRepository, IRepository<Ingredient> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository, IRepository<WasteRegistration> wasteRepository)
+        public InventoryService(IRepository<InventoryItem> inventoryItemRepository, IRepository<Ingredient> ingredientRepository, IRepository<SemiProduct> semiProductRepository, IRepository<Product> productRepository, IRepository<WasteRegistration> wasteRepository, IRepository<Recipe> recipeRepsoitory)
         {
             _inventoryItemRepository = inventoryItemRepository;
             _ingredientRepository = ingredientRepository;
             _semiProductRepository = semiProductRepository;
             _productRepository = productRepository;
             _wasteRepository = wasteRepository;
-            
+            _recipeRepository = recipeRepsoitory;
         }
 
         public async Task<List<InventoryItem>> GetAllInventoryItemsAsync()
@@ -40,7 +41,28 @@ namespace DespenzaLib.Services
 
         public async Task<List<SemiProduct>> GetAllSemiProductsAsync()
         {
-            return await _semiProductRepository.GetAllAsync();
+            var semiProducts = await _semiProductRepository.GetAllAsync();
+            foreach (var sp in semiProducts)
+            {
+                sp.Recipe = await _recipeRepository.GetByIdAsync(sp.RecipeId);
+                if (sp != null)
+                {
+                    var recipe = await _recipeRepository.GetByIdAsync(sp.RecipeId);
+                    
+                    if (recipe != null)
+                    {
+                        recipe.Lines = await _recipeRepository
+                            .GetQueryable()
+                            .Where(r => r.Id == sp.RecipeId)
+                            .SelectMany(r => r.Lines)
+                            .ToListAsync();
+                    }
+
+
+                }
+
+            }
+            return semiProducts;
         }
 
         public async Task CreateSemiProductAsync(SemiProduct semiProduct)
@@ -50,7 +72,21 @@ namespace DespenzaLib.Services
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            return await _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync();
+            foreach (var p in products)
+            {
+                p.Recipe = await _recipeRepository.GetByIdAsync(p.RecipeId);
+
+                if (p.Recipe != null)
+                {
+                    p.Recipe.Lines = await _recipeRepository
+                        .GetQueryable()
+                        .Where(r => r.Id == p.RecipeId)
+                        .SelectMany(r => r.Lines)
+                        .ToListAsync();
+                }
+            }
+            return products;
         }
 
         public async Task CreateProductAsync(Product product)
@@ -238,6 +274,20 @@ namespace DespenzaLib.Services
 
                 await _inventoryItemRepository.UpdateAsync(inventoryItem);
             }
+        }
+
+
+        public async Task<List<SemiProduct>> GetAllSemiProductsWithRecipeAsync()
+        {
+            var semiProducts = await _semiProductRepository.GetAllAsync();
+            var recipes = await _recipeRepository.GetAllAsync();
+
+            foreach (var sp in semiProducts)
+            {
+                sp.Recipe = recipes.FirstOrDefault(r => r.Id == sp.RecipeId);
+
+            }
+            return semiProducts;
         }
     }
 }

@@ -29,11 +29,12 @@ namespace DespenzaLib.Services
         //SEMIPRODUCTS
         Task<List<SemiProduct>> GetAllSemiProductsAsync();
         Task CreateSemiProductAsync(SemiProduct semiProduct);
-
+        Task<List<SemiProduct>> GetAllSemiProductsWithRecipeAsync();
 
         //PRODUCTS
         Task<List<Product>> GetAllProductsAsync();
         Task CreateProductAsync(Product product);
+        //Task<List<Product>> GetAllProductsWithRecipeAsync();
 
         //Waste
         Task RegisterWasteAsync(int wareId, string wareType, decimal quantity, string reason);
