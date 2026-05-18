@@ -12,7 +12,6 @@
                     <th>Navn</th>
                     <th>KiloPris</th>
                     <th>Pris per gram</th>
-                    <th>Units</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -26,17 +25,16 @@
                         <td>@ingredient.Name</td>
                         <td>@ingredient.KiloPrice.ToString("F2")</td>
                         <td>@ingredient.PricePerGram.ToString("F2")</td>
-                        <td>@ingredient.Unit</td>
                         <td>
                             <a class="btn btn-dark btn-sm"
-                                   asp-page="/Admin/EditIngredient"
-                                   asp-route-id="@ingredient.Id">
+                               asp-page="/Admin/EditIngredient"
+                               asp-route-id="@ingredient.Id">
                                 Edit
                             </a>
 
                             <a class="btn btn-danger btn-sm"
-                                   asp-page="/Admin/DeleteIngredient"
-                                   asp-route-id="@ingredient.Id">
+                               asp-page="/Admin/DeleteIngredient"
+                               asp-route-id="@ingredient.Id">
                                 Delete
                             </a>
                         </td>
@@ -47,7 +45,7 @@
     </div>
 
     <a class="btn btn-dark mt-3"
-           asp-page="/Admin/CreateIngredient">
+       asp-page="/Admin/CreateIngredient">
         Create a new Ingredient
     </a>
 </div>
