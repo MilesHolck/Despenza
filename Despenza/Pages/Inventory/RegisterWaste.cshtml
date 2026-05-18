@@ -25,8 +25,16 @@
 
         <div>
             <label asp-for="Reason">Årsag</label>
-            <select asp-for="Reason" asp-items="Model.ReasonOptions"></select>
+            <select asp-for="Reason" asp-items="Model.ReasonOptions" onchange="this.form.submit()"></select>
         </div>
+
+        @if (Model.Reason == "Andet")
+        {
+            <div>
+                <label asp-for="CustomReason">Skriv en kommentar</label>
+                <input asp-for="CustomReason" type="text" />
+            </div>
+        }
 
         <div>
             <label asp-for="Quantity">Mængde</label>
