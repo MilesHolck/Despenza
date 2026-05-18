@@ -27,6 +27,9 @@ namespace Despenza.Pages.Inventory
         public string Reason { get; set; } = string.Empty;
 
         [BindProperty]
+        public string CustomReason { get; set; } = string.Empty;
+
+        [BindProperty]
         public decimal Quantity { get; set; }
 
         public List<SelectListItem> WareTypeOptions { get; set; } = new();
@@ -56,9 +59,22 @@ namespace Despenza.Pages.Inventory
                 return Page();
             }
 
+            string finalReason = Reason;
+
+            if (Reason == "Andet")
+            {
+                if (string.IsNullOrWhiteSpace(CustomReason))
+                {
+                    ModelState.AddModelError("CustomReason", "Du skal skrive en kommentar, når du vælger 'Andet'.");
+                    return Page();
+                }
+
+                finalReason = $"Andet: {CustomReason}";
+            }
+
             try
             {
-                await _inventoryService.RegisterWasteAsync(WareId, WareType, Quantity, Reason);
+                await _inventoryService.RegisterWasteAsync(WareId, WareType, Quantity, Reason, CustomReason);
             }
             catch (Exception ex)
             {

@@ -23,21 +23,25 @@
                     <td>@user.Name</td>
                     <td>
                         <a asp-page="./Edit"
-                               asp-route-id="@user.UserId"
+                               asp-route-id="@user.Id"
                                class="btn btn-warning btn-sm me-1">
                             Edit
                         </a>
-                        <a asp-page="./Delete"
-                               asp-route-id="@user.UserId"
-                               class="btn btn-danger btn-sm">
+
+
+                        <form method="post" 
+                            asp-page-handler="Delete">
+                            <input type="hidden" asp-for"@user.Id" name="id" value="@user.Id" />
+
+                            <button type="submit" 
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Er du sikker på, at du vil slette brugeren?');">
                             Delete
-                        </a>
+                            </button>
+                        </form>
+
                     </td>
-                    @* <td>
-                        <a asp-page="./Edit" asp-route-id="@user.UserId">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@user.UserId">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@user.UserId">Delete</a>
-                    </td> *@
+                 
                 </tr>
             }
         </tbody>

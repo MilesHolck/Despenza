@@ -23,7 +23,18 @@
                     <td>@waste.Ware.Name</td>
                     <td>@waste.WareType</td>
                     <td>@waste.Quantity.ToString("F2") @waste.Unit</td>
-                    <td>@waste.Reason</td>
+
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(waste.CustomReason))
+                        {
+                            <span>@waste.Reason (@waste.CustomReason)</span>
+                        }
+                        else
+                        {
+                            <span>@waste.Reason</span>
+                        }
+                    </td>
+
                     <td>@waste.LossInCost.ToString("F2") kr.</td>
                 </tr>
             }

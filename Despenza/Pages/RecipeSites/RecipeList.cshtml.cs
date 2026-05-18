@@ -25,6 +25,8 @@ namespace Despenza.Pages
 
         public List<Recipe> Recipes { get; set; } = new();
         public Dictionary<int, decimal> LineStockAmount { get; set; } = new();
+        public int? StockErrorRecipeId { get; set; }
+        public string? StockErrorMessage { get; set; }
 
         public RecipeListModel(IRepository<Recipe> recipeRepo, IInventoryService inventoryService, IRepository<InventoryItem> inventoryRepo,
         IRepository<SemiProduct> semiProductRepo, IRepository<Product> productRepo)
@@ -182,10 +184,32 @@ namespace Despenza.Pages
 
             foreach (var line in originalRecipe.Lines)
             {
-                var quantity = _inventoryRepo.GetQueryable().First(i => i.WareId == line.WareId).QuantityInStock;
-                if (quantity < line.Quantity)
+                var inventoryItem = await _inventoryRepo.GetQueryable()
+                    .FirstOrDefaultAsync(i => i.WareId == line.WareId);
+
+                if (inventoryItem == null)
                 {
-                    ModelState.AddModelError(string.Empty, $"Ikke nok på lager. Du har kun {quantity}, men skal bruge {line.Quantity}.");
+                    await OnGetAsync(id, scale);
+
+                    StockErrorRecipeId = id;
+                    StockErrorMessage = $"⚠️ {line.Ware?.Name ?? "Varen"} findes ikke på lager.";
+                    ViewData["ActiveRecipeId"] = id;
+                   
+                    return Page();
+                }
+
+                decimal requiredQuantity = line.Quantity * parsedScale;
+
+                if (inventoryItem.QuantityInStock < requiredQuantity)
+                {
+                    await OnGetAsync(id, scale);
+
+                    StockErrorRecipeId = id;
+                    StockErrorMessage =
+                        $"⚠️ Ikke nok {line.Ware?.Name ?? "vare"} på lager. Du har kun {inventoryItem.QuantityInStock:0.##}, men skal bruge {requiredQuantity:0.##}.";
+
+                    ViewData["ActiveRecipeId"] = id;
+
                     return Page();
                 }
             }

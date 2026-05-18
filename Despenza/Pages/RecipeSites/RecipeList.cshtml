@@ -6,9 +6,54 @@
 
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div class="recipe-list-page">
+
+        <h2 class="RecipeTitleBox recipe-list-title">Mine Opskrifter</h2>
+
+        <div class="recipe-action-panel">
+
+            <a class="CoolButton recipe-action-button"
+                   asp-page="/RecipeSites/CreateRecipe">
+                Opret ny opskrift
+            </a>
+
+            <form method="get" class="recipe-search-form">
+
+                <input type="text"
+                       name="SearchText"
+                       placeholder="Søg efter opskrift..."
+                       value="@Model.SearchText"
+                       class="recipe-search-input" />
+
+                <select name="ExcludedAllergen" class="recipe-allergen-select">
+                    <option value="">-- ingen --</option>
+
+                    @foreach (var allergen in Enum.GetValues<Allergen>())
+                    {
+                        <option value="@allergen">
+                            @allergen
+                        </option>
+                    }
+                </select>
+
+                <button type="submit" class="CoolButton">Søg</button>
+
+            </form>
+
+        </div>
+
+        <div class="accordion RecipeAccordion" id="recipeAccordion">
+            <!-- resten af din accordion-kode bliver her -->
+        </div>
+
+    </div>
+    <br>
+
+
+    @* <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="RecipeTitleBox">Mine Opskrifter</h2>
-        @* <a asp-page="/Recipe/CreateRecipe" class="btn btn-primary">Ny opskrift</a> *@
+        <a asp-page="/Recipe/CreateRecipe" class="btn btn-primary">Ny opskrift</a>
         <a class="btn btn-dark mt-3"
            asp-page="/RecipeSites/CreateRecipe">
             Create a new Ingredient
@@ -35,9 +80,9 @@
             </div>
             <button type="submit" class="CoolButton">Søg</button>
         </form>
-    </div>
+    </div> *@
     <div class="accordion RecipeAccordion" id="recipeAccordion">
-        <div asp-validation-summary="All" class="text-danger fw-bold mb-2"></div>
+        @* <div asp-validation-summary="All" class="alert alert-danger fw-bold mb-2"></div> *@
 
         @if (Model.Recipes != null && Model.Recipes.Any())
         {
@@ -109,6 +154,13 @@
 
                                 </div>
                                 <div class="col-md-7">
+                                    @if (Model.StockErrorRecipeId == recipe.Id && !string.IsNullOrWhiteSpace(Model.StockErrorMessage))
+                                    {
+                                        <div class="alert alert-danger fw-bold">
+                                            @Model.StockErrorMessage
+                                        </div>
+                                    }
+
                                     <h6>Fremgangsmåde</h6>
                                     <p class="text-muted" style="white-space: pre-wrap;">@recipe.Description</p>
                                 </div>

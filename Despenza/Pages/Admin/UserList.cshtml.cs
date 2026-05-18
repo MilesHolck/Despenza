@@ -5,6 +5,7 @@ namespace Despenza.Pages.Admin
 {
     using DespenzaLib.Data;
     using DespenzaLib.Models;
+    using DespenzaLib.Repos;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
@@ -12,20 +13,29 @@ namespace Despenza.Pages.Admin
 
     public class UserListModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<User> _userRepository; 
 
-        public UserListModel(AppDbContext context)
+        public UserListModel(IRepository<User> userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
 
-        
-        public IList<User> Users { get; set; }
+
+        public IList<User> Users { get; set; } = new List<User>();
 
         public async Task OnGetAsync()
         {
-            
-            Users = await _context.Users.ToListAsync();
+
+            Users = await _userRepository.GetAllAsync();
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            
+            await _userRepository.DeleteAsync(id);
+
+            return RedirectToPage(); 
+        }
+
     }
 }
