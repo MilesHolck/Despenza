@@ -15,6 +15,8 @@
 
         public string Reason { get; set; } = string.Empty;
 
+        public string CustomReason { get; set; }
+
         public decimal LossInCost { get; set; }
 
         public DateTime RegisteredAt { get; set; } = DateTime.Now;
