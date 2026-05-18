@@ -129,7 +129,7 @@ namespace Despenza.Pages
                 await _recipeRepo.AddAsync(NewRecipe);
 
 
-                //gemmer i product men kun navn bliver vist og mangler at kunne finde pris 
+                //gemmer i product
                 if (NewRecipe.IsProduct)
                 {
                     var newProduct = new Product
@@ -143,7 +143,7 @@ namespace Despenza.Pages
                 }
 
 
-                //gemmer i SemiProduct men kun navn bliver vist og mangler at kunne finde pris 
+                //gemmer i SemiProduct
                 if (NewRecipe.IsSemiProduct)
 
                 {
