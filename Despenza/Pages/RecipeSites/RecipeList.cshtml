@@ -47,8 +47,8 @@
                 <div class="accordion-item mb-2 position-relative">
                     <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
-                            <span class="fw-bold me-auto">@recipe.Name</span>
-                            <span class="">pris: @ProdService.CalculateRawMaterialCost(recipe).ToString("C2")</span>
+                            <span class="fw-bold">@recipe.Name</span>
+                            <span class="position-absolute start-50 translate-middle-x">pris: @ProdService.CalculateRawMaterialCost(recipe).ToString("C2")</span>
                         </button>
                         <div class="position-absolute top-50 end-0 translate-middle-y d-flex align-items-center pe-5" style="z-index: 4;">
                             <a asp-page="/RecipeSites/RecipeEdit" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm me-2">Ret</a>
@@ -76,19 +76,6 @@
                                 <div class="row">
                                     <div class="col-md-5 border-end">
                                         <h6>Ingredienser</h6>
-
-                                        @foreach (var line in recipe.Lines)
-                                        {
-                                        <p>
-                                            ware: @line.Ware?.Name
-                                            cost: @line.Ware?.GetCost()
-                                            Quantity: @line.Quantity;
-                                            total: @(line.Quantity * (line.Ware?.GetCost()))
-                                        </p>    
-
-                                            
-                                        }
-
                                         @if (recipe.Lines != null && recipe.Lines.Any())
                                         {
                                             <ul class="list-group list-group-flush mb-3">
