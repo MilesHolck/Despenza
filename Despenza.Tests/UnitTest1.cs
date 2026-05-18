@@ -56,7 +56,7 @@ namespace Despenza.Tests
                 mockSemiProductRepo.Object);
 
             // Act
-            var result = await service.CalculateSalesPriceAsync(1);
+            var result = service.CalculateSalesPrice(recipe);
 
             // Assert
             //Assert.True(result > 0);

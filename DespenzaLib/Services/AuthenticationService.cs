@@ -14,7 +14,7 @@ namespace DespenzaLib.Services
 
         // private readonly List<User> _users;
 
-        // 2. Vi injicerer Databasen via constructoren
+        
         public AuthenticationService(IRepository<User> userRepository) //skift mellem MemoryRepo og EFRepo i Program.cs
         {
             _userRepository = userRepository;
@@ -24,7 +24,7 @@ namespace DespenzaLib.Services
             {
                 new Admin
                 {
-                    UserId = 1,
+                    Id = 1,
                     Name = "Camilla",
                     Email = "Camilla@Despenza.dk",
                     Password = "1234",
@@ -32,7 +32,7 @@ namespace DespenzaLib.Services
                 },
                 new Baker
                 {
-                    UserId = 2,
+                    Id = 2,
                     Name = "Ida",
                     Email = "Ida@Despenza.dk",
                     Password = "1111",
@@ -58,7 +58,7 @@ namespace DespenzaLib.Services
             var users = await _userRepository.GetAllAsync();
 
             return users.FirstOrDefault(u =>
-                u.Email.ToLower() == email &&
+                u.Email.Trim().ToLower() == email &&
                 u.Password == password);
         }
 

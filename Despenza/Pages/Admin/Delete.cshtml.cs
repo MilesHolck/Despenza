@@ -35,7 +35,7 @@ namespace Despenza.Pages.Admin
             if (user == null) return NotFound();
 
            
-            UserId = user.UserId;
+            UserId = user.Id;
             UserName = user.Name;
 
             return Page();
@@ -44,12 +44,8 @@ namespace Despenza.Pages.Admin
         public async Task<IActionResult> OnPostAsync()
         {
             
-            var userToDelete = _userRepo.DeleteAsync(UserId);
+            await _userRepo.DeleteAsync(UserId);
 
-            if (userToDelete != null)
-            {
-                return NotFound();
-            }
 
             return RedirectToPage("./UserList");
         }
