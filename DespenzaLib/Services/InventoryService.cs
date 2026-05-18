@@ -1,12 +1,13 @@
 ﻿using DespenzaLib.Data;
+using DespenzaLib.Migrations;
 using DespenzaLib.Models;
+using DespenzaLib.Repos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using DespenzaLib.Repos;
 
 namespace DespenzaLib.Services
 {
@@ -133,12 +134,14 @@ namespace DespenzaLib.Services
             await _ingredientRepository.DeleteAsync(id); 
         }
 
-        public async Task RegisterWasteAsync(int wareId, string wareType, decimal quantity, string reason)
+        public async Task RegisterWasteAsync(int wareId, string wareType, decimal quantity, string reason, string customReason)
         {
             var inventoryItems = await _inventoryItemRepository.GetAllAsync();
 
             var inventoryItem = inventoryItems
                 .FirstOrDefault(i => i.WareId == wareId);
+
+           
 
             if (inventoryItem == null)
             {
@@ -172,7 +175,8 @@ namespace DespenzaLib.Services
                 Unit = wareType == "Ingredient" ? "gram" : "stk",
                 Reason = reason,
                 LossInCost = lossInCost,
-                RegisteredAt = DateTime.Now
+                RegisteredAt = DateTime.Now,
+                CustomReason = customReason ??""
             };
 
             await _inventoryItemRepository.UpdateAsync(inventoryItem);
