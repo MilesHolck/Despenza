@@ -8,9 +8,9 @@ namespace DespenzaLib.Data
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Apprentice> Apprentices { get; set; }
-        public DbSet<Baker> Bakers { get; set; }
+        //public DbSet<Admin> Admins { get; set; }
+        //public DbSet<Apprentice> Apprentices { get; set; }
+        //public DbSet<Baker> Bakers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Wares> Wares { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
@@ -30,7 +30,7 @@ namespace DespenzaLib.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
-                .HasKey(u => u.UserId);
+                .HasKey(u => u.Id);
 
 
             modelBuilder.Entity<User>()
@@ -39,14 +39,17 @@ namespace DespenzaLib.Data
                 .HasValue<Apprentice>("Apprentice")
                 .HasValue<Baker>("Baker");
 
-            //seeding en admin -> dette login skal gives til kunden første gang, som de kan bruge fredadrettet og derved undgår man "hønen og ægget"
-            //modelBuilder.Entity<Admin>().HasData(new Admin
+            //seeding en admin -> dette login skal gives til kunden første gang, som de kan bruge fremdadrettet og derved undgår man "hønen og ægget"
+            //modelBuilder.Entity<User>().HasData(new
             //{
-            //    UserId = 1,
+            //    Id = 1,
             //    Name = "Admin",
-            //    Email = "Admin@Despenza.dk",
+            //    Email = "admin@despenza.dk",
+            //    Address = "En vej",
+            //    Phone = 11111111,
             //    Password = "1234",
-            //    Role = "Admin"
+            //    Role = "Admin", 
+                
             //});
 
            

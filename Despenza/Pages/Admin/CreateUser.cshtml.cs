@@ -39,7 +39,19 @@ namespace Despenza.Pages.Admin
 
             if (!ModelState.IsValid) return Page();
 
-            User newUser;
+            User newUser = SelectedUserType switch
+            {
+                "Admin" => new DespenzaLib.Models.Admin(),
+                "Baker" => new Baker(),
+                "Apprentice" => new Apprentice(),
+                _ => new Baker()
+
+            };
+
+            newUser.Name = Name;
+            newUser.Email = Email.Trim().ToLower();
+            newUser.Password = Password;
+            newUser.Role = SelectedUserType; 
 
             
             if (SelectedUserType == "Admin")
@@ -71,7 +83,7 @@ namespace Despenza.Pages.Admin
 
             await _userRepo.AddAsync(newUser);
 
-            return RedirectToPage("Admin/UserList");
+            return RedirectToPage("/Admin/UserList");
         }
     }
 }

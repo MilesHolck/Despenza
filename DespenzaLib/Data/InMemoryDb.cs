@@ -19,7 +19,7 @@ namespace DespenzaLib.Data
             {
                 new Admin
                 {
-                    UserId = 1,
+                    Id = 1,
                     Name = "Mester",
                     Email = "mester@despenza.dk",
                     Password = "1234",
@@ -27,7 +27,7 @@ namespace DespenzaLib.Data
                 },
                 new Baker
                 {
-                    UserId = 2,
+                    Id = 2,
                     Name = "Bager",
                     Email = "bager@despenza.dk",
                     Password = "1234",
@@ -35,7 +35,7 @@ namespace DespenzaLib.Data
                 },
                 new Apprentice
                 {
-                    UserId = 3,
+                    Id = 3,
                     Name = "Lærling",
                     Email = "laerling@despenza.dk",
                     Password = "1234",
