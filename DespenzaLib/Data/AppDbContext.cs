@@ -40,16 +40,16 @@ namespace DespenzaLib.Data
                 .HasValue<Baker>("Baker");
 
             //seeding en admin -> dette login skal gives til kunden første gang, som de kan bruge fredadrettet og derved undgår man "hønen og ægget"
-            //modelBuilder.Entity<Admin>().HasData(new Admin
-            //{
-            //    UserId = 1,
-            //    Name = "Admin",
-            //    Email = "Admin@Despenza.dk",
-            //    Password = "1234",
-            //    Role = "Admin"
-            //});
+            modelBuilder.Entity<Admin>().HasData(new Admin
+            {
+                UserId = 1,
+                Name = "Admin",
+                Email = "Admin@Despenza.dk",
+                Password = "1234",
+                Role = "Admin"
+            });
 
-           
+
 
             modelBuilder.Entity<RecipeAllergen>()
                 .HasOne(ra => ra.Recipe)
