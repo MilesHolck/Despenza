@@ -329,12 +329,12 @@ namespace Despenza.Pages
                 }
             }
 
-            foreach (var line in originalRecipe.Lines)
-            {
-                var inventoryItem = _inventoryRepo.GetQueryable().First(i => i.WareId == line.WareId);
-                inventoryItem.QuantityInStock = inventoryItem.QuantityInStock - line.Quantity;
-                await _inventoryRepo.UpdateAsync(inventoryItem);
-            }
+            //foreach (var line in originalRecipe.Lines)
+            //{
+            //    var inventoryItem = _inventoryRepo.GetQueryable().First(i => i.WareId == line.WareId);
+            //    inventoryItem.QuantityInStock = inventoryItem.QuantityInStock - line.Quantity;
+            //    await _inventoryRepo.UpdateAsync(inventoryItem);
+            //}
             
             await _recipeRepo.AddAsync(newSavedRecipe);
             return RedirectToPage("DoneRecipe");
