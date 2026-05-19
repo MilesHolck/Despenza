@@ -3,6 +3,20 @@
 
 <h1>Varemodtagelse</h1>
 
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success mt-3" role="alert">
+        @Model.SuccessMessage
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        <div asp-validation-summary="All"></div>
+    </div>
+}
+
 <form method="post" class="CoolForm">
 
     @if (!ViewData.ModelState.IsValid)
