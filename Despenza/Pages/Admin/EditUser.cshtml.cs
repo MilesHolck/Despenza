@@ -20,28 +20,56 @@ namespace Despenza.Pages.Admin
         }
 
         [BindProperty]
-        public User UserToEdit { get; set; }
+        public int Id { get; set; }
+
+        [BindProperty]
+        public string Name { get; set; }
+
+        [BindProperty]
+        public string Email { get; set; }
+
+        [BindProperty]
+        public string Password { get; set; }
+
+        [BindProperty]
+        public string Role { get; set; }
+
+
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null) return NotFound();
+            var user = await _userRepo.GetByIdAsync(id);
 
-            UserToEdit = await _userRepo.GetByIdAsync(id);  
+            if (id == null) 
+                return NotFound();
 
-            if (UserToEdit == null) return NotFound();
+            Id = user.Id; 
+            Name = user.Name;
+            Email = user.Email;
+            Password = user.Password;
+            Role = user.Role;
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid) return Page();
+
+            var user = await _userRepo.GetByIdAsync(Id);
+
+            if (user == null) 
+                return NotFound();
+
+
+            user.Name = Name; 
+            user.Email = Email;
+            user.Password = Password;
+            user.Role = Role;
+
+            await _userRepo.UpdateAsync(user);
 
             
-            await _userRepo.UpdateAsync(UserToEdit); 
-
-            
-            return RedirectToPage("./UserList");
+            return RedirectToPage("/Admin/UserList");
         }
     }
 }
