@@ -27,7 +27,7 @@ namespace Despenza.Pages.Inventory
         public string Reason { get; set; } = string.Empty;
 
         [BindProperty]
-        public string CustomReason { get; set; } = string.Empty;
+        public string? CustomReason { get; set; } = string.Empty;
 
         [BindProperty]
         public decimal Quantity { get; set; }
@@ -53,6 +53,11 @@ namespace Despenza.Pages.Inventory
                 return Page();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             if (Quantity <= 0)
             {
                 ModelState.AddModelError("", "Dude... Du kan ikke registrere 0 eller minus.");
@@ -69,16 +74,20 @@ namespace Despenza.Pages.Inventory
                     return Page();
                 }
 
-                finalReason = $"Andet: {CustomReason}";
+                finalReason = $"{CustomReason}";
             }
 
             try
             {
-                await _inventoryService.RegisterWasteAsync(WareId, WareType, Quantity, Reason, CustomReason);
+               
+                await _inventoryService.RegisterWasteAsync(WareId, WareType, Quantity, Reason, finalReason);
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+               
+                string trueErrorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+
+                ModelState.AddModelError("", $"Fejl ved gem: {trueErrorMessage}");
                 return Page();
             }
 

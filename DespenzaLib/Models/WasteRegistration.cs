@@ -15,7 +15,7 @@
 
         public string Reason { get; set; } = string.Empty;
 
-        public string CustomReason { get; set; }
+        public string? CustomReason { get; set; }
 
         public decimal LossInCost { get; set; }
 

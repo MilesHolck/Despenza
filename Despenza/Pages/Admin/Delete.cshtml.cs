@@ -5,7 +5,6 @@ using DespenzaLib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Despenza.Pages.Admin
