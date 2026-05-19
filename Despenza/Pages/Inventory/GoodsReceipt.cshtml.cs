@@ -26,6 +26,9 @@ namespace Despenza.Pages.Inventory
         [BindProperty]
         public string UnitType { get; set; } = "gram";
 
+        [BindProperty]
+        public string? SuccessMessage { get; set; }
+
         public List<SelectListItem> IngredientOptions { get; set; } = new();
 
         public string Message { get; set; } = string.Empty;
@@ -51,7 +54,14 @@ namespace Despenza.Pages.Inventory
 
             await _inventoryService.ReceiveIngredientAsync(IngredientId, amountInGrams);
 
-            return RedirectToPage("/Inventory/InventoryIndex");
+          
+            SuccessMessage = $"✅ Varen er modtaget! Der er tilføjet {Amount} {UnitType} til lageret.";
+
+            
+            Amount = 0;
+            ModelState.Clear(); 
+
+            return Page();
         }
 
         private async Task LoadDropdownsAsync()
