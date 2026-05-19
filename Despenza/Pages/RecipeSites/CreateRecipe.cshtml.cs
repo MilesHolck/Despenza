@@ -101,68 +101,35 @@ namespace Despenza.Pages
 
         public async Task<IActionResult> OnPostSaveAsync()
         {
-           
-
             if (!User?.Identity?.IsAuthenticated ?? true)
             {
                 return RedirectToPage("/Index");
             }
-            
+
             NewRecipe.Lines.RemoveAll(l => l.WareId == 0);
             NewRecipe.RecipeScale = 1.0m;
             NewRecipe.IsSavedCopy = false;
             NewRecipe.DateSaved = DateTime.Now;
 
-            //allergener 
+            // allergener 
             if (NewRecipe.Lines != null && NewRecipe.Lines.Count > 0)
             {
                 NewRecipe.QuantityOfProduct = NewRecipe.Lines.Sum(l => l.Quantity);
                 foreach (var allergen in SelectedAllergens)
                 {
                     NewRecipe.RecipeAllergens.Add(new RecipeAllergen { Allergen = allergen });
-
                 }
 
                 var userIdString = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
-                int.TryParse(userIdString, out int currentUserId); 
+                int.TryParse(userIdString, out int currentUserId);
+                NewRecipe.UserId = currentUserId; 
 
+               
                 await _recipeRepo.AddAsync(NewRecipe);
 
-
-                //gemmer i product
-                if (NewRecipe.IsProduct)
-                {
-                    var newProduct = new Product
-                    {
-                        Name = NewRecipe.Name,
-                        RecipeId = NewRecipe.Id,
-                        UserId = currentUserId
-                    };
-
-                    await _productRepo.AddAsync(newProduct);
-                }
-
-
-                //gemmer i SemiProduct
-                if (NewRecipe.IsSemiProduct)
-
-                {
-
-                    var newSemiProduct = new SemiProduct
-                    {
-
-                        Name = NewRecipe.Name,
-                        RecipeId = NewRecipe.Id,
-                        UserId = currentUserId
-                    };
-
-
-                    await _semiProductRepo.AddAsync(newSemiProduct);
-                }
+                
 
                 return RedirectToPage("RecipeList");
-        
-
             }
             return Page();
         }

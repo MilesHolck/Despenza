@@ -60,7 +60,7 @@ namespace Despenza.Pages
             {
                 query = query.Where(r =>
                 !r.RecipeAllergens.Any(ra =>
-                ra.Allergen == ExcludedAllergen.Value)); 
+                ra.Allergen == ExcludedAllergen.Value));
             }
 
             Recipes = await query.ToListAsync();
@@ -158,14 +158,10 @@ namespace Despenza.Pages
                 }
             }
 
-
-
             await _recipeRepo.AddAsync(newDraftRecipe);
-
 
             return RedirectToPage("/RecipeSites/RecipeDraft");
         }
-
 
         public async Task<IActionResult> OnPostSaveCopyAsync(int id, string scale = "1", List<int> checkedLines = null)
         {
@@ -180,7 +176,12 @@ namespace Despenza.Pages
 
             if (originalRecipe == null) return NotFound();
 
-
+            int currentUserId = 0;
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (int.TryParse(userIdString, out int parsedUserId))
+            {
+                currentUserId = parsedUserId;
+            }
 
             foreach (var line in originalRecipe.Lines)
             {
@@ -190,11 +191,9 @@ namespace Despenza.Pages
                 if (inventoryItem == null)
                 {
                     await OnGetAsync(id, scale);
-
                     StockErrorRecipeId = id;
                     StockErrorMessage = $"⚠️ {line.Ware?.Name ?? "Varen"} findes ikke på lager.";
                     ViewData["ActiveRecipeId"] = id;
-                   
                     return Page();
                 }
 
@@ -203,17 +202,14 @@ namespace Despenza.Pages
                 if (inventoryItem.QuantityInStock < requiredQuantity)
                 {
                     await OnGetAsync(id, scale);
-
                     StockErrorRecipeId = id;
-                    StockErrorMessage =
-                        $"⚠️ Ikke nok {line.Ware?.Name ?? "vare"} på lager. Du har kun {inventoryItem.QuantityInStock:0.##}, men skal bruge {requiredQuantity:0.##}.";
-
+                    StockErrorMessage = $"⚠️ Ikke nok {line.Ware?.Name ?? "vare"} på lager. Du har kun {inventoryItem.QuantityInStock:0.##}, men skal bruge {requiredQuantity:0.##}.";
                     ViewData["ActiveRecipeId"] = id;
-
                     return Page();
                 }
             }
 
+            
             var newSavedRecipe = new Recipe
             {
                 Name = originalRecipe.Name,
@@ -221,45 +217,82 @@ namespace Despenza.Pages
                 IsSavedCopy = true,
                 DateSaved = DateTime.Now,
                 RecipeScale = parsedScale,
-                QuantityOfProduct = originalRecipe.QuantityOfProduct * parsedScale
+                QuantityOfProduct = originalRecipe.QuantityOfProduct * parsedScale,
+                UserId = currentUserId
             };
-
-
 
             if (originalRecipe.IsProduct)
             {
                 var product = await _productRepo.GetQueryable()
                     .FirstOrDefaultAsync(p => p.Name == originalRecipe.Name);
 
-                if (product != null)
+                if (product == null)
                 {
-                    decimal producedAmount = originalRecipe.QuantityOfProduct * parsedScale;
-
-                    var inventoryItem = await _inventoryRepo.GetQueryable()
-                        .FirstOrDefaultAsync(i => i.WareId == product.Id);
-
-                    if (inventoryItem != null)
+                    product = new Product
                     {
-                        inventoryItem.QuantityInStock += producedAmount;
-                        await _inventoryRepo.UpdateAsync(inventoryItem);
-                    }
-                    else
+                        Name = originalRecipe.Name,
+                        RecipeId = originalRecipe.Id,
+                        UserId = currentUserId
+                    };
+                    await _productRepo.AddAsync(product);
+                }
+
+                decimal producedAmount = originalRecipe.QuantityOfProduct * parsedScale;
+                var inventoryItem = await _inventoryRepo.GetQueryable()
+                    .FirstOrDefaultAsync(i => i.WareId == product.Id);
+
+                if (inventoryItem != null)
+                {
+                    inventoryItem.QuantityInStock += producedAmount;
+                    await _inventoryRepo.UpdateAsync(inventoryItem);
+                }
+                else
+                {
+                    await _inventoryRepo.AddAsync(new InventoryItem
                     {
-                        await _inventoryRepo.AddAsync(new InventoryItem
-                        {
-                            WareId = product.Id,
-                            QuantityInStock = producedAmount
-                        });
-                    }
+                        WareId = product.Id,
+                        QuantityInStock = producedAmount
+                    });
                 }
             }
 
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (int.TryParse(userIdString, out int userId))
+          
+            if (originalRecipe.IsSemiProduct)
             {
-                newSavedRecipe.UserId = userId;
+                var semiProduct = await _semiProductRepo.GetQueryable()
+                    .FirstOrDefaultAsync(sp => sp.Name == originalRecipe.Name);
+
+                if (semiProduct == null)
+                {
+                    semiProduct = new SemiProduct
+                    {
+                        Name = originalRecipe.Name,
+                        RecipeId = originalRecipe.Id,
+                        UserId = currentUserId
+                    };
+                    await _semiProductRepo.AddAsync(semiProduct);
+                }
+
+                decimal producedAmountInGrams = originalRecipe.QuantityOfProduct * parsedScale;
+                var inventoryItem = await _inventoryRepo.GetQueryable()
+                    .FirstOrDefaultAsync(i => i.WareId == semiProduct.Id);
+
+                if (inventoryItem != null)
+                {
+                    inventoryItem.QuantityInStock += producedAmountInGrams;
+                    await _inventoryRepo.UpdateAsync(inventoryItem);
+                }
+                else
+                {
+                    await _inventoryRepo.AddAsync(new InventoryItem
+                    {
+                        WareId = semiProduct.Id,
+                        QuantityInStock = producedAmountInGrams
+                    });
+                }
             }
 
+            
             if (originalRecipe.Lines != null && originalRecipe.Lines.Any())
             {
                 newSavedRecipe.Lines = new List<RecipeLine>();
@@ -275,64 +308,25 @@ namespace Despenza.Pages
                 }
             }
 
+            
             if (checkedLines != null && originalRecipe.Lines != null)
             {
                 foreach (var lineId in checkedLines)
                 {
-
                     var line = originalRecipe.Lines.FirstOrDefault(l => l.Id == lineId);
                     if (line != null)
                     {
                         var inventoryItem = await _inventoryRepo.GetQueryable()
-                       .FirstOrDefaultAsync(i => i.WareId == line.WareId);
+                            .FirstOrDefaultAsync(i => i.WareId == line.WareId);
 
                         if (inventoryItem != null)
                         {
-
                             decimal usedAmount = line.Quantity * parsedScale;
                             inventoryItem.QuantityInStock -= usedAmount;
-
-
                             await _inventoryRepo.UpdateAsync(inventoryItem);
                         }
                     }
                 }
-            }
-
-
-            if (originalRecipe.IsSemiProduct)
-            {
-
-                var semiProduct = await _semiProductRepo.GetQueryable()
-                    .FirstOrDefaultAsync(sp => sp.Name == originalRecipe.Name);
-
-                if (semiProduct != null)
-                {
-
-                    decimal producedAmountInGrams = originalRecipe.QuantityOfProduct * parsedScale;
-
-                    var inventoryItem = await _inventoryRepo.GetQueryable()
-                   .FirstOrDefaultAsync(i => i.WareId == semiProduct.Id);
-
-                    if (inventoryItem != null)
-                    {
-
-                        inventoryItem.QuantityInStock += producedAmountInGrams;
-                        await _inventoryRepo.UpdateAsync(inventoryItem);
-                    }
-                    else
-                    {
-
-                        var newInventoryItem = new InventoryItem
-                        {
-                            WareId = semiProduct.Id,
-                            QuantityInStock = producedAmountInGrams
-                        };
-                        await _inventoryRepo.AddAsync(newInventoryItem);
-                    }
-
-                }
-
             }
 
             foreach (var line in originalRecipe.Lines)
@@ -341,13 +335,10 @@ namespace Despenza.Pages
                 inventoryItem.QuantityInStock = inventoryItem.QuantityInStock - line.Quantity;
                 await _inventoryRepo.UpdateAsync(inventoryItem);
             }
-
+            
             await _recipeRepo.AddAsync(newSavedRecipe);
-
             return RedirectToPage("DoneRecipe");
         }
-
-
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
