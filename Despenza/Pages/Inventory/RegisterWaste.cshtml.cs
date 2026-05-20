@@ -100,7 +100,7 @@ namespace Despenza.Pages.Inventory
     {
         new SelectListItem { Value = "Ingredient", Text = "Ingrediens" },
         new SelectListItem { Value = "SemiProduct", Text = "Halvfabrikat" },
-        new SelectListItem { Value = "Product", Text = "Produkt" }
+        new SelectListItem { Value = "Helfabrikat", Text = "Helfabrikat" }
     };
 
             ReasonOptions = new List<SelectListItem>

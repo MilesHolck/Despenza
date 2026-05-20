@@ -2,7 +2,7 @@
 @model Despenza.Pages.Admin.CreateIngredientModel
 
 
-<h1>Opret Ingredient</h1>
+<h1>Opret ingrediens</h1>
 <div class="CoolForm">
     <form method="post">
         @if (!ViewData.ModelState.IsValid)
@@ -15,12 +15,12 @@
             </div>
         }
         <div>
-            <label asp-for="Ingredient.Name"></label>
+            <label asp-for="Ingredient.Name">Navn</label>
             <input asp-for="Ingredient.Name" />
         </div>
 
         <div>
-            <label asp-for="Ingredient.KiloPrice"></label>
+            <label asp-for="Ingredient.KiloPrice">Kilopris</label>
             <input asp-for="Ingredient.KiloPrice" />
         </div>              
 
