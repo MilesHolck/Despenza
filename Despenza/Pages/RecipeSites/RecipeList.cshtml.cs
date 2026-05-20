@@ -2,6 +2,7 @@ using DespenzaLib.Data;
 using DespenzaLib.Models;
 using DespenzaLib.Repos;
 using DespenzaLib.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Despenza.Pages
 {
+    [Authorize]
     public class RecipeListModel : PageModel
     {
         [BindProperty(SupportsGet = true)]
