@@ -1,12 +1,14 @@
+using DespenzaLib.Models;
+using DespenzaLib.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DespenzaLib.Models;
-using DespenzaLib.Repos; 
 
 namespace Despenza.Pages.RecipeSites
 {
+    [Authorize]
     public class RecipeEditModel : PageModel
     {
         private readonly IRepository<Recipe> _recipeRepo;

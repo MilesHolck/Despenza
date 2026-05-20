@@ -2,6 +2,7 @@ using DespenzaLib.Data;
 using DespenzaLib.Models;
 using DespenzaLib.Repos;
 using DespenzaLib.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using System.Security.Claims;
 
 namespace Despenza.Pages
 {
+    [Authorize]
     public class CreateRecipeModel : PageModel
 
     {
