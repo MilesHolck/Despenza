@@ -93,6 +93,16 @@
                     <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
                             <span class="fw-bold">@recipe.Name</span>
+
+                            @if (recipe.IsProduct)
+                            {
+                                <span class="small ms-2" style="color: darkgreen;"> - Helfabrikat</span>
+                            }
+                            else if (recipe.IsSemiProduct)
+                            {
+                                <span class="small ms-2 text-success"> - Halvfabrikat</span>
+                            }
+
                             <span class="position-absolute start-50 translate-middle-x">pris: @ProdService.CalculateRawMaterialCost(recipe).ToString("C2")</span>
                         </button>
                         <div class="position-absolute top-50 end-0 translate-middle-y d-flex align-items-center pe-5" style="z-index: 4;">
