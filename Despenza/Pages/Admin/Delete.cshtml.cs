@@ -26,7 +26,7 @@ namespace Despenza.Pages.Admin
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null) return NotFound();
+            if (id == 0) return NotFound();
 
            
             var user = await _userRepo.GetByIdAsync(id); 

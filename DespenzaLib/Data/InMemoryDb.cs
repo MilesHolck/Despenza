@@ -46,10 +46,10 @@ namespace DespenzaLib.Data
 
             //'Tables' klar til brug:
 
-            Sets[typeof(Ingredient)] = new List<Ingredient>();
+            Sets[typeof(Wares)] = new List<Wares>();
             Sets[typeof(Recipe)] = new List<Recipe>();
             Sets[typeof(InventoryItem)] = new List<InventoryItem>();
-            Sets[typeof(Product)] = new List<Product>();
+            
 
 
             }

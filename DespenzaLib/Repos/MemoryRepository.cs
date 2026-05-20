@@ -21,6 +21,15 @@ namespace DespenzaLib.Repos
             }
 
             _items = (List<T>)db.Sets[typeof(T)]; 
+
+            //Find det højeste id i den pågældende liste: 
+
+            var property = typeof(T).GetProperty("Id");
+
+            if (property != null && _items.Any())
+            {
+                _currentId = _items.Max(x => (int)(property.GetValue(x) ?? 0)) + 1; 
+            }
         }
 
         public Task AddAsync(T item)
@@ -109,7 +118,7 @@ namespace DespenzaLib.Repos
 
         public IQueryable<T> GetQueryable()
         {
-            // .AsQueryable() "snyder" C# til at behandle listen som en query
+            // .AsQueryable() får C# til at behandle listen som en query; FirstOfDefault ville ikke virke uden.
             return _items.AsQueryable();
         }
     }
