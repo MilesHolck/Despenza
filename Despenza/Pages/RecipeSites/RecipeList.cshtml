@@ -131,7 +131,7 @@
                                                             decimal currentStock = Model.LineStockAmount.ContainsKey(line.Id) ? Model.LineStockAmount[line.Id] : 0m;
                                                             bool hasStock = currentStock >= line.Quantity;
                                                         }
-                                                        <input class="form-check-input me-3" type="checkbox" name="checkedLines" id="check-@line.Id" value="@line.Id" @(line.IsChecked ? "checked" : "")>
+                                                        <input class="form-check-input me-3" type="checkbox" name="checkedLines" id="check-@line.Id" value="@line.Id">
                                                         <label class="form-check-label @(hasStock ? "" : "text-danger fw-bold")" for="check-@line.Id">
                                                             <strong>@line.Quantity.ToString("0.##")</strong> x @(line.Ware?.Name ?? "Ukendt vare")
                                                             @if (!hasStock)

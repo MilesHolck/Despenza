@@ -11,7 +11,7 @@ namespace DespenzaLib.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(
-                table: "Users",
+            table: "Users",
                 keyColumn: "Id",
                 keyValue: 1);
 

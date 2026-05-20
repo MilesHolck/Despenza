@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Despenza.Pages
 {
@@ -40,17 +39,13 @@ namespace Despenza.Pages
             _productRepo = productRepo;
         }
 
-
         public async Task<IActionResult> OnGetAsync(int? scaleRecipeId, string scale = "1")
         {
             var query = _recipeRepo.GetQueryable()
-
                 .Include(r => r.Lines)
                 .ThenInclude(l => l.Ware)
                 .Include(r => r.RecipeAllergens)
                 .Where(r => r.IsSavedCopy == false);
-
-
 
             SearchText = SearchText?.Trim();
             if (!string.IsNullOrWhiteSpace(SearchText))
@@ -67,14 +62,10 @@ namespace Despenza.Pages
 
             Recipes = await query.ToListAsync();
 
-
-
             string normalizedScale = scale.Replace(",", ".");
-
 
             if (scaleRecipeId.HasValue && decimal.TryParse(normalizedScale, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal parsedScale))
             {
-
                 if (parsedScale != 1.0m)
                 {
                     var recipeToScale = Recipes.FirstOrDefault(r => r.Id == scaleRecipeId.Value);
@@ -88,7 +79,6 @@ namespace Despenza.Pages
                         {
                             line.Quantity = line.Quantity * parsedScale;
                         }
-
 
                         ViewData["ActiveRecipeId"] = scaleRecipeId.Value;
                     }
@@ -111,7 +101,6 @@ namespace Despenza.Pages
                     }
                 }
             }
-
 
             return Page();
         }
@@ -185,6 +174,7 @@ namespace Despenza.Pages
                 currentUserId = parsedUserId;
             }
 
+           
             foreach (var line in originalRecipe.Lines)
             {
                 var inventoryItem = await _inventoryRepo.GetQueryable()
@@ -211,7 +201,6 @@ namespace Despenza.Pages
                 }
             }
 
-            
             var newSavedRecipe = new Recipe
             {
                 Name = originalRecipe.Name,
@@ -223,75 +212,46 @@ namespace Despenza.Pages
                 UserId = currentUserId
             };
 
+            
             if (originalRecipe.IsProduct)
             {
-                var product = await _productRepo.GetQueryable()
-                    .FirstOrDefaultAsync(p => p.Name == originalRecipe.Name);
-
-                if (product == null)
+                var newProduct = new Product
                 {
-                    product = new Product
-                    {
-                        Name = originalRecipe.Name,
-                        RecipeId = originalRecipe.Id,
-                        UserId = currentUserId
-                    };
-                    await _productRepo.AddAsync(product);
-                }
+                    Name = originalRecipe.Name,
+                    RecipeId = originalRecipe.Id,
+                    UserId = currentUserId,
+                    ProductionDate = DateTime.Now
+                };
+
+                await _productRepo.AddAsync(newProduct);
 
                 decimal producedAmount = originalRecipe.QuantityOfProduct * parsedScale;
-                var inventoryItem = await _inventoryRepo.GetQueryable()
-                    .FirstOrDefaultAsync(i => i.WareId == product.Id);
-
-                if (inventoryItem != null)
+                await _inventoryRepo.AddAsync(new InventoryItem
                 {
-                    inventoryItem.QuantityInStock += producedAmount;
-                    await _inventoryRepo.UpdateAsync(inventoryItem);
-                }
-                else
-                {
-                    await _inventoryRepo.AddAsync(new InventoryItem
-                    {
-                        WareId = product.Id,
-                        QuantityInStock = producedAmount
-                    });
-                }
+                    WareId = newProduct.Id,
+                    QuantityInStock = producedAmount
+                });
             }
 
-          
+            
             if (originalRecipe.IsSemiProduct)
             {
-                var semiProduct = await _semiProductRepo.GetQueryable()
-                    .FirstOrDefaultAsync(sp => sp.Name == originalRecipe.Name);
-
-                if (semiProduct == null)
+                var newSemiProduct = new SemiProduct
                 {
-                    semiProduct = new SemiProduct
-                    {
-                        Name = originalRecipe.Name,
-                        RecipeId = originalRecipe.Id,
-                        UserId = currentUserId
-                    };
-                    await _semiProductRepo.AddAsync(semiProduct);
-                }
+                    Name = originalRecipe.Name,
+                    RecipeId = originalRecipe.Id,
+                    UserId = currentUserId,
+                    ProductionDate = DateTime.Now
+                };
+
+                await _semiProductRepo.AddAsync(newSemiProduct);
 
                 decimal producedAmountInGrams = originalRecipe.QuantityOfProduct * parsedScale;
-                var inventoryItem = await _inventoryRepo.GetQueryable()
-                    .FirstOrDefaultAsync(i => i.WareId == semiProduct.Id);
-
-                if (inventoryItem != null)
+                await _inventoryRepo.AddAsync(new InventoryItem
                 {
-                    inventoryItem.QuantityInStock += producedAmountInGrams;
-                    await _inventoryRepo.UpdateAsync(inventoryItem);
-                }
-                else
-                {
-                    await _inventoryRepo.AddAsync(new InventoryItem
-                    {
-                        WareId = semiProduct.Id,
-                        QuantityInStock = producedAmountInGrams
-                    });
-                }
+                    WareId = newSemiProduct.Id,
+                    QuantityInStock = producedAmountInGrams
+                });
             }
 
             
@@ -310,7 +270,7 @@ namespace Despenza.Pages
                 }
             }
 
-            
+          
             if (checkedLines != null && originalRecipe.Lines != null)
             {
                 foreach (var lineId in checkedLines)
@@ -331,25 +291,14 @@ namespace Despenza.Pages
                 }
             }
 
-            //foreach (var line in originalRecipe.Lines)
-            //{
-            //    var inventoryItem = _inventoryRepo.GetQueryable().First(i => i.WareId == line.WareId);
-            //    inventoryItem.QuantityInStock = inventoryItem.QuantityInStock - line.Quantity;
-            //    await _inventoryRepo.UpdateAsync(inventoryItem);
-            //}
-            
             await _recipeRepo.AddAsync(newSavedRecipe);
             return RedirectToPage("DoneRecipe");
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-
             await _recipeRepo.DeleteAsync(id);
-
-
             return RedirectToPage();
         }
-
     }
 }
