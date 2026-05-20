@@ -35,10 +35,12 @@
                             Lager
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" asp-page="/Inventory/GoodsReceipt">Registrer varemodtagelse</a></li>
-                            <li><a class="dropdown-item" asp-page="/Inventory/RegisterWaste">Registrer spild</a></li>
+                            <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Opret ingrediens</a></li>
+                            <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">Alle ingredienser</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">Aktuelle ingredienser</a></li>
+                            <li><a class="dropdown-item" asp-page="/Inventory/GoodsReceipt">Registrer varemodtagelse</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" asp-page="/Inventory/RegisterWaste">Registrer spild</a></li>                        
                             <li><a class="dropdown-item" asp-page="/Inventory/WasteOverview">Spildliste</a></li>
                         </ul>
                     </li>
@@ -53,7 +55,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" asp-page="/RecipeSites/CreateRecipe">Opret ny opskrift</a></li>
-                            <li><a class="dropdown-item" asp-page="/RecipeSites/RecipeList">Vælg en opskrift</a></li>
+                            <li><a class="dropdown-item" asp-page="/RecipeSites/RecipeList">Alle opskrifter</a></li>
                             <li><hr class="dropdown-divider" /></li>
                             <li><a class="dropdown-item" asp-page="/RecipeSites/RecipeDraft">Kladder</a></li>
                             <li><a class="dropdown-item" asp-page="/RecipeSites/DoneRecipe">Færdige opskrifter</a></li>
@@ -68,10 +70,7 @@
                                aria-expanded="false">
                             Produkter
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" asp-page="/Admin/CreateIngredient">Create Ingredient</a></li>
-                            <li><a class="dropdown-item" asp-page="/Admin/AllIngredients">Aktuelle ingredienser</a></li>
-                            <li><hr class="dropdown-divider" /></li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                            
                             <li><a class="dropdown-item" asp-page="/Inventory/InventoryIndex">Se hele varelageret</a></li>
                         </ul>
                     </li>
