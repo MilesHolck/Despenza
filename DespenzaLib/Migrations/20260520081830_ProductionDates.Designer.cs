@@ -4,6 +4,7 @@ using DespenzaLib.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DespenzaLib.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260520081830_ProductionDates")]
+    partial class ProductionDates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,9 +216,6 @@ namespace DespenzaLib.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("ProductionDate")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
@@ -305,6 +305,9 @@ namespace DespenzaLib.Migrations
                 {
                     b.HasBaseType("DespenzaLib.Models.Wares");
 
+                    b.Property<DateTime>("ProductionDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
@@ -314,6 +317,9 @@ namespace DespenzaLib.Migrations
 
                     b.ToTable("Wares", t =>
                         {
+                            t.Property("ProductionDate")
+                                .HasColumnName("ProductionDate1");
+
                             t.Property("RecipeId")
                                 .HasColumnName("Product_RecipeId");
                         });
@@ -324,6 +330,9 @@ namespace DespenzaLib.Migrations
             modelBuilder.Entity("DespenzaLib.Models.SemiProduct", b =>
                 {
                     b.HasBaseType("DespenzaLib.Models.Wares");
+
+                    b.Property<DateTime>("ProductionDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");

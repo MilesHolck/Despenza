@@ -37,19 +37,20 @@
                 <th>Navn</th>
                 <th>Kilopris</th>
                 <th>Mængde</th>
+                <th>Dato og tidspunkt</th>
                 <th>Handling</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var semiProduct in Model.SemiProducts)
             {
-                // Finder lagerværdien for dette specifikke halvfabrikat
                 var stock = Model.InventoryItems.FirstOrDefault(i => i.WareId == semiProduct.Id)?.QuantityInStock ?? 0;
 
                 <tr>
                     <td>@semiProduct.Name</td>
                     <td>@ProdService.CalculateRawMaterialCost(semiProduct.Recipe).ToString("C2")</td>
                     <td>@stock.ToString("F2") gram</td>
+                    <td>@semiProduct.ProductionDate.ToString("dd. MMM yyyy 'kl.' HH:mm")</td>
                     <td>
                         <form method="post" asp-page-handler="DeleteSemiProduct" asp-route-id="@semiProduct.Id">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Er du sikker på, at du vil slette dette halvfabrikat?');">
@@ -71,6 +72,7 @@
                 <th>Navn</th>
                 <th>Salgspris</th>
                 <th>Mængde</th>
+                <th>Dato og tidspunkt</th>
                 <th>Handling</th>
             </tr>
         </thead>
@@ -83,9 +85,10 @@
                     <td>@product.Name</td>
                     <td>@ProdService.CalculateSalesPrice(product.Recipe).ToString("C2")</td>
                     <td>@stock.ToString("F2") gram</td>
+                    <td>@product.ProductionDate.ToString("dd. MMM yyyy 'kl.' HH:mm")</td>
                     <td>
                         <form method="post" asp-page-handler="DeleteProduct" asp-route-id="@product.Id">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Er du sikker på, at du vil slette dette helfabrikat?');">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Er du sikker på, at du vil slette dette produkt?');">
                                 Slet
                             </button>
                         </form>

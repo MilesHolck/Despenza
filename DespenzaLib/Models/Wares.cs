@@ -16,6 +16,8 @@ namespace DespenzaLib.Models
 
         public int? UserId { get; set; }
 
+        public DateTime ProductionDate { get; set; } = DateTime.Now;
+
 
 
         public Wares() { }

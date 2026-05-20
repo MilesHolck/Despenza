@@ -17,6 +17,7 @@
                     <h2 class="accordion-header position-relative" id="heading-@recipe.Id">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@recipe.Id">
                             <span class="fw-bold me-auto">
+                                @recipe.Name
                                 <span class="ms-2 text-muted fw-normal" style="font-size: 0.85em;">
                                     - Kladde af: @(recipe.User != null ? recipe.User.Name : "Ukendt") (@recipe.DateSaved.ToString("dd. MMM"))
                                 </span>
@@ -46,8 +47,7 @@
                                                 @foreach (var line in recipe.Lines)
                                                 {
                                                     <li class="list-group-item d-flex align-items-center px-0">
-                                                        @(line.IsChecked ? "" : "") 
-                                                        <input class="form-check-input me-3" type="checkbox" name="checkedLines" id="check-@line.Id" value="@line.Id" @(line.IsChecked ? "" : "")>
+                                                        <input class="form-check-input me-3" type="checkbox" name="checkedLines" id="check-@line.Id" value="@line.Id" @(line.IsChecked ? "checked" : "")>>
                                                         <label class="form-check-label" for="check-@line.Id">
                                                             <strong>@line.Quantity.ToString("0.##")</strong> x @(line.Ware?.Name ?? "Ukendt vare")
                                                         </label>

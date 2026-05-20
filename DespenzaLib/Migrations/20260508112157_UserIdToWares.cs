@@ -11,7 +11,7 @@ namespace DespenzaLib.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Wares_Users_Product_UserId",
+            name: "FK_Wares_Users_Product_UserId",
                 table: "Wares");
 
             migrationBuilder.DropIndex(
