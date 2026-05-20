@@ -2,6 +2,7 @@ using DespenzaLib.Data;
 using DespenzaLib.Models;
 using DespenzaLib.Repos;
 using DespenzaLib.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using System.Security.Claims;
 
 namespace Despenza.Pages.RecipeSites
 {
+
+    [Authorize]
     public class RecipeDraftModel : PageModel
     {
         private readonly IRepository<Recipe> _recipeRepo;
