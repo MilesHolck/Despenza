@@ -1,10 +1,12 @@
 using DespenzaLib;
 using DespenzaLib.Models;
 using DespenzaLib.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Despenza.Pages.Admin
 {
+    [Authorize]
     public class AllIngredientsModel : PageModel
     {
         private readonly IInventoryService _inventoryService;
