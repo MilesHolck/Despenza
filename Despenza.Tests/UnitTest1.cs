@@ -60,7 +60,7 @@ namespace Despenza.Tests
                 var result = service.CalculateSalesPrice(recipe);
 
              //Assert
-            Assert.True(result > 0);
+           // Assert.True(result > 0);
             Assert.Equal(416.67m, result, 2);
         }
 
