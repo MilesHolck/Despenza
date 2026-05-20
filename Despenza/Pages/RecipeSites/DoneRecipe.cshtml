@@ -1,12 +1,12 @@
 ﻿@page
 @model Despenza.Pages.RecipeSites.DoneRecipeModel
 @{
-    ViewData["Title"] = "Færdige Opskrifter";
+    ViewData["Title"] = "Færdige opskrifter";
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="RecipeTitleBox">Færdige Opskrifter</h2>
+        <h2 class="RecipeTitleBox">Færdige opskrifter</h2>
     </div>
     <div class="accordion RecipeAccordion" id="doneRecipeAccordion">
         @if (Model.DoneRecipes != null && Model.DoneRecipes.Any())
