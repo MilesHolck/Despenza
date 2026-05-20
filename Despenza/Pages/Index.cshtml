@@ -58,18 +58,21 @@ else
         <div class="dashboard-card-grid">
 
             <a asp-page="/RecipeSites/RecipeList" class="dashboard-card inventory-card">
-                @* <div class="dashboard-card-icon">🌾</div> *@
-                <h2>Se opskrifter</h2>                
+                <div class="dashboard-card-label">
+                    <h2>Se opskrifter</h2>
+                </div>                               
             </a>
 
             <a asp-page="/RecipeSites/RecipeDraft" class="dashboard-card recipe-card">
-                @* <div class="dashboard-card-icon">📦</div> *@
-                <h2>Se kladder</h2>                
+                <div class="dashboard-card-label">
+                    <h2>Se kladder</h2>
+                </div>                
             </a>
 
             <a asp-page="/Inventory/InventoryIndex" class="dashboard-card waste-card">
-                @* <div class="dashboard-card-icon">♻️</div> *@
-                <h2>Gå til lageroversigt</h2>                
+                <div class="dashboard-card-label">
+                    <h2>Gå til lageroversigt</h2>
+                </div>                
             </a>
 
         </div>

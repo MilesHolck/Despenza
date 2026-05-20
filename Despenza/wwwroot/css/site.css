@@ -418,7 +418,7 @@ main {
     position: relative;
     overflow: hidden;
     border-radius: 28px;
-    padding: 36px 28px;
+    padding: 0px;
     min-height: 260px;
     background-size: cover;
     background-position: center;
@@ -481,6 +481,29 @@ main {
 .waste-card {
     background-image: url('/Images/BakerMontre.jpg');
 }
+
+.dashboard-card-label {
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    border-radius: 28px 28px 28px 28px;
+    background: rgba(73, 105, 66, 0.35);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+}
+
+    .dashboard-card-label h2 {
+        margin: 0;
+        color: white;
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1.1;
+        text-decoration: none;
+    }
 
 .CoolLoginBox {
     max-width: 520px;
@@ -680,3 +703,4 @@ main {
             text-align: center;
         }
 }
+
