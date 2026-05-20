@@ -40,29 +40,59 @@ namespace DespenzaLib.Services
             await _inventoryItemRepository.AddAsync(item);
         }
 
+
+        //Metoden skal benyttes i InventoryIndex, hvor SemiProduct skal have fuld adgang til: 
+        //Recipe objekt, RecipeLines list i Recipe, samt Ware Id i alle recipe lines: 
         public async Task<List<SemiProduct>> GetAllSemiProductsAsync()
+
         {
+
+            //Hent alle semiproducts: 
             var semiProducts = await _semiProductRepository.GetAllAsync();
+
+
+            //Iterér over hvert SP: 
             foreach (var sp in semiProducts)
             {
-                sp.Recipe = await _recipeRepository.GetByIdAsync(sp.RecipeId);
-                if (sp != null)
-                {
-                    var recipe = await _recipeRepository.GetByIdAsync(sp.RecipeId);
-                    
-                    if (recipe != null)
-                    {
-                        recipe.Lines = await _recipeRepository
-                            .GetQueryable()
-                            .Where(r => r.Id == sp.RecipeId)
-                            .SelectMany(r => r.Lines)
-                            .ToListAsync();
-                    }
+
+              //Find recipe i reciperepo vha. metoden GetByIdAsync og semiproduct's RecipeId. Gem i variabel recipe. 
+
+                var recipe = await _recipeRepository.GetByIdAsync(sp.RecipeId);
 
 
-                }
+                if (recipe == null) continue; 
+                
 
-            }
+                    //Behandl alle recipes som en query (så vi kan benytte .Where, eksempelvis). 
+                    //Find recipe som hører til semiproduct. 
+                    //hent alle recipelines i pågældende recipe. 
+                    //lav om til en liste, og dem i recipe.Lines. 
+                   
+                    recipe.Lines = await _recipeRepository
+                        .GetQueryable()
+                        .Where(r => r.Id == sp.RecipeId)
+                        .SelectMany(r => r.Lines)
+                        .ToListAsync();
+
+                //Gem fuld recipe inklusive lines inde i semiproduct. 
+
+                        sp.Recipe = recipe;
+
+                //var recipe = await _recipeRepository.GetByIdAsync(sp.RecipeId);
+
+                //if (recipe != null)
+                //{
+                //    recipe.Lines = await _recipeRepository
+                //        .GetQueryable()
+                //        .Where(r => r.Id == sp.RecipeId)
+                //        .SelectMany(r => r.Lines)
+                //        .ToListAsync();
+                //}
+
+
+            //}
+
+        }
             return semiProducts;
         }
 
@@ -74,6 +104,7 @@ namespace DespenzaLib.Services
         public async Task<List<Product>> GetAllProductsAsync()
         {
             var products = await _productRepository.GetAllAsync();
+            
             foreach (var p in products)
             {
                 p.Recipe = await _recipeRepository.GetByIdAsync(p.RecipeId);

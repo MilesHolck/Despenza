@@ -55,12 +55,13 @@ namespace Despenza.Tests
                 mockProductRepo.Object,
                 mockSemiProductRepo.Object);
 
-            // Act
-            //var result = await service.CalculateSalesPriceAsync(1);
+              // Act
 
-            //// Assert
-            ////Assert.True(result > 0);
-            //Assert.Equal(416.67m, result, 2);
+                var result = service.CalculateSalesPrice(recipe);
+
+             //Assert
+            Assert.True(result > 0);
+            Assert.Equal(416.67m, result, 2);
         }
 
     }
