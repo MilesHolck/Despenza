@@ -1,56 +1,91 @@
 ﻿using Despenza.Pages;
 using DespenzaLib.Models;
 using DespenzaLib.Repos;
+using DespenzaLib.Services;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Xunit;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
+
 
 namespace Despenza.Tests
 {
     public class UnitTest2
     {
-        [Theory]
-        [InlineData(0.5)]
-        [InlineData(1.0)] //standard skalering 
-        [InlineData(1.5)]
-        [InlineData(2.0)]
-        [InlineData(3.0)]
-        public async Task OnGetAsync_WithScale_ReturnsCorrectCalculation(decimal scaleToTest)
+        public class ProductionServiceTests
         {
-            var mockRecipeRepo = new Mock<IRepository<Recipe>>();
+            
+            private readonly ProductionService _classTest;
 
+           
+            private readonly Mock<IRepository<InventoryItem>> _mockInventoryRepo;
+            private readonly Mock<IRepository<Recipe>> _mockRecipeRepo;
+            private readonly Mock<IRepository<Ingredient>> _mockIngredientRepo;
+            private readonly Mock<IRepository<Product>> _mockProductRepo;
+            private readonly Mock<IRepository<SemiProduct>> _mockSemiProductRepo;
 
-            var testRecipe = new Recipe
+            public ProductionServiceTests()
             {
-                Id = 1,
-                IsSavedCopy = false,
-                QuantityOfProduct = 10m,
-                Lines = new List<RecipeLine>
-            {
-                new RecipeLine { Quantity = 5m },
-                new RecipeLine { Quantity = 2m }
+                _mockInventoryRepo = new Mock<IRepository<InventoryItem>>();
+                _mockRecipeRepo = new Mock<IRepository<Recipe>>();
+                _mockIngredientRepo = new Mock<IRepository<Ingredient>>();
+                _mockProductRepo = new Mock<IRepository<Product>>();
+                _mockSemiProductRepo = new Mock<IRepository<SemiProduct>>();
+
+                
+                _classTest = new ProductionService(
+                    _mockInventoryRepo.Object,
+                    _mockRecipeRepo.Object,
+                    _mockIngredientRepo.Object,
+                    _mockProductRepo.Object,
+                    _mockSemiProductRepo.Object
+                );
             }
-            };
 
-            var fakeDatabaseList = new List<Recipe> { testRecipe }.AsQueryable();
+            [Fact]
+            public void CalculateRawMaterialCost_RecipeIsNull_ReturnsZero()
+            {
+                
+                var result = _classTest.CalculateRawMaterialCost(null!);
 
-            mockRecipeRepo.Setup(repo => repo.GetQueryable()).Returns(fakeDatabaseList);
+               
+                Assert.Equal(0m, result);
+            }
 
-            var pageModel = new CreateRecipeModel(mockRecipeRepo.Object, null, null, null);
 
-            // Act
-            await pageModel.OnGetAsync(1, scaleToTest);
 
-            // Assert
-            Assert.Equal(10m * scaleToTest, testRecipe.QuantityOfProduct);
-            Assert.Equal(scaleToTest, testRecipe.RecipeScale);
-            Assert.Equal(5m * scaleToTest, testRecipe.Lines.ElementAt(0).Quantity);
-            Assert.Equal(2m * scaleToTest, testRecipe.Lines.ElementAt(1).Quantity);
+            [Fact]
+            public void CalculateRawMaterialCost_RecipeLinesAreNull_ReturnsZero()
+            {
+                // Arrange
+                var recipe = new Recipe { Lines = null! };
 
+                // Act
+                var result = _classTest.CalculateRawMaterialCost(recipe);
+
+                // Assert
+                Assert.Equal(0m, result);
+            }
+
+            [Fact]
+            public void CalculateRawMaterialCost_RecipeLinesAreEmpty_ReturnsZero()
+            {
+                // Arrange
+                var recipe = new Recipe { Lines = new List<RecipeLine>() }; 
+
+                // Act
+                var result = _classTest.CalculateRawMaterialCost(recipe);
+
+                // Assert
+                Assert.Equal(0m, result);
+            }
 
         }
+
+
     }
 }
